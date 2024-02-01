@@ -1,35 +1,44 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
+import Breadcrumbs from '@/Components/Breadcrumbs.vue'
+import { Head } from '@inertiajs/vue3'
 </script>
 
 <template>
-    <Head title="Dashboard" />
-
-    <AuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
-        </template>
-        <v-stepper :items="['Step 1', 'Step 2', 'Step 3']">
-            <template v-slot:item.1>
-                <v-card title="Step One" flat>...</v-card>
-            </template>
-
-            <template v-slot:item.2>
-                <v-card title="Step Two" flat>...</v-card>
-            </template>
-
-            <template v-slot:item.3>
-                <v-card title="Step Three" flat>...</v-card>
-            </template>
-        </v-stepper>
-        <v-date-picker></v-date-picker>
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">You're logged in!</div>
-                </div>
-            </div>
+  <Head title="Dashboard" />
+  <AuthenticatedLayout>
+    <div class="mb-5">
+      <h5 class="text-h5 font-weight-bold">Dashboard</h5>
+      <Breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />
+    </div>
+    <v-card>
+      <v-card-text>
+        <div class="text-h6 text-medium-emphasis">Welcome back, {{ $page.props.auth.user.name }}!</div>
+      </v-card-text>
+    </v-card>
+    <v-card>
+      <v-card-text class="analytic-card">
+        <div class="d-flex">
+          <span>total orders</span>
+          <div>123</div>
         </div>
-    </AuthenticatedLayout>
+      </v-card-text>
+    </v-card>
+  </AuthenticatedLayout>
 </template>
+
+<script>
+export default {
+  name: 'DashboardPage',
+  data() {
+    return {
+      breadcrumbs: [
+        {
+          title: 'Dashboard',
+          disabled: true,
+        },
+      ],
+    }
+  },
+}
+</script>

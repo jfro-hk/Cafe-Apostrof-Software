@@ -8,16 +8,19 @@ import navigation from '@/Configs/navigation'
     <!-- List Menu -->
     <Link v-for="(item, key) in navigation.items" :key="key" :href="item.to" as="div">
       <v-list-item
-        :prepend-icon="item.icon"
-        :title="item.title"
+        class="cursor-pointer w-100"
         :exact="item.exact"
-        link
-        :class="{ 'v-list-item--active': $page.url.startsWith(item.to) }"
-      />
+        :class="{ 'fc-primary': $page.url.startsWith(item.to) }"
+      >
+        <div class="d-flex justify-space-between align-center">
+          <div class="d-flex gap-12 align-center">
+            <span v-html="item.icon"></span>
+            <span class="fc-primary">{{ item.title }}</span>
+          </div>
+          <div class="side-active"></div>
+        </div>
+      </v-list-item>
     </Link>
     <!-- Log Out -->
-    <Link href="/logout" method="post" as="div">
-      <v-list-item prepend-icon="mdi-exit-to-app" title="Log Out" link />
-    </Link>
   </v-list>
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue'
+// import GuestLayout from '@/Layouts/GuestLayout.vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
@@ -13,8 +13,8 @@ defineProps({
 })
 
 const form = useForm({
-  email: 'johndoe@mail.com',
-  password: 'password',
+  email: '',
+  password: '',
   remember: false,
 })
 const showPassword = ref(false)
@@ -32,49 +32,48 @@ export default {
 </script>
 
 <template>
-  <GuestLayout>
-    <Head title="Log in" />
-    <v-form @submit.prevent="submit">
-      <div class="text-subtitle-1 text-medium-emphasis">Email</div>
-      <v-text-field
-        v-model="form.email"
-        type="email"
-        variant="outlined"
-        density="compact"
-        placeholder="Email address"
-        prepend-inner-icon="mdi-email-outline"
-        :error-messages="form.errors.email"
-      />
-      <div class="d-flex align-center justify-space-between">
-        <div class="text-subtitle-1 text-medium-emphasis">Password</div>
-        <Link
-          class="text-caption text-decoration-none text-blue"
-          href="/forgot-password"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Forgot password?</Link
-        >
-      </div>
-      <v-text-field
-        v-model="form.password"
-        density="compact"
-        variant="outlined"
-        placeholder="Enter your password"
-        prepend-inner-icon="mdi-lock-outline"
-        :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-        :type="showPassword ? 'text' : 'password'"
-        :error-messages="form.errors.password"
-        @click:append-inner="showPassword = !showPassword"
-      />
-      <v-checkbox v-model="form.remember" label="Remember me" />
-
-      <v-btn :loading="form.processing" type="submit" block color="primary" class="mb-12">Login</v-btn>
-    </v-form>
-    <v-card-text class="text-center">
-      <Link class="text-blue text-decoration-none" href="/register">
-        Sign up now <v-icon icon="mdi-chevron-right" />
-      </Link>
-    </v-card-text>
-  </GuestLayout>
+  <Head title="Log in" />
+  <div class="login-wrapper">
+    <div class="d-flex justify-space-between">
+      <v-form class="login-form" @submit.prevent="submit">
+        <v-row>
+          <v-col>
+            <v-label class="font-reg">Email:</v-label>
+            <v-text-field
+              v-model="form.email"
+              type="email"
+              rounded
+              variant="text"
+              density="compact"
+              placeholder="Email address"
+              prepend-inner-icon="mdi-email-outline"
+              :error-messages="form.errors.email"
+            />
+            <v-label class="font-reg mt-6">Password:</v-label>
+            <v-text-field
+              v-model="form.password"
+              rounded
+              density="compact"
+              variant="text"
+              placeholder="Enter your password"
+              prepend-inner-icon="mdi-lock-outline"
+              :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+              :type="showPassword ? 'text' : 'password'"
+              :error-messages="form.errors.password"
+              @click:append-inner="showPassword = !showPassword"
+            />
+            <div class="d-flex justify-space-between align-center">
+              <v-checkbox class="mt-4" color="#0E0F3D" label="Keep me logged in"></v-checkbox>
+              <Link variant="text" class="fc-gray text-decoration-none">Forget password?</Link>
+            </div>
+            <v-btn :loading="form.processing" type="submit" size="large">Sign In</v-btn>
+          </v-col>
+        </v-row>
+      </v-form>
+      <div class="bg-login"></div>
+    </div>
+    <!--    <v-col>-->
+    <!--    <v-img src="https://i.postimg.cc/BZ2hJ5zf/ap-house.jpg"></v-img>-->
+    <!--    </v-col>-->
+  </div>
 </template>

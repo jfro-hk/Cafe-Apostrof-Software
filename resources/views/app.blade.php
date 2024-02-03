@@ -5,12 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title inertia>{{ config('app.name', 'Cafe') }}</title>
-{{--        <link rel="stylesheet" href="{{asset('scss/main.scss')}}">--}}
+        <link rel="stylesheet" href="{{ asset('css/main.css') }}">
         <!-- Scripts -->
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
     </head>
-    <body>
+    <body class="font">
         @inertia
     </body>
 </html>

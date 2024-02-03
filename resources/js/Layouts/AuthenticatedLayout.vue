@@ -1,25 +1,51 @@
 <script setup>
-import NavigationMenu from '@/Components/NavigationMenu.vue'
+import { Link } from '@inertiajs/vue3'
 </script>
 
 <template>
-  <v-app class="bg-grey-lighten-4">
-    <v-navigation-drawer v-model="drawer" :rail="rail" permanent>
-      <v-list>
-        <v-list-item
-          :prepend-avatar="avatar"
-          :title="$page.props.auth.user.name"
-          :subtitle="$page.props.auth.user.email"
-        />
+  <v-app class="bg-grey-lighten-4 font">
+    <v-navigation-drawer v-model="drawer" color="#fff" :rail="rail" permanent>
+      Logo
+      <!--      <v-list>-->
+      <!--        <v-list-item-->
+      <!--          :prepend-avatar="avatar"-->
+      <!--          :title="$page.props.auth.user.name"-->
+      <!--          :subtitle="$page.props.auth.user.email"-->
+      <!--        />-->
+      <!--      </v-list>-->
+      <!--      <NavigationMenu class="mt-5" />-->
+      <v-list nav>
+        <!-- List Menu -->
+        <Link v-for="(item, key) in navigation.items" :key="key" :href="item.to" as="div">
+          <v-list-item
+            class="cursor-pointer w-100"
+            :exact="item.exact"
+            :class="{ 'fc-primary': $page.url.startsWith(item.to) }"
+          >
+            <div class="d-flex justify-space-between align-center">
+              <div class="d-flex gap-12 align-center">
+                <span v-html="item.icon"></span>
+                <span class="fc-primary">{{ item.title }}</span>
+              </div>
+              <div class="side-active"></div>
+            </div>
+          </v-list-item>
+        </Link>
+        <!-- Log Out -->
       </v-list>
-      <v-divider />
-      <NavigationMenu />
+      <template #append>
+        <div class="pa-2">
+          <Link href="/logout" method="post" as="div">
+            <v-list-item prepend-icon="mdi-exit-to-app" title="Log Out" link />
+          </Link>
+        </div>
+      </template>
     </v-navigation-drawer>
-    <v-app-bar color="primary">
-      <v-app-bar-nav-icon v-if="$vuetify.display.mobile" @click.stop="drawer = !drawer" />
-      <v-app-bar-nav-icon v-else @click.stop="rail = !rail" />
-      <v-toolbar-title text="Laravel" />
-    </v-app-bar>
+    <!--    <v-app-bar color="primary">-->
+    <!--      <v-app-bar-nav-icon v-if="$vuetify.display.mobile" @click.stop="drawer = !drawer" />-->
+    <!--      <v-app-bar-nav-icon v-else @click.stop="rail = !rail" />-->
+    <!--      <v-toolbar-title />-->
+    <!--    </v-app-bar>-->
     <v-main>
       <v-container>
         <slot />
@@ -31,8 +57,11 @@ import NavigationMenu from '@/Components/NavigationMenu.vue'
 <script>
 import md5 from 'crypto-js/md5'
 import { useToast } from 'vue-toastification'
+// import NavigationMenu from '@/Components/NavigationMenu.vue'
+import navigation from '@/Configs/navigation.js'
 
 export default {
+  // components: { NavigationMenu },
   data() {
     return {
       drawer: false,
@@ -40,6 +69,9 @@ export default {
     }
   },
   computed: {
+    navigation() {
+      return navigation
+    },
     avatar() {
       return `https://www.gravatar.com/avatar/${md5(this.$page.props.auth.user.email)}?s=200`
     },

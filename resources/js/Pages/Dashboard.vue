@@ -1,11 +1,5 @@
-<script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
-import Breadcrumbs from '@/Components/Breadcrumbs.vue'
-import { Head } from '@inertiajs/vue3'
-</script>
-
 <template>
-  <Head title="Dashboard" />
+  <!--  <Head title="Dashboard" />-->
   <AuthenticatedLayout>
     <div class="mb-5">
       <Breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />
@@ -16,23 +10,38 @@ import { Head } from '@inertiajs/vue3'
     <!--        <div class="text-h6 text-medium-emphasis">Welcome back, {{ $page.props.auth.user.name }}!</div>-->
     <!--      </v-card-text>-->
     <!--    </v-card>-->
-    <div class="analytic-card">
-      <div class="d-flex gap-12 align-center w-100">
-        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56" fill="none">
-          <circle cx="28" cy="28" r="28" fill="#F4F7FE" />
-        </svg>
-        <div class="d-flex flex-column">
-          <span class="fc-secondary font-weight-bold">Total orders</span>
-          <span class="fc-primary font-weight-bold">123</span>
-        </div>
-      </div>
-    </div>
+    <v-row>
+      <v-col cols="12" sm="4" :md="3" :lg="4">
+        <AnlyticCard />
+      </v-col>
+      <v-col cols="12" sm="4" :md="3" :lg="4">
+        <AnlyticCard />
+      </v-col>
+      <v-col cols="12" sm="4" :md="3" :lg="4">
+        <AnlyticCard />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-data-table></v-data-table>
+      </v-col>
+      <v-col>
+        <TasksTable />
+      </v-col>
+      <!--      <div class="task-table"></div>-->
+    </v-row>
   </AuthenticatedLayout>
 </template>
-
 <script>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
+import Breadcrumbs from '@/Components/Breadcrumbs.vue'
+// import Head from '@inertiajs/vue3'
+import AnlyticCard from '@/Components/anlytic-card.vue'
+import TasksTable from '@/Components/tasks-table.vue'
+
 export default {
   name: 'DashboardPage',
+  components: { AuthenticatedLayout, Breadcrumbs, AnlyticCard, TasksTable },
   data() {
     return {
       breadcrumbs: [

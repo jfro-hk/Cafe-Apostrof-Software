@@ -4,8 +4,8 @@ import { Link } from '@inertiajs/vue3'
 
 <template>
   <v-app class="bg-grey-lighten-4 font">
-    <v-navigation-drawer v-model="drawer" color="#fff" :rail="rail" permanent>
-      Logo
+    <v-navigation-drawer v-model="drawer" style="border: unset !important" color="#fff" :rail="rail" permanent>
+      <div class="logo pa-10">Logo</div>
       <!--      <v-list>-->
       <!--        <v-list-item-->
       <!--          :prepend-avatar="avatar"-->
@@ -14,9 +14,17 @@ import { Link } from '@inertiajs/vue3'
       <!--        />-->
       <!--      </v-list>-->
       <!--      <NavigationMenu class="mt-5" />-->
+      <v-divider></v-divider>
       <v-list nav>
         <!-- List Menu -->
-        <Link v-for="(item, key) in navigation.items" :key="key" :href="item.to" as="div">
+        <Link
+          v-for="(item, key) in navigation.items"
+          :key="key"
+          class="side-items"
+          :class="{ 'side-items-active font-weight-bold': $page.url.startsWith(item.to) }"
+          :href="item.to"
+          as="div"
+        >
           <v-list-item
             class="cursor-pointer w-100"
             :exact="item.exact"
@@ -27,7 +35,6 @@ import { Link } from '@inertiajs/vue3'
                 <span v-html="item.icon"></span>
                 <span class="fc-primary">{{ item.title }}</span>
               </div>
-              <div class="side-active"></div>
             </div>
           </v-list-item>
         </Link>

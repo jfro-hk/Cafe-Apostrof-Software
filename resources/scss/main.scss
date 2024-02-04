@@ -121,7 +121,11 @@ main{
         }
     }
 }
-
+//table
+.v-table{
+    border-radius: 20px !important;
+    background: #FFF ;
+}
 //dashboard
 .side-active{
     width: 4px;
@@ -129,4 +133,27 @@ main{
     flex-shrink: 0;
     border-radius: 25px;
     background: var(--Primary-Purple-Blue-500---Primary, #4318FF);
+}
+.side-items{
+    margin-top: 25px;
+    padding: 0px 0px 0px 20px
+}
+
+.side-items-active::after {
+    content: ''; /* Ensure content property is set for pseudo-elements */
+    display: block; /* Ensure pseudo-element is a block-level element */
+    width: 4px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 25px;
+    background: #4318FF;
+    position: relative;
+    float: right;
+    top: -45px;
+    left: 7px;
+    /* Add any other styles as needed */
+}
+.task-table{
+    border-radius: 20px;
+    background: #FFF;
 }

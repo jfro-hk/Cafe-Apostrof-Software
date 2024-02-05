@@ -1,11 +1,3 @@
-# Laravel InertiaJS Vuetify
-
-A laravel inertiajs vuetify starterkit
-
-## Demo
-
-You can access demo app in : <https://laravel-inertia-vuetify.fly.dev>
-
 ## Features
 
 - Laravel 10
@@ -21,11 +13,6 @@ You can access demo app in : <https://laravel-inertia-vuetify.fly.dev>
 ## Installation
 
 Clone repo locally
-
-```bash
-git clone https://github.com/ahmadfaizk/laravel-inertiajs-vuetify-starterkit
-cd laravel-inertiajs-vuetify-starterkit
-```
 
 Install PHP dependencies
 
@@ -67,9 +54,3 @@ Run application
 ```bash
 php artisan serve
 ```
-
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.

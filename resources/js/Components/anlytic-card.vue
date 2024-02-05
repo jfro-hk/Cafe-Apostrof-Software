@@ -5,7 +5,7 @@
         <circle cx="28" cy="28" r="28" fill="#F4F7FE" />
       </svg>
       <div class="d-flex flex-column">
-        <span class="fc-secondary font-weight-bold">Total orders</span>
+        <span class="fc-secondary font-weight-bold">{{ title }}</span>
         <span class="fc-primary font-weight-bold">123</span>
       </div>
     </div>

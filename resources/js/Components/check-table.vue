@@ -1,9 +1,13 @@
 <template>
-  <v-data-table v-model="selected" :items="items" item-value="name" show-select></v-data-table>
+  <div class="app-table">
+    <h5 class="heading-5 text-capitalize">{{ title }}</h5>
+    <v-data-table v-model="selected" :items="items" item-value="name" show-select></v-data-table>
+  </div>
 </template>
 
 <script>
 export default {
+  props:{title:String},
   data() {
     return {
       selected: [],

@@ -22,11 +22,11 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col>
-        <v-data-table></v-data-table>
+      <v-col cols="8">
+        <CheckTable title="reservations" />
       </v-col>
-      <v-col>
-        <TasksTable />
+      <v-col cols="4">
+        <CheckTable />
       </v-col>
       <!--      <div class="task-table"></div>-->
     </v-row>
@@ -37,11 +37,11 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import Breadcrumbs from '@/Components/Breadcrumbs.vue'
 // import Head from '@inertiajs/vue3'
 import AnlyticCard from '@/Components/anlytic-card.vue'
-import TasksTable from '@/Components/tasks-table.vue'
+import CheckTable from '@/Components/check-table.vue'
 
 export default {
   name: 'DashboardPage',
-  components: { AuthenticatedLayout, Breadcrumbs, AnlyticCard, TasksTable },
+  components: { CheckTable, AuthenticatedLayout, Breadcrumbs, AnlyticCard },
   data() {
     return {
       breadcrumbs: [

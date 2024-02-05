@@ -63,7 +63,7 @@ export default {
               @click:append-inner="showPassword = !showPassword"
             />
             <div class="d-flex justify-space-between align-center">
-              <v-checkbox class="mt-4" color="#0E0F3D" label="Keep me logged in"></v-checkbox>
+              <v-checkbox v-model="form.remember" class="mt-4" color="#0E0F3D" label="Keep me logged in"></v-checkbox>
               <Link variant="text" class="fc-gray text-decoration-none">Forget password?</Link>
             </div>
             <v-btn :loading="form.processing" type="submit" size="large">Sign In</v-btn>

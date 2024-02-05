@@ -9,6 +9,7 @@
     max-width: 248px;
     width: 100%;
 }
+
 $xs: 600px;
 $sm: 960px;
 $md: 1280px;
@@ -18,10 +19,11 @@ $xl: 2560px;
 $xxl: 9999px;
 $primary-: #0E0F3D;
 $primary: #2B3674;
+$primary-2: #4318ff;
 $gray-: #6595ca;
 $gray: #656565;
 $secondary: #A3AED0;
-.font-reg{
+.font-reg {
     font-family: "DM Sans", sans-serif;
     font-size: 14px;
     font-style: normal;
@@ -29,24 +31,31 @@ $secondary: #A3AED0;
     line-height: 100%; /* 14px */
     letter-spacing: -0.28px;
 }
-.gap-12{
+
+.gap-12 {
     gap: 12px !important;
 }
-.fc-primary{
+
+.fc-primary {
     color: $primary !important;
 }
-.fc-gray{
+
+.fc-gray {
     color: $gray !important;
 }
-.fc-secondary{
+
+.fc-secondary {
     color: $secondary !important;
 }
-.cursor-pointer{
+
+.cursor-pointer {
     cursor: pointer !important;
 }
-main{
+
+main {
     background: var(--Secondary-Grey-300, #F4F7FE) !important;
 }
+
 .login-wrapper {
     .login-form {
         display: flex;
@@ -121,39 +130,123 @@ main{
         }
     }
 }
+
 //table
-.v-table{
+.v-table {
     border-radius: 20px !important;
-    background: #FFF ;
+    background: #FFF;
 }
+
 //dashboard
-.side-active{
+.side-active {
     width: 4px;
     height: 36px;
     flex-shrink: 0;
     border-radius: 25px;
     background: var(--Primary-Purple-Blue-500---Primary, #4318FF);
+
+    svg {
+        fill: $primary;
+    }
 }
-.side-items{
+
+.side-items {
     margin-top: 25px;
     padding: 0px 0px 0px 20px
 }
 
-.side-items-active::after {
-    content: ''; /* Ensure content property is set for pseudo-elements */
-    display: block; /* Ensure pseudo-element is a block-level element */
-    width: 4px;
-    height: 36px;
-    flex-shrink: 0;
-    border-radius: 25px;
-    background: #4318FF;
-    position: relative;
-    float: right;
-    top: -45px;
-    left: 7px;
-    /* Add any other styles as needed */
+//.side-items-active::after {
+//    content: "";
+//    //display: block;
+//    position: relative;
+//    //top: 38px;
+//    float: right;
+//    //right: 0;
+//    width: 4px;
+//    height: 32px;
+//    background: #4318FF;
+//    border-radius: 25px;
+//
+//}
+
+.side-items-active {
+    svg {
+        path {
+            fill: $primary-2 !important;
+        }
+    }
 }
-.task-table{
+
+.task-table {
     border-radius: 20px;
     background: #FFF;
+}
+
+.app-table {
+    border-radius: 20px !important;
+    padding: 20px 30px;
+    background: #FFF;
+
+    .heading-5 {
+        padding: 0 15px;
+    }
+
+    td {
+        border-bottom: unset !important;
+    }
+
+    th {
+        color: $secondary;
+        border-bottom: unset !important;
+    }
+}
+
+//Menu
+.menu-card {
+    border-radius: 20px;
+    background: var(--Secondary-Primary-White, #FFF);
+    max-width: 366px;
+
+    .v-img {
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+
+        h5 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+        }
+    }
+}
+
+//Menu drawer
+.v-navigation-drawer.add-menu-drawer{
+    width: calc(100vw - 275px) !important;
+    .v-stepper-header{
+    box-shadow: unset !important;
+    }
+    .v-stepper.v-sheet{
+        box-shadow: unset !important;
+    }
+}
+//Track card
+.track-card{
+    max-width: 228px;
+    max-height: 190px;
+    width: 100%;
+    height: 100%;
+    flex-shrink: 0;
+    color: #fff;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #868CFF 0%, #4318FF 100%);
+}
+.v-text-field{
+    .v-input__control{
+        border-radius: 16px;
+        border: 1px solid var(--Secondary-Grey-500, #E0E5F2);
+    }
+
 }

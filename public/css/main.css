@@ -25,6 +25,9 @@
 .fc{
     color: var(--primary) !important;
 }
+.fc-white{
+    color: #fff !important;
+}
 .heading {
     font-size: 90px;
 }

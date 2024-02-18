@@ -1,0 +1,477 @@
+a {
+    text-decoration: none;
+    color: #000;
+}
+.v-field__overlay{
+    background: $primary !important;
+
+}
+.v-card{
+    border-radius: 9px;
+}
+.fc-day-today {
+    background-color: inherit !important;
+
+    .fc-daygrid-day-number {
+        z-index: 9999;
+        display: flex;
+        width: 32px;
+        height: 32px;
+        color: #fff;
+        justify-content: center;
+        align-items: center;
+        border-radius: 56px;
+        background: var(--red-r-600, #feeceb);
+
+    }
+}
+
+
+.fc {
+    display: flex;
+    flex-direction: column-reverse;
+    /*Set it back to (column) make space between*/
+    font-size: 1em;
+    /*position: relative;
+    left: -12px;*/
+}
+
+.fc-highlight {
+    border: 1px solid var(--red-r-600, #F24139);
+    background: transparent !important;
+    /* background: var(--fc-highlight-color);*/
+}
+
+.fc .td,
+th {
+    border-bottom: none !important;
+}
+
+.fc {
+    .fc-h-event .fc-event-title-container {
+        flex-grow: 1;
+        flex-shrink: 1;
+        min-width: 0px;
+        padding: 8px;
+    }
+
+    .fc-daygrid-body-balanced {
+        .fc-daygrid-day-events {
+            left: 0px;
+            position: absolute;
+            right: 0px;
+            margin-top: 40px;
+        }
+    }
+
+    .fc-scrollgrid-liquid {
+        height: 100%;
+        margin-left: -13px;
+    }
+
+    .fc-scrollgrid-section>* {
+        border-left-width: none;
+        border-top-width: none;
+    }
+
+    .fc-scroller-harness {
+        direction: ltr;
+        overflow: hidden;
+        position: relative;
+    }
+}
+
+
+/* WeekDays */
+.fc-scrollgrid-sync-inner {
+    /* position: relative;
+    left: -180px;*/
+}
+
+.fc-col-header-cell {
+    .fc-scrollgrid-sync-inner {
+        position: relative;
+        float: left;
+    }
+}
+
+.fc-daygrid-day-top {
+    position: relative;
+    float: left;
+}
+
+.date-picker div:first-child .v-picker-title,
+.date-picker div:first-child .v-picker__header {
+    display: none !important;
+
+}
+
+.v-date-picker-month__day--selected {
+    .v-date-picker-month__day--start {
+        .bg-surface-variant {
+            background-color: #F24139 !important;
+        }
+    }
+}
+
+.calendar-header {
+    display: flex;
+    padding: 16px 24px;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+    gap: 24px !important;
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 29px;
+    transition: background-color 0.3s ease;
+
+    button {
+        &:hover {
+            background-color: #ffffff;
+        }
+    }
+}
+
+.title {
+    color: #403E48;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%;
+}
+
+.today-btn {
+    cursor: pointer;
+    border-radius: 29px;
+    transition: background-color 0.3s ease;
+    background-color: $secondary !important;
+    display: flex;
+    padding: 8px var(--spacing-SM, 12px);
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--spacing-XS, 4px);
+
+    &:hover {
+        background-color: #ffffff;
+    }
+}
+
+.arrows-btns {
+    &:hover {
+        background-color: #ffffff;
+    }
+
+    background-color: #ffffff;
+    border-radius: 29px;
+    padding: 8px 12px;
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.close-btn {
+    cursor: pointer;
+    display: flex;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-XS, 4px);
+    background-color: $secondary;;
+    border-radius: 29px;
+    background: var(--White, #FFF);
+    &:hover {
+        background-color: #ffffff;
+    }
+
+
+    /*position: relative;
+    float: right;*/
+}
+
+.bg-secondary-pr {
+    display: flex;
+    align-self: center;
+    border-radius: 29px;
+}
+
+.mode-picker {
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    gap: 12px;
+
+    .v-select__menu-icon {
+        left: 35px;
+        margin-inline-start: 16px;
+        opacity: 100%;
+        transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .v-input {
+        .v-input__control {
+            .v-text-field {
+                .v-input__details {
+                    width: 160px;
+                    padding-inline-start: 24px;
+                    padding-inline-end: 56px;
+                }
+            }
+        }
+    }
+
+    .v-select {
+        background-color: $primary !important;
+        border-radius: 29px;
+        width: 160px;
+
+    }
+}
+
+.header-btns {
+    border-radius: 29px;
+.v-btn{
+    width: 30px !important;
+    border-radius: 30px !important;
+}
+}
+
+.filters {
+    color: #8C8B91;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.date-picker {
+
+    margin-inline-end: 4px;
+    font-size: 1rem;
+    font-weight: 600 !important;
+
+    .v-date-picker-controls__date {
+        margin-inline-end: 4px;
+        font-size: 1rem;
+        font-weight: 600 !important;
+
+    }
+
+    .v-date-picker-month__day {
+        .v-btn--icon {
+            border-radius: 50%;
+            min-width: 0;
+            width: 40px;
+            height: 40px !important;
+            padding: unset !important;
+        }
+
+        .v-btn--variant-outlined {
+            background-color: #feeceb;
+            color: #feeceb;
+            border-radius: 50%;
+
+
+        }
+    }
+
+    /*.v-btn__content i .v-icon__svg{
+     display: none;
+}*/
+}
+
+.dp-s {
+    background-color: #feeceb;
+    border-radius: 42px;
+}
+
+.filterChirp {
+    display: flex;
+    padding: 16px var(--spacing-M, 24px);
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--spacing-M, 24px);
+    align-self: stretch;
+}
+.fc-wr {
+    border-left: 1px solid var(--fire-axe-red-300, #EDEBEF);
+}
+
+.wp {
+    background-color: #FBFAFB;
+    border: 1px solid #EDEBEF;
+}
+
+.wsheet {
+    background-color: transparent;
+}
+
+.ma-l-0-4-rem {
+    margin-left: 0.4rem;
+}
+
+.ma-l-0-6-rem {
+    margin-left: 0.9rem;
+}
+
+.box-sh {
+    box-shadow: 0px 2px 6px 0px rgba(211, 206, 215, 0.16);
+}
+
+.col-right-s {
+    margin-left: 0.4rem;
+    border-right: 1px solid #EDEBEF;
+    display: flex;
+    padding: 16px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    align-self: stretch;
+}
+
+.search-wr {
+    background-color: #ffffff;
+    border-radius: 29px;
+    height: 40px;
+}
+
+.search-btn {
+    background-color: #ffffff;
+    border-radius: 29px;
+    padding: 8px 12px;
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.input-search {
+    width: 0px;
+    border-style: none;
+    outline: none;
+    border-radius: 29px;
+    transition: all .5s ease-in-out;
+    background-color: #ffffff;
+    color: #fff;
+
+    &:focus {
+        color: #000;
+        width: 300px;
+        border-radius: 0px;
+        background-color: transparent;
+        /*border-bottom: 1px solid #EDEBEF;*/
+        transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+
+    }
+}
+
+@media (max-width: 1280px) {
+    .v-col-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .filterChirp {
+        left: 0px;
+    }
+
+    .input-search {
+
+        &:focus {
+            color: #000;
+            width: 200px;
+        }
+    }
+}
+
+@media (max-width: 1880px) {
+
+
+    .date-picker {
+        margin-left: -55px;
+        width: 120%;
+
+        .v-date-picker-month__day {
+            height: 48px;
+            /* width: 10px; */
+            margin-left: -16px;
+        }
+
+        .v-date-picker--month {
+            min-width: -350px;
+            padding: 0 48px 48px;
+
+        }
+    }
+
+    .v-date-picker-month {
+        padding: 0 38px 38px;
+    }
+
+    .v-date-picker-controls {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.875rem;
+        padding-inline-start: 24px;
+        padding-top: 4px;
+        /* padding-bottom: 4px; */
+        padding-inline-end: 23px;
+        padding-left: 44px;
+
+    }
+}
+
+@media (max-width: 1530px) {
+
+    .date-picker {
+        .v-date-picker-controls__date {
+            margin-left: 16px;
+            font-size: 1rem;
+            font-weight: 600 !important;
+        }
+
+        /* .v-date-picker-month {
+             padding: 0 48px 48px;
+         }*/
+
+        .v-date-picker-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            padding-inline-start: 24px;
+            padding-top: 4px;
+            /* padding-bottom: 4px; */
+            padding-inline-end: 23px;
+
+        }
+    }
+
+}
+
+@media (max-width: 1442px) {
+
+    .col-right-s,
+    .d-p-w {
+        display: none;
+    }
+
+    .fc-wr {
+        border-left: none !important;
+    }
+}

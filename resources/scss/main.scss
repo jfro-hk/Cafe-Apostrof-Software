@@ -23,6 +23,7 @@ $primary-2: #4318ff;
 $gray-: #6595ca;
 $gray: #656565;
 $secondary: #A3AED0;
+
 .font-reg {
     font-family: "DM Sans", sans-serif;
     font-size: 14px;
@@ -31,7 +32,12 @@ $secondary: #A3AED0;
     line-height: 100%; /* 14px */
     letter-spacing: -0.28px;
 }
-
+.bg-gray-secondary{
+    background: $gray !important;
+}
+.bg-white{
+    background: #fff !important;
+}
 .gap-12 {
     gap: 12px !important;
 }
@@ -223,17 +229,20 @@ main {
 }
 
 //Menu drawer
-.v-navigation-drawer.add-menu-drawer{
+.v-navigation-drawer.add-menu-drawer {
     width: calc(100vw - 275px) !important;
-    .v-stepper-header{
-    box-shadow: unset !important;
+
+    .v-stepper-header {
+        box-shadow: unset !important;
     }
-    .v-stepper.v-sheet{
+
+    .v-stepper.v-sheet {
         box-shadow: unset !important;
     }
 }
+
 //Track card
-.track-card{
+.track-card {
     max-width: 228px;
     max-height: 190px;
     width: 100%;
@@ -243,10 +252,25 @@ main {
     border-radius: 24px;
     background: linear-gradient(135deg, #868CFF 0%, #4318FF 100%);
 }
-.v-text-field{
-    .v-input__control{
+
+.input.v-text-field {
+    .v-input__control {
         border-radius: 16px;
         border: 1px solid var(--Secondary-Grey-500, #E0E5F2);
     }
 
+}
+
+.input-login.v-text-field {
+    border-radius: 16px;
+    border: 1px solid var(--Secondary-Grey-500, #E0E5F2);
+}
+
+.input-textarea.v-textarea {
+    border-radius: 16px;
+    border: 1px solid var(--Secondary-Grey-500, #E0E5F2);
+padding: 0px 20px;
+    textarea {
+        resize: none !important;
+    }
 }

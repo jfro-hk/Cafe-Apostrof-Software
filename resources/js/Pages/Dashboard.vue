@@ -37,7 +37,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import Breadcrumbs from '@/Components/Breadcrumbs.vue'
 // import Head from '@inertiajs/vue3'
 import AnlyticCard from '@/Components/anlytic-card.vue'
-import CheckTable from '@/Components/check-table.vue'
+import CheckTable from '@/Components/dishes-table.vue'
 
 export default {
   name: 'DashboardPage',

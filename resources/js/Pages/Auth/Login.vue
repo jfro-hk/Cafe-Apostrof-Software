@@ -43,6 +43,7 @@ export default {
               v-model="form.email"
               type="email"
               rounded
+              class="input-login"
               variant="text"
               density="compact"
               placeholder="Email address"
@@ -54,6 +55,7 @@ export default {
               v-model="form.password"
               rounded
               density="compact"
+              class="input-login"
               variant="text"
               placeholder="Enter your password"
               prepend-inner-icon="mdi-lock-outline"

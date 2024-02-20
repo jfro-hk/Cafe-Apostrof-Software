@@ -53,7 +53,6 @@
         </template>
       </v-dialog>
       <div class="mt-16">
-
         <v-stepper
           ref="stepper"
           editable
@@ -96,7 +95,6 @@
               </v-form>
             </v-card>
           </template>
-
           <template v-slot:[`item.2`]>
             <v-card elevation="0" title="Add Dishes" flat>
               <v-row>
@@ -113,17 +111,14 @@
         </v-stepper>
       </div>
     </v-navigation-drawer>
-    <v-card elevation="0" class="pa-5">
+    <div class="pa-5">
     <v-row>
-      <v-col v-for="(item,index) in menus" :key="index">
+      <v-col :cols="!menus.length > 1?12:4" v-for="(item,index) in menus" :key="index">
         <MenuCard :menu="item"/>
-
       </v-col>
-      <div v-if="!menus.length > 0">
-noo
-      </div>
+      <Alert v-if="!menus.length > 0" text="No data founded"/>
     </v-row>
-    </v-card>
+    </div>
   </AuthenticatedLayout>
 </template>
 <script>
@@ -131,9 +126,9 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import MenuCard from "@/Components/menu-card.vue";
 import AnlyticCard from "@/Components/anlytic-card.vue";
 import {router} from "@inertiajs/vue3";
-
+import Alert from "@/Components/alert.vue";
 export default {
-  components: {AnlyticCard, MenuCard, AuthenticatedLayout},
+  components: {Alert, AnlyticCard, MenuCard, AuthenticatedLayout},
   props: {categories: Array,menus:Object,errors:Object},
   data: () => ({
     valid:false,

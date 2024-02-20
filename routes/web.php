@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DisheController;
+use App\Http\Controllers\GallaryController;
 use App\Http\Controllers\CalendarController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -35,5 +36,10 @@ use Inertia\Inertia;
         Route::post('/add-dish/{menuId}', [DisheController::class, 'add'])->name('dish.add');
         Route::delete('/delete-dish/{menuId}', [DisheController::class, 'delete'])->name('dish.delete');
     });
+        Route::prefix('gallery')->group(function () {
+            Route::get('/', [GallaryController::class, 'index'])->name('gallery.view');
+            Route::post('/add-dish/{menuId}', [DisheController::class, 'add'])->name('dish.add');
+            Route::delete('/delete-dish/{menuId}', [DisheController::class, 'delete'])->name('dish.delete');
+        });
 });
 require __DIR__ . '/auth.php';

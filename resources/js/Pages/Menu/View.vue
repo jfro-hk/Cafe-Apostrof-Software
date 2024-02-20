@@ -81,7 +81,6 @@
     </v-row>
     <v-row>
       <v-col>
-        {{ dishes }}
         <div class="d-flex justify-end mb-3">
           <v-btn size="small" @click="dialog = !dialog" style="width: 30px; height: 50px;border-radius: 49px" rounded
                  color="#0E0F3D">

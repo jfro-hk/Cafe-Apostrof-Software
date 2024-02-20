@@ -2,7 +2,6 @@
   <!--  <Head title="Dashboard" />-->
   <AuthenticatedLayout>
     <div class="mb-5">
-      <Breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />
       <div class="heading-5 font-weight-bold fc-primary">Main Dashboard</div>
     </div>
     <!--    <v-card>-->
@@ -12,7 +11,7 @@
     <!--    </v-card>-->
     <v-row>
       <v-col cols="12" sm="4" :md="3" :lg="4">
-        <AnlyticCard />
+        <AnlyticCard title="Today's Reservations"/>
       </v-col>
       <v-col cols="12" sm="4" :md="3" :lg="4">
         <AnlyticCard />
@@ -22,10 +21,10 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="8">
+      <v-col cols="12" md="8" lg="8">
         <CheckTable title="reservations" />
       </v-col>
-      <v-col cols="4">
+      <v-col cols="12" md="4" lg="4">
         <CheckTable />
       </v-col>
       <!--      <div class="task-table"></div>-->
@@ -34,23 +33,12 @@
 </template>
 <script>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
-import Breadcrumbs from '@/Components/Breadcrumbs.vue'
 // import Head from '@inertiajs/vue3'
 import AnlyticCard from '@/Components/anlytic-card.vue'
 import CheckTable from '@/Components/dishes-table.vue'
 
 export default {
   name: 'DashboardPage',
-  components: { CheckTable, AuthenticatedLayout, Breadcrumbs, AnlyticCard },
-  data() {
-    return {
-      breadcrumbs: [
-        {
-          title: 'Dashboard',
-          disabled: true,
-        },
-      ],
-    }
-  },
+  components: { CheckTable, AuthenticatedLayout, AnlyticCard },
 }
 </script>

@@ -2,7 +2,7 @@
   <v-card
     class="menu-card pa-5"
     max-width="344"
-    elevation="1"
+    elevation="0"
     rounded
   >
     <v-img src="https://i.postimg.cc/kX2r6P5z/fakurian-design-bexwsd-M5-BCw-unsplash-2-1.png" rounded><h5 class="heading-5 text-capitalize">{{ title }}</h5>
@@ -17,7 +17,7 @@
             </clipPath>
           </defs>
         </svg>
-        at 2024 jan 01
+        At 2024 jan 01
       </div>
     </v-img>
     <div class="d-flex flex-column ma-3">

@@ -12,7 +12,7 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::select('name','id')->get();
         $menus = Menu::all();
         return Inertia::render('Menu/OverView', [
             'categories' => $categories,
@@ -62,7 +62,7 @@ class MenuController extends Controller
         $categoryId = null;
         foreach ($request->category as $cate) {
             if ($request->category != null) {
-                $check = Category::where('name', $cate)->first();
+                $check = Category::where('id', $cate)->first();
                 if ($check) {
                     $categoryId = $check->id;
                 }
@@ -77,6 +77,47 @@ class MenuController extends Controller
         $new->save();
         return to_route('menu')
             ->with('success', 'Menu created successfully!');
+    }
+
+    public function edit($id)
+    {
+        $menu = Menu::find($id);
+        if ($menu) {
+            return $menu;
+        }
+        return abort(404);
+    }
+
+    public function update(Request $request,$id)
+    {
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'category' => 'required',
+        ]);
+//        dd($request->all());
+
+//        $categoryId = null;
+//        foreach ($request->category as $cate) {
+            if ($request->category != null) {
+                $check = Category::where('id', $request->category)->first();
+//                if ($check) {
+                    $categoryId = $check->id;
+//                }
+//            }
+        }
+        $menu = Menu::find($id);
+        if (!$menu) {
+            return abort(404);
+        }
+
+       $menu->title = $request->title;
+       $menu->category_id = $categoryId;
+       $menu->description = $request->description;
+       $menu->save();
+
+        return back()
+            ->with('success', 'Menu deleted successfully!');
     }
 
     public function delete($id)

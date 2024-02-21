@@ -11,7 +11,7 @@
     </div>
     <v-row>
       <v-col>
-        <GalleryCard/>
+        <GalleryCard />
       </v-col>
     </v-row>
   </AuthenticatedLayout>
@@ -21,6 +21,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import GalleryCard from "@/Components/Gallery-card.vue";
 import AnlyticCard from "@/Components/anlytic-card.vue";
 export default {
-  components:{AnlyticCard, GalleryCard, AuthenticatedLayout}
+  components:{AnlyticCard, GalleryCard, AuthenticatedLayout},
+  props:{}
 }
 </script>

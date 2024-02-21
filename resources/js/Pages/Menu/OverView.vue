@@ -1,5 +1,12 @@
 <template>
   <AuthenticatedLayout>
+    <v-dialog
+      v-model="editMenu"
+      persistent
+      width="1024"
+    >
+    <edit-menu @close="editMenu = !editMenu" :data="editData" @status="(status)=>{!status?addMenu = false: addMenu = true}" :categories="categories"/>
+    </v-dialog>
     <div class="mb-5">
       <!--      <Breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />-->
       <div class="heading-5 font-weight-bold fc-primary">Menu's</div>
@@ -8,7 +15,7 @@
           <AnlyticCard title="Total Menu's"/>
         </v-col>
       </v-row>
-      <div class="d-flex justify-end mb-3">
+      <div class="d-flex justify-end mb-3  mt-3">
         <v-btn size="small" elevation="0" style="width: 30px; height: 50px;border-radius: 49px" rounded color="#0E0F3D"
                @click="addMenu = !addMenu">
           <v-icon>mdi-plus</v-icon>
@@ -17,7 +24,7 @@
     </div>
     <v-navigation-drawer v-model="addMenu" class="add-menu-drawer" location="right" width="600">
       <div class="d-flex justify-end ma-5">
-        <v-btn size="small" variant="text" rounded @click="addMenu = !addMenu">
+        <v-btn icon variant="text" rounded @click="addMenu = !addMenu">
           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
             <path d="M2 26L14 14M14 14L26 2M14 14L2 2M14 14L26 26" stroke="#A3AED0" stroke-width="4"
                   stroke-linecap="round" stroke-linejoin="round"/>
@@ -78,7 +85,9 @@
                 </v-col>
                 <v-col cols="6">
                   <span class="font-weight-bold">Select category:</span>
-                  <v-combobox class="input" variant="text" multiple :items="categories.map(cate => cate.name)"
+                  <v-combobox class="input" variant="text" :items="categories"
+                              item-title="name"
+                              item-value="id"
                               :rules="[value => !!value || 'Select a category']"
                               v-model="menu.category" placeholder="Category"></v-combobox>
                 </v-col>
@@ -114,7 +123,7 @@
     <div class="pa-5">
     <v-row>
       <v-col :cols="!menus.length > 1?12:4" v-for="(item,index) in menus" :key="index">
-        <MenuCard :menu="item"/>
+        <MenuCard @edit="edit" :menu="item"/>
       </v-col>
       <Alert v-if="!menus.length > 0" text="No data founded"/>
     </v-row>
@@ -127,13 +136,16 @@ import MenuCard from "@/Components/menu-card.vue";
 import AnlyticCard from "@/Components/anlytic-card.vue";
 import {router} from "@inertiajs/vue3";
 import Alert from "@/Components/alert.vue";
+import EditMenu from "@/Components/Edit-menu.vue";
 export default {
-  components: {Alert, AnlyticCard, MenuCard, AuthenticatedLayout},
+  components: {EditMenu, Alert, AnlyticCard, MenuCard, AuthenticatedLayout},
   props: {categories: Array,menus:Object,errors:Object},
   data: () => ({
     valid:false,
     addMenu: false,
+    editMenu: false,
     ShowCate: false,
+    editData:{},
     category: {
       title: ''
     },
@@ -153,6 +165,10 @@ export default {
           }
         }
       )
+    },
+    edit(data){
+      this.editMenu = !this.editMenu
+      this.editData = data
     },
     createMenu() {
       // route('addCategory')

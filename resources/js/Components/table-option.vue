@@ -13,7 +13,7 @@
     <v-card min-width="300" class="actions-chip-card">
       <v-list class="px-0 py-0">
         <v-list-item class="px-0 py-0">
-          <v-btn @click="this.$emit('edit',editMode = !editMode)" class="w-100">edit</v-btn>
+          <v-btn @click="this.$emit('edit')" class="w-100">edit</v-btn>
           <v-btn @click="handleDelete(id)" class="w-100">Delete</v-btn>
         </v-list-item>
       </v-list>

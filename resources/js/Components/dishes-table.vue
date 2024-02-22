@@ -9,7 +9,7 @@
       <template v-slot:[`item.action`]="{ item }" v-if="type == 'editable'">
         <div style="position: relative;right: calc(100% - 50px);">
 <!--          /// fix this-->
-          <TableOption @edit="(edit)=>{$emit('edit',editMode = !editMode);handleSelection(item)}" @delete="handleDelete(item.action)" :id="item.action"/>
+          <TableOption @edit="$emit('edit');handleSelection(item)" @delete="handleDelete(item.action)" :id="item.action"/>
         </div>
       </template>
     </v-data-table>

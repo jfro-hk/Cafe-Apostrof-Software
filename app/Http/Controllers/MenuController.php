@@ -59,15 +59,15 @@ class MenuController extends Controller
             'title' => 'required',
             'category' => 'required'
         ]);
-        $categoryId = null;
-        foreach ($request->category as $cate) {
-            if ($request->category != null) {
-                $check = Category::where('id', $cate)->first();
-                if ($check) {
+//        $categoryId = null;
+//        foreach ($request->category as $cate) {
+//            if ($request->category != null) {
+                $check = Category::where('id', $request->category)->first();
+//                if ($check) {
                     $categoryId = $check->id;
-                }
-            }
-        }
+//                }
+//            }
+//        }
 //        dd($categoryId);
         $new = new Menu();
         $new->title = $request->title;

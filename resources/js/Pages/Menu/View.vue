@@ -32,7 +32,7 @@
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </div>
-        <DishesTable @edit="(edit)=>{this.editMode = edit}" @edit-data="(data)=>{selectedDish = data}"
+        <DishesTable @edit="editMode = !editMode" @edit-data="(data)=>{selectedDish = data}"
                      @selected="(data)=>{selected = data}" @delete="handleDelete" type="editable" :data="dishes"/>
       </v-col>
     </v-row>

@@ -10,7 +10,25 @@
       rounded
     >
     <!--          <v-img src="https://i.postimg.cc/2y8FMGPB/ca-food-1.png"></v-img>-->
-    <v-img src="https://i.postimg.cc/kX2r6P5z/fakurian-design-bexwsd-M5-BCw-unsplash-2-1.png" rounded><h5 class="heading-5 text-capitalize">{{ title }}</h5></v-img>
+    <v-img src="https://i.postimg.cc/kX2r6P5z/fakurian-design-bexwsd-M5-BCw-unsplash-2-1.png" rounded>
+      <svg fill="#000000" width="100" height="100" viewBox="0 0 24 24" id="menu-food-left-2" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color">
+
+        <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+
+        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <g id="SVGRepo_iconCarrier">
+
+          <path id="secondary" d="M8,18H18a1,1,0,0,1,.22,2l-8.8,2a1.9,1.9,0,0,1-1.62-.38A2.13,2.13,0,0,1,7,19.88V19A1,1,0,0,1,8,18Zm1.1,2h0Z" style="fill: #6595ca;"/>
+
+          <path id="primary" d="M7,20H18a1,1,0,0,0,1-1V3a1,1,0,0,0-1-1H7A2,2,0,0,0,5,4V18A2,2,0,0,0,7,20Z" style="fill: #000000;"/>
+
+          <path id="secondary-2" data-name="secondary" d="M8,11a1,1,0,0,1,1-1h6a1,1,0,0,1,0,2H9A1,1,0,0,1,8,11ZM8,7A1,1,0,0,1,9,6h6a1,1,0,0,1,0,2H9A1,1,0,0,1,8,7Z" style="fill: #6595ca;"/>
+
+        </g>
+
+      </svg>
+      <h5 class="heading-5 text-capitalize">{{ menu.title }}</h5></v-img>
     <div class="d-flex flex-column pa-5">
       <span class="fc-primary text-capitalize">{{ menu.title }}</span>
       <span class="fc-secondary">{{ menu.description }}</span>
@@ -67,7 +85,7 @@ menuData:[]
   }),
   methods:{
     redirect(){
-      router.visit(`menu/view/${this.menu.slug}`)
+      router.visit(`/menu/view/${this.menu.slug}`)
     },
     deleteMenu(){
       router.delete(`/delete-menu/${this.menu.id}`)

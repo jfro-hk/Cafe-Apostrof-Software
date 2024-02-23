@@ -5,7 +5,7 @@
       persistent
       width="1024"
     >
-    <edit-menu @close="editMenu = !editMenu" :data="editData" @status="(status)=>{!status?addMenu = false: addMenu = true}" :categories="categories"/>
+    <edit-menu @close="editMenu = !editMenu" :data="editData" @status="(status)=>{!status?editMenu = false: editMenu = true}" :categories="categories"/>
     </v-dialog>
     <div class="mb-5">
       <!--      <Breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />-->
@@ -37,7 +37,6 @@
             <v-card-text class="mt-5">
               <v-text-field class="input" v-model="category.title" variant="text" placeholder="Category Title"></v-text-field>
             </v-card-text>
-
             <v-card-actions>
               <v-spacer></v-spacer>
 
@@ -122,7 +121,7 @@
     </v-navigation-drawer>
     <div class="pa-5">
     <v-row>
-      <v-col :cols="!menus.length > 1?12:4" v-for="(item,index) in menus" :key="index">
+      <v-col :cols="12" :lg="!menus.length > 1?12:4" :md="!menus.length > 1?12:4" v-for="(item,index) in menus" :key="index">
         <MenuCard @edit="edit" :menu="item"/>
       </v-col>
       <Alert v-if="!menus.length > 0" text="No data founded"/>

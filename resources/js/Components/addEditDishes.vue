@@ -12,6 +12,7 @@
                 sm="6"
                 md="6"
               >
+                <v-label class="font-reg">Title:</v-label>
                 <v-text-field
                   class="input"
                   variant="text"
@@ -25,6 +26,8 @@
                      sm="6"
                      md="6"
               >
+                <v-label class="font-reg">Price $:</v-label>
+
                 <v-text-field
                   required
                   class="input"
@@ -36,6 +39,8 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
+                <v-label class="font-reg">Description:</v-label>
+
                 <v-textarea variant="plain"
                             v-model="dish.description"
                             class="input-textarea" placeholder="Description"></v-textarea>
@@ -55,7 +60,7 @@
           </v-btn>
           <v-btn
             color="#0E0F3D"
-            @click="addDishes"
+            @click="addEditDishes"
             rounded
             variant="flat"
           > Save
@@ -93,9 +98,9 @@ export default {
     }
   },
   methods:{
-    addDishes() {
+    addEditDishes() {
       if (this.isValid) {
-        router.post(`/menu/${this.editMode ? 'update':'add'}-dish/${this.selectedDish.action}`, {
+        router.post(`/menu/${this.editMode ? 'update':'add'}-dish/${this.editMode ? this.selectedDish.action : this.selectedMenu.id}`, {
           title: this.dish.title,
           price: this.dish.price,
           description: this.dish.description,

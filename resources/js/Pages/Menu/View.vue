@@ -15,7 +15,6 @@
                     @status="(status)=>{!status?dialog = false: dialog = true}" :edit-mode="editMode"
                     @close="dialog = false; editMode = false"/>
       </v-dialog>
-
     </v-row>
 
     <v-row>
@@ -26,7 +25,7 @@
     <v-row>
       <v-col>
         <div class="d-flex justify-end mb-3">
-          <v-btn size="small" @click="dialog = !dialog; !editMode"
+          <v-btn size="small" @click="dialog = !dialog;"
                  style="width: 30px; height: 50px;border-radius: 49px" rounded
                  color="#0E0F3D">
             <v-icon>mdi-plus</v-icon>
@@ -43,7 +42,7 @@ import DishesTable from "@/Components/dishes-table.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import AnlyticCard from "@/Components/anlytic-card.vue";
 import {router} from "@inertiajs/vue3";
-import AddDishes from "@/Components/addDishes.vue";
+import AddDishes from "@/Components/addEditDishes.vue";
 
 export default {
   props: {menu: Array, dishes: Array},
@@ -58,6 +57,15 @@ export default {
     editMode(val) {
       if (val) {
         this.dialog = !this.dialog
+      }
+    },
+    dialog(newValue) {
+      if (newValue !== false) {
+        console.log('checking this');
+      }
+      if (!newValue) {
+        this.editMode = false;
+        this.selectedDish = [];
       }
     }
   },

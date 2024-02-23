@@ -12,7 +12,7 @@ class DisheController extends Controller
     public function index($slug)
     {
         $menu = Menu::where('slug', $slug)->first();
-        $dishes = Dishe::select('id', 'title', 'price', 'description')->where('menu_id', $menu->id)->get();
+        $dishes = Dishe::select('id','menu_id', 'title', 'price', 'description')->orderBy('created_at','DESC')->where('menu_id', $menu->id)->get();
 
         $mappedDishes = $dishes->map(function ($dish) {
             return [
@@ -31,44 +31,56 @@ class DisheController extends Controller
 
     public function add(Request $request, $menuId)
     {
-        $menu = Menu::find($menuId);
 
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|integer',
         ]);
+//        dd($menuId);
+        $menu = Menu::find($request->menu_id);
 
         $dish = new Dishe();
+//        dd($request->all());
+
+        if (!$menu || !$dish) {
+            return back()
+                ->with('error', 'Ops something wrong!');
+        }
         $dish->title = $request->title;
         $dish->price = $request->price;
         $dish->description = $request->description;
-        $dish->menu_id = $menuId;
+        $dish->menu_id = $request->menu_id;
         $dish->save();
-        return to_route('menu.view', $menu->slug)
+
+        return back()
             ->with('success', 'Dish added successfully!');
 //        return response()->json(['message' => 'Item added successfully'], 200);
     }
 
     public function update(Request $request, $id)
     {
-
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|integer',
         ]);
-//dd($request->all());
-        $dish = Dishe::findOrFail($id);
+        $menu = Menu::where('id', $request->menu_id)->first();
+        $dish = Dishe::find($id);
+//        dd($request->all());
+
+        if (!$menu || !$dish) {
+            return back()
+                ->with('error', 'Ops something wrong!');
+        }
         $dish->title = $request->title;
         $dish->price = $request->price;
         $dish->description = $request->description;
         $dish->menu_id = $request->menu_id;;
         $dish->save();
-        $menu = Menu::where('id', $request->menu_id)->first();
 
 
-        return to_route('menu.view', $menu->slug)
+        return back()
             ->with('success', 'Dish updated successfully!');
     }
 

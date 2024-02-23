@@ -21,10 +21,10 @@ use Inertia\Inertia;
 |
 */
 
-    Route::get('/', function () {
+Route::get('/', function () {
     return redirect()->route('login');
-    });
-    Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+});
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/menu', [MenuController::class, 'index'])->name('menu');
     Route::post('/add-category', [MenuController::class, 'addCategory'])->name('addCategory');
@@ -35,13 +35,15 @@ use Inertia\Inertia;
     Route::prefix('menu')->group(function () {
         Route::get('/view/{slug}', [DisheController::class, 'index'])->name('menu.view');
         Route::post('/add-dish/{menuId}', [DisheController::class, 'add'])->name('dish.add');
-        Route::post('/update-dish/{menuId}', [DisheController::class, 'update'])->name('dish.update');
+        Route::post('/update-dish/{id}', [DisheController::class, 'update'])->name('dish.update');
         Route::delete('/delete-dish/{menuId}', [DisheController::class, 'delete'])->name('dish.delete');
     });
-        Route::prefix('gallery')->group(function () {
-            Route::get('/', [GalleryController::class, 'index'])->name('gallery.view');
-            Route::post('/add-dish/{menuId}', [DisheController::class, 'add'])->name('dish.add');
-            Route::delete('/delete-dish/{menuId}', [DisheController::class, 'delete'])->name('dish.delete');
-        });
+//        Route::prefix('gallery')->group(function () {
+    Route::get('/gallerys', [GalleryController::class, 'index'])->name('gallery.view');
+    Route::post('/add-gallery', [GalleryController::class, 'add'])->name('gallery.add');
+    Route::post('/update-gallery/{id}', [GalleryController::class, 'update'])->name('gallery.update');
+    Route::delete('/delete-gallery/{id}', [GalleryController::class, 'delete'])->name('gallery.delete');
+
+//        });
 });
 require __DIR__ . '/auth.php';

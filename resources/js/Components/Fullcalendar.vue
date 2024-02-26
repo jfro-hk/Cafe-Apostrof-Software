@@ -29,12 +29,13 @@
       <!--          &lt;!&ndash; </v-btn> &ndash;&gt;-->
       <!--        </v-sheet>-->
       <!--      </v-col>-->
-      <v-row no-gutters>
-        <v-col>
-          <v-sheet class="pa-1 ma-1 wsheet">
+      <v-card-text>
+      <v-row>
+        <v-col cols="12">
+          <v-sheet class=" wsheet">
             <div class="calendar-header">
               <div class="navigation">
-                <v-btn rounded color="#0E0F3D" @click="navigate('today')">Today</v-btn>
+                <v-btn rounded color="#0E0F3D" @click="navigate('today')">I dag</v-btn>
 
                 <div class="header-btns">
                   <v-btn rounded color="#0E0F3D" @click="navigate('prev')">
@@ -85,33 +86,34 @@
 <!--                  </a>-->
                   <!--                  <input type="text" ref="search" class="input-search" placeholder="Type to Search..." />-->
 <!--                </div>-->
-                <v-select variant="outlined rounded-pill" class="bg-secondary-pr box-sh" v-model="selectedView"
-                          :items="['Month', 'Week', 'Day']" density="compact"/>
+                <v-select variant="outlined" class="bg-secondary-pr box-sh  rounded-pill" v-model="selectedView"
+                          :items="['Måned', 'Uge', 'Dag']" density="compact"/>
               </div>
             </div>
           </v-sheet>
         </v-col>
-      </v-row>
-      <!--    </v-row>-->
-      <v-row class="mb-6" no-gutters>
+<!--      </v-row>-->
+<!--      &lt;!&ndash;    </v-row>&ndash;&gt;-->
+<!--      <v-row class="mb-6" >-->
         <!--      <v-row>-->
         <!--        <v-col :key="isSideDateVisible" class="d-p-w" cols="12" md="4" :lg="isSideDateVisible ? 3 : 1">-->
         <!--          <v-date-picker mode-icon="none" ref="datePicker" class="date-picker" max-width="1000px" hide-actions="false" color="#F24139" v-if="isSideDateVisible" elevation="0" v-model="selectedDate" />-->
         <!--        </v-col>-->
         <!--        <v-col :key="isSideDateVisible" class="fc-wr" cols="12" md="8" :lg="isSideDateVisible ? 9 : ''">-->
-        <v-col>
+        <v-col  cols="12">
           <!--          <div class="filterChirp">-->
           <!--            <span class="filters">Filters:</span>-->
           <!--&lt;!&ndash;            <Filterchip title="Platform" :items="['test']" />&ndash;&gt;-->
           <!--&lt;!&ndash;            <Filterchip title="Status" :items="['test']" />&ndash;&gt;-->
           <!--          </div>-->
-          <fullcalendar :key="isSideDateVisible" :dayHeaderContent="customDayHeaderContent"
-                        :style="isSideDateVisible ? 'width: 105%;' : 'width: 104%;'" :options="calendarOptions"
+          <fullcalendar :key="isSideDateVisible"  :events="events" :dayHeaderContent="customDayHeaderContent"
+                        :options="calendarOptions"
                         ref="fullCalendar"/>
         </v-col>
         <!--      </v-row>-->
 
       </v-row>
+      </v-card-text>
     </v-card>
   </div>
 </template>
@@ -122,11 +124,15 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import fullcalendar from "@fullcalendar/vue3";
 import moment from 'moment'
-
+import {router} from "@inertiajs/vue3";
+import {getCurrentInstance} from "vue";
 export default {
   components: {
     fullcalendar,
     // Filterchip
+  },
+  props:{
+    events:Object
   },
   data() {
     return {
@@ -137,7 +143,7 @@ export default {
       search: false,
       selectedDate: new Date,//moment(new Date).format('YYYY-MM-DD'),
       isSideDateVisible: true,
-      selectedView: 'Month',
+      selectedView: 'Måned',
       currentDate: '',
       calendarOptions: {
         plugins: [
@@ -150,14 +156,7 @@ export default {
           center: '',
           right: ''
         },
-        events: [
-          {
-            id: 'a',
-            title: 'my event',
-            start: '2023-11-07',
-            color: '#F24139'
-          }
-        ],
+        events: this.events,
         // dayNames:['Sunyy', 'Mony', 'Tuey', 'Wedy', 'Thu', 'Fri', 'Sat'],
         dayHeaderContent: this.customDayHeaderContent,
         weekNumberCalculation: 'local',
@@ -175,34 +174,20 @@ export default {
     }
   },
   watch: {
+    events(){
+      console.log(this.$refs.fullCalendar.getApi())
+      this.updateCalendar()
+      const calendarApi = this.$refs.fullCalendar.getApi();
+      calendarApi.refetchEvents();
+    },
     selectedView(newView) {
       const calendarApi = this.$refs.fullCalendar.getApi();
-      calendarApi.changeView(newView === 'Month' ? 'dayGridMonth'
-        : newView === 'Week' ? 'timeGridWeek'
-          : newView === 'Day' ? 'timeGridDay' : 'dayGridMonth');
+      calendarApi.changeView(newView === 'Måned' ? 'dayGridMonth'
+        : newView === 'Uge' ? 'timeGridWeek'
+          : newView === 'Dag' ? 'timeGridDay' : 'dayGridMonth');
       this.currentDayName();
     },
-    selectedDate() {
-      this.goToSelectedDate(this.goToSelectedDateC)
-      if (this.checkedDated) {
-        this.checkedDated.forEach(element => {
-          const dayGridFrame = document.querySelector(`.fc-day[data-date="${element}"] .fc-daygrid-day-frame .fc-daygrid-day-bg`)
-          const dayGrid = document.querySelector(`.fc-day[data-date="${element}"] .fc-daygrid-bg-harness`)
 
-          if (dayGrid) {
-            dayGridFrame.classList.remove('fc-daygrid-bg-harness')
-            dayGridFrame.classList.remove('fc-highlight')
-          }
-        });
-      }
-      const dayGrid = document.querySelector(`.fc-day[data-date="${(moment(this.selectedDate).format('YYYY-MM-DD'))}"] .fc-daygrid-bg-harness`)
-      const dayGridFrame = document.querySelector(`.fc-day[data-date="${(moment(this.selectedDate).format('YYYY-MM-DD'))}"] .fc-daygrid-day-frame .fc-daygrid-day-bg`)
-      if (!dayGrid) {
-        dayGridFrame.classList.add('fc-daygrid-bg-harness')
-        dayGridFrame.classList.add('fc-highlight')
-        this.checkedDated.push(moment(this.selectedDate).format('YYYY-MM-DD'))
-      }
-    }
   },
   computed: {
     searchBtn() {
@@ -216,6 +201,34 @@ export default {
     this.currentDayName();
   },
   methods: {
+     updateCalendar() {
+       const internalInstance = getCurrentInstance();
+  // Fetch updated events data from API or database
+  router.post('/get-events', (data) => {
+   // const dataToRender = data.events.map(x => {
+   //    // x.start = x.timeFrom ? `${x.dateFrom}T${x.timeFrom}` : x.dateFrom;
+   //    // x.end = x.timeTo ? `${x.dateTo}T${x.timeTo}` : x.dateTo;
+   //    // if (!x.timeFrom) {
+   //    //   x.start = `${x.dateFrom}`
+   //    //   x.end = `${x.dateTo}`;
+   //    //   x.allDay = true
+   //    // }
+   //   // console.log(x)
+   //    return x;
+   //  });
+   // console.log(dataToRender)
+   console.log(data)
+   console.log(internalInstance)
+    // Call success() to pass updated events data to the calendar
+    // internalInstance.proxy.calendarOptions.events = (info, success) => {
+    //   success(dataToRender);
+    // }
+
+    // Call updateEvents() on calendarApi object to update events on the calendar
+    let calendarApi = this.$refs.calendar.getApi(); // Get calendarApi object
+    calendarApi.refetchEvents(); // Update events on the calendar
+  });
+},
     calculateWeekNumber(date) {
       const getWeek = function (d) {
         d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
@@ -227,8 +240,9 @@ export default {
 
       return weekNumber;
     },
+
     customDayHeaderContent(arg) {
-      const customDayNames = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+      const customDayNames = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
       return customDayNames[arg.date.getUTCDay()];
     },
     handleDateSelect(info) {
@@ -236,6 +250,7 @@ export default {
       // // Datumobject maken
       var date = new Date(info.date);
       this.selectedDate = date
+      this.$emit('selectedDate',date)
     },
     setInputToFocus() {
       this.status = !this.status;

@@ -1,6 +1,5 @@
 <template>
-
-      <v-card>
+  <v-card>
         <v-card-title>
           <span class="text-h5">Add Dish</span>
         </v-card-title>

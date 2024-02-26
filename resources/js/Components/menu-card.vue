@@ -3,7 +3,7 @@
   <v-hover v-slot="{ isHovering, props }">
 <!--  <div class="menu-card pa-5" v-bind="props">-->
     <v-card
-      class="menu-card pa-5"
+      class="menu-card pa-5 border-r"
       max-width="344"
       v-bind="props"
       elevation="1"

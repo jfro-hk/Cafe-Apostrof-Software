@@ -37,7 +37,7 @@ export default {
     <div class="d-flex justify-space-between">
       <v-form class="login-form" @submit.prevent="submit">
         <v-row>
-          <v-col>
+          <v-col style="max-width: 742px;">
             <v-label class="font-reg">Email:</v-label>
             <v-text-field
               v-model="form.email"

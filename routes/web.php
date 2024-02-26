@@ -1,14 +1,11 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DisheController;
 use App\Http\Controllers\GalleryController;
-use App\Http\Controllers\CalendarController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +28,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/create-menu', [MenuController::class, 'createMenu'])->name('createMenu');
     Route::delete('/delete-menu/{id}', [MenuController::class, 'delete'])->name('deleteMenu');
     Route::post('/update-menu/{id}', [MenuController::class, 'update'])->name('updateMenu');
-    Route::get('/calendar', [CalendarController::class, 'overview'])->name('calendar');
     Route::prefix('menu')->group(function () {
         Route::get('/view/{slug}', [DisheController::class, 'index'])->name('menu.view');
         Route::post('/add-dish/{menuId}', [DisheController::class, 'add'])->name('dish.add');
@@ -43,6 +39,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/add-gallery', [GalleryController::class, 'add'])->name('gallery.add');
     Route::post('/update-gallery/{id}', [GalleryController::class, 'update'])->name('gallery.update');
     Route::delete('/delete-gallery/{id}', [GalleryController::class, 'delete'])->name('gallery.delete');
+    // Events
+    Route::get('/calendar', [EventController::class, 'overview'])->name('calendar');
+    Route::post('/add-event', [EventController::class, 'add'])->name('event.add');
+    Route::post('/get-events', [EventController::class, 'getEvents'])->name('event.get');
 
 //        });
 });

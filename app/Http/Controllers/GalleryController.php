@@ -65,7 +65,7 @@ class GalleryController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'file' => 'nullable|file', // Allow file to be nullable for update
+            'file' => 'nullable|file',
         ]);
 
         // Update title and description

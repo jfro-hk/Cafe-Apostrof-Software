@@ -4,7 +4,6 @@
     elevation="0"
     rounded
   >
-    {{gallery}}
     <drop-zone :max="1" @acceptFiles="(f)=>{this.gallery.file = f}"
                :drag="this.previews.length > 0 ? false : true"
                @previews="(p)=>{this.previews = p}" :accepted-types="acceptTypes">
@@ -18,7 +17,20 @@
         </div>
       </div>
       <div class="d-flex justify-center">
-      <v-img v-if="previews[0]" :src="previews[0].preview" rounded><h5
+      <v-img v-if="previews[0]" :src="previews[0].preview" rounded>
+        <div class="remove" @click="handleDelete">
+          <v-btn size="xsmall" rounded style="background-color: unset;" variant="text" elevation="0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M15.3657 4.63422C15.6781 4.94664 15.6781 5.45317 15.3657 5.76559L5.76571 15.3656C5.45329 15.678 4.94676 15.678 4.63434 15.3656C4.32192 15.0532 4.32192 14.5466 4.63434 14.2342L14.2343 4.63422C14.5468 4.3218 15.0533 4.3218 15.3657 4.63422Z"
+                    fill="white" />
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M4.63434 4.63422C4.94676 4.3218 5.45329 4.3218 5.76571 4.63422L15.3657 14.2342C15.6781 14.5466 15.6781 15.0532 15.3657 15.3656C15.0533 15.678 14.5468 15.678 14.2343 15.3656L4.63434 5.76559C4.32192 5.45317 4.32192 4.94664 4.63434 4.63422Z"
+                    fill="white" />
+            </svg>
+          </v-btn>
+        </div>
+        <h5
         class="heading-5 text-capitalize">{{ gallery.title }}</h5>
         <div class="time-icon z-index-1 right-unset">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -87,6 +99,9 @@ export default {
     }
   },
   methods: {
+    handleDelete(){
+      this.previews = []
+    },
     addOrUpdate() {
       router.post(`/${this.editMode ? 'update' : 'add'}-gallery${this.editMode ? '/'+this.selectedGallery.action : '/'}`, {
         title: this.gallery.title,

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Dishe;
 use App\Models\Menu;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -35,6 +36,8 @@ class MenuController extends Controller
 
     public function createMenu(Request $request)
     {
+//        dd($request->all());
+
         $request->validate([
             'title' => 'required',
             'category' => 'required'
@@ -43,9 +46,9 @@ class MenuController extends Controller
 //        foreach ($request->category as $cate) {
 //            if ($request->category != null) {
 
-        $check = Category::where('id', $request->category)->first();
+//        $check = Category::where('id', $request->category)->first();
 //                if ($check) {
-        $categoryId = $check->id;
+        $categoryId = $request->category['id']; //$check->id;
 //                }
 //            }
 //        }
@@ -54,8 +57,21 @@ class MenuController extends Controller
         $new->category_id = $categoryId;
         $new->slug = Setting::generateSlug($request->title, Menu::class);
 
-//        dd($categoryId);
-        $new->save();
+        if ($request->dish['title']
+            !== null && $request->dish['price']
+            !== null && $request->dish['description'] !== null) {
+            $dish = new Dishe();
+            $dish->title = $request->dish['title'];
+            $dish->price = $request->dish['price'];
+            $dish->description = $request->dish['description'];
+            $new->save();
+            $dish->menu_id = $new->id;
+            $dish->save();
+        } else {
+            $new->save();
+            return to_route('menu')
+                ->with('success', 'Menu created successfully!');
+        }
         return to_route('menu')
             ->with('success', 'Menu created successfully!');
     }

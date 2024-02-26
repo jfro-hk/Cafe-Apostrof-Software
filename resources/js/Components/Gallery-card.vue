@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="gallery-card pa-5"
+    class="gallery-card pa-5 border-r"
     max-width="344"
     elevation="0"
     rounded

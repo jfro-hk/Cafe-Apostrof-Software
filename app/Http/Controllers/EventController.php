@@ -48,7 +48,17 @@ class EventController extends Controller
             ->with('error', 'Ops something wrong');
     }
     public function getEvents(){
-        $events = Event::select('id','title','description','start_date','end_date')->get();
-        return response()->json(['events' => $events]);
+        $events = Event::get();
+        $mappedEvents = $events->map(function ($event) {
+            return [
+                'id' => $event->id,
+                'title' => $event->title,
+                'start' => $event->start_date,
+                'end' => $event->end_date,
+                'description' => $event->description,
+
+            ];
+        });
+        return response()->json(['events' => $mappedEvents]);
     }
 }

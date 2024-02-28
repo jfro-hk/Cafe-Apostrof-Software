@@ -1,6 +1,7 @@
 <script setup>
 import {Link} from '@inertiajs/vue3'
 import BreadcrumbsComponent from "@/Components/Breadcrumbs.vue";
+import TopBar from "@/Components/TopBar.vue";
 </script>
 
 <template>
@@ -164,9 +165,49 @@ c8 -98 23 -146 57 -180 76 -76 224 13 245 147 3 25 11 45 16 45 12 0 2 -61
     <!--      <v-app-bar-nav-icon v-else @click.stop="rail = !rail" />-->
     <!--      <v-toolbar-title />-->
     <!--    </v-app-bar>-->
+    <v-navigation-drawer v-model="settingsDrawer" style="border: unset !important" color="#fff" location="end" :rail="rail">
+      <div class="mt-3 ml-3">
+        <h1>Settings</h1>
+      </div>
+      <div class="ma-3 mt-8">
+        <v-label class="font-reg">The opening video</v-label>
+
+        <v-text-field v-model="settingsData.video" class="input" placeholder="Url" variant="text"></v-text-field>
+
+        <v-label class="font-reg">Total tables</v-label>
+
+        <v-text-field v-model="settingsData.total_tables" class="input" type="number" min="1" placeholder="Tables" variant="text"></v-text-field>
+      </div>
+      <template #append>
+        <div class="d-flex justify-space-between ma-3">
+
+          <v-btn
+            variant="outlined"
+            color="#0E0F3D"
+            @click="settingsDrawer = false"
+            rounded
+          >
+            Close
+          </v-btn>
+          <v-btn
+            color="#0E0F3D"
+            @click="settingsApply"
+            rounded
+            variant="flat"
+          > Apply
+          </v-btn>
+        </div>
+      </template>
+    </v-navigation-drawer>
     <v-main>
       <v-container>
-        <BreadcrumbsComponent :items="breadcrumbs" class="pa-0 mt-1" />
+        <v-row class="justify-end">
+          <v-col cols="4">
+            <top-bar @settings="settingsDrawer = !settingsDrawer"/>
+          </v-col>
+        </v-row>
+
+        <BreadcrumbsComponent :items="breadcrumbs" class="pa-0 mt-1"/>
         <slot/>
       </v-container>
     </v-main>
@@ -178,12 +219,14 @@ import md5 from 'crypto-js/md5'
 import {useToast} from 'vue-toastification'
 // import NavigationMenu from '@/Components/NavigationMenu.vue'
 import navigation from '@/Configs/navigation.js'
+import {router, usePage} from "@inertiajs/vue3";
 
 export default {
   // components: { NavigationMenu },
   data() {
     return {
       drawer: false,
+      settingsDrawer: false,
       rail: false,
       breadcrumbs: [
         {
@@ -191,6 +234,27 @@ export default {
           disabled: true,
         },
       ],
+      settingsData:{
+        video:'',
+        total_tables:''
+      }
+    }
+  },
+  methods:{
+    ensureEmbedUrl(url) {
+      if (url){
+      if (url.includes('youtu.be') && !url.includes('embed')) {
+        url = url.replace('youtu.be', 'youtube.com/embed');
+      }
+
+      return url;
+      }
+    },
+    settingsApply(){
+      router.post(`/settings-update/${this.$page.props.auth.settings.id}`,{
+        video:this.ensureEmbedUrl(this.settingsData.video),
+        total_tables:this.settingsData.total_tables,
+      })
     }
   },
   computed: {
@@ -214,7 +278,11 @@ export default {
       },
     },
   },
+  // need fixing
   mounted() {
+
+    this.settingsData.video = usePage().props.auth.settings.video
+    this.settingsData.total_tables = usePage().props.auth.settings.total_tables
     this.drawer = !this.$vuetify.display.mobile
   },
 }

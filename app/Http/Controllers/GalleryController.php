@@ -5,14 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Gallery;
 use App\Models\Setting;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class GalleryController extends Controller
 {
     public function index()
     {
-//        dd('dd');
         $gallery = Gallery::get();
         $mappedGallery = $gallery->map(function ($media) {
             return [
@@ -81,7 +79,7 @@ class GalleryController extends Controller
 
             // Upload and store the new image file
             $imageName = $request->file('file')->getClientOriginalName();
-            $gallery->media = '/gallery/' . time() . '.' . $imageName;
+            $gallery->media = '/gallery/'.$imageName = time() . '.' . $imageName;
             $request->file->move(public_path('../public/gallery'), $imageName);
         }
 

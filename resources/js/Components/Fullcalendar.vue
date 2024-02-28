@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-card class="bg-white w-100" elevation="0">
-
       <!--    <v-row no-gutters class="wp">-->
       <!--      <v-col :cols="isSideDateVisible ? 3 : 1" class="col-right-s" :style="isSideDateVisible ? 'margin-left: 0.3.9rem;' : 'margin-left: 10.2px;'">-->
       <!--        <v-sheet class="pa-2 ma-2 wsheet">-->
@@ -87,7 +86,7 @@
                   <!--                  <input type="text" ref="search" class="input-search" placeholder="Type to Search..." />-->
 <!--                </div>-->
                 <v-select variant="outlined" class="bg-secondary-pr box-sh  rounded-pill" v-model="selectedView"
-                          :items="['Måned', 'Uge', 'Dag']" density="compact"/>
+                          :items="['Måned', 'Uge', 'Dag','liste']" density="compact"/>
               </div>
             </div>
           </v-sheet>
@@ -106,7 +105,8 @@
           <!--&lt;!&ndash;            <Filterchip title="Platform" :items="['test']" />&ndash;&gt;-->
           <!--&lt;!&ndash;            <Filterchip title="Status" :items="['test']" />&ndash;&gt;-->
           <!--          </div>-->
-          <fullcalendar :key="isSideDateVisible"  :events="events" :dayHeaderContent="customDayHeaderContent"
+<!--          {{eventData}}-->
+          <fullcalendar :key="isSideDateVisible"  :events="loadEvents" :dayHeaderContent="customDayHeaderContent"
                         :options="calendarOptions"
                         ref="fullCalendar"/>
         </v-col>
@@ -124,8 +124,11 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import fullcalendar from "@fullcalendar/vue3";
 import moment from 'moment'
-import {router} from "@inertiajs/vue3";
-import {getCurrentInstance} from "vue";
+import listPlugin from '@fullcalendar/list';
+
+// import {router} from "@inertiajs/vue3";
+// import {getCurrentInstance} from "vue";
+import axios from "axios";
 export default {
   components: {
     fullcalendar,
@@ -137,6 +140,7 @@ export default {
   data() {
     return {
       testy: '',
+      eventData:[],
       moment: moment,
       checkedDated: [],
       status: true,
@@ -149,14 +153,27 @@ export default {
         plugins: [
           dayGridPlugin,
           timeGridPlugin,
-          interactionPlugin
+          interactionPlugin,
+          listPlugin
         ],
         headerToolbar: {
           left: '',
           center: '',
           right: ''
         },
-        events: this.events,
+        // events: this.eventData,
+        events: () => {
+          return new Promise((resolve, reject) => {
+            axios.get('/get-events')
+              .then(response => {
+                resolve(response.data.events);
+              })
+              .catch(error => {
+                console.error('Error fetching events:', error);
+                reject(error);
+              });
+          });
+        },
         // dayNames:['Sunyy', 'Mony', 'Tuey', 'Wedy', 'Thu', 'Fri', 'Sat'],
         dayHeaderContent: this.customDayHeaderContent,
         weekNumberCalculation: 'local',
@@ -175,6 +192,7 @@ export default {
   },
   watch: {
     events(){
+      // this.eventData = this.events
       console.log(this.$refs.fullCalendar.getApi())
       this.updateCalendar()
       const calendarApi = this.$refs.fullCalendar.getApi();
@@ -184,7 +202,7 @@ export default {
       const calendarApi = this.$refs.fullCalendar.getApi();
       calendarApi.changeView(newView === 'Måned' ? 'dayGridMonth'
         : newView === 'Uge' ? 'timeGridWeek'
-          : newView === 'Dag' ? 'timeGridDay' : 'dayGridMonth');
+          : newView === 'Dag' ? 'timeGridDay' : newView === 'liste' ?  'listWeek' : 'dayGridMonth');
       this.currentDayName();
     },
 
@@ -198,37 +216,42 @@ export default {
     },
   },
   mounted() {
+    this.updateCalendar()
     this.currentDayName();
   },
   methods: {
-     updateCalendar() {
-       const internalInstance = getCurrentInstance();
-  // Fetch updated events data from API or database
-  router.post('/get-events', (data) => {
-   // const dataToRender = data.events.map(x => {
-   //    // x.start = x.timeFrom ? `${x.dateFrom}T${x.timeFrom}` : x.dateFrom;
-   //    // x.end = x.timeTo ? `${x.dateTo}T${x.timeTo}` : x.dateTo;
-   //    // if (!x.timeFrom) {
-   //    //   x.start = `${x.dateFrom}`
-   //    //   x.end = `${x.dateTo}`;
-   //    //   x.allDay = true
-   //    // }
-   //   // console.log(x)
-   //    return x;
-   //  });
-   // console.log(dataToRender)
-   console.log(data)
-   console.log(internalInstance)
-    // Call success() to pass updated events data to the calendar
-    // internalInstance.proxy.calendarOptions.events = (info, success) => {
-    //   success(dataToRender);
-    // }
+    loadEvents() {
+      return new Promise((resolve, reject) => {
+        axios.get('/get-events')
+          .then(response => {
+            resolve(response.data.events);
+          })
+          .catch(error => {
+            console.error('Error fetching events:', error);
+            reject(error);
+          });
+      });
+    },
+    updateCalendar() {
+      axios.get('/get-events')
+        .then(response => {
+          // const data = response.data;
+          this.eventData = response.data.events
+            // Map received data if necessary
+          // const dataToRender = data.events.map(x => {
+          //   // Modify data as needed
+          //   return x;
+          // });
+          // console.log(data);
 
-    // Call updateEvents() on calendarApi object to update events on the calendar
-    let calendarApi = this.$refs.calendar.getApi(); // Get calendarApi object
-    calendarApi.refetchEvents(); // Update events on the calendar
-  });
-},
+          // Refetch events on the calendar
+          // let calendarApi = this.$refs.calendar.getApi(); // Get calendarApi object
+          // calendarApi.refetchEvents(); // Update events on the calendar
+        })
+        .catch(error => {
+          console.error('Error fetching events:', error);
+        });
+  },
     calculateWeekNumber(date) {
       const getWeek = function (d) {
         d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
@@ -292,7 +315,6 @@ export default {
     }
 
   }
-
 }
 </script>
 <style scoped>

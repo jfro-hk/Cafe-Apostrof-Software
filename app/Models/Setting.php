@@ -9,6 +9,10 @@ use Illuminate\Support\Str;
 class Setting extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'video',
+        'total_tables'
+    ];
     static function generateSlug($title, $model)
     {
         // Generate slug from the title

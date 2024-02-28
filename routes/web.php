@@ -5,6 +5,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DisheController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,7 +43,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // Events
     Route::get('/calendar', [EventController::class, 'overview'])->name('calendar');
     Route::post('/add-event', [EventController::class, 'add'])->name('event.add');
-    Route::post('/get-events', [EventController::class, 'getEvents'])->name('event.get');
+    Route::get('/get-events', [EventController::class, 'getEvents'])->name('event.get');
+
+    Route::post('/settings-update/{id}', [SettingsController::class, 'update'])->name('settings.update');
 
 //        });
 });

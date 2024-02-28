@@ -98,7 +98,6 @@
       <!--      <Breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />-->
       <div class="heading-5 font-weight-bold fc-primary">Calendar</div>
     </div>
-    {{events}}
     <Fullcalendar :events="events" @selected-date="(date)=>{selectedDate = date}" />
   </AuthenticatedLayout>
 </template>
@@ -128,6 +127,7 @@ export default {
     addEvent:false,
     editMode:false,
     selectedEvent:[],
+    localEvents:[],
     event: {
       title: '',
       startDate: null,
@@ -137,6 +137,12 @@ export default {
     selectedDate:null
   }),
   watch:{
+    events: {
+      immediate: true,
+      handler(newEvents) {
+        this.localEvents = newEvents;
+      }
+    },
     selectedDate(val){
       if (val !== null){
       this.addEvent = true
@@ -156,6 +162,8 @@ export default {
         }, {
           onSuccess: () => {
             this.status = false
+            this.addEvent = false
+            this.event.title = ''
             this.$emit('status',this.status)
           }
         })

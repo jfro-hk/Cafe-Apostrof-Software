@@ -115,6 +115,7 @@
             Close
           </v-btn>
           <v-btn
+            v-if="editMode"
             variant="outlined"
             color="#0E0F3D"
             @click="deleteEvent"

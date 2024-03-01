@@ -43,7 +43,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::delete('/delete-gallery/{id}', [GalleryController::class, 'delete'])->name('gallery.delete');
     // Events
     Route::get('/calendar', [EventController::class, 'overview'])->name('calendar');
-    Route::post('/add-event', [EventController::class, 'add'])->name('event.add');
+    Route::post('/add-event/', [EventController::class, 'add'])->name('event.add');
     Route::post('/update-event/{id}', [EventController::class, 'update'])->name('event.update');
     Route::delete('/delete-event/{id}', [EventController::class, 'deleteEvent'])->name('event.delte');
     Route::get('/get-events', [EventController::class, 'getEvents'])->name('event.get');

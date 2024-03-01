@@ -20,11 +20,11 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" md="8" lg="8">
-        <CheckTable title="reservations" />
+      <v-col cols="12"  md="8" lg="8">
+        <CheckTable :data="reservations" title="reservations" />
       </v-col>
       <v-col cols="12" md="4" lg="4">
-        <CheckTable />
+        <CheckTable :data="events" />
       </v-col>
       <!--      <div class="task-table"></div>-->
     </v-row>
@@ -32,12 +32,15 @@
 </template>
 <script>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
-// import Head from '@inertiajs/vue3'
 import AnlyticCard from '@/Components/anlytic-card.vue'
 import CheckTable from '@/Components/dishes-table.vue'
 
 export default {
   name: 'DashboardPage',
+  props:{
+    reservations:Object,
+    events:Object,
+  },
   components: { CheckTable, AuthenticatedLayout, AnlyticCard },
 }
 </script>

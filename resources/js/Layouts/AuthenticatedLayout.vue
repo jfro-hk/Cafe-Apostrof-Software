@@ -6,7 +6,7 @@ import TopBar from "@/Components/TopBar.vue";
 
 <template>
   <v-app class="bg-grey-lighten-4 font">
-    <v-navigation-drawer v-model="drawer" style="border: unset !important" color="#fff" :rail="rail">
+    <v-navigation-drawer v-model="sidebarDrawer" style="border: unset !important" color="#fff" :rail="rail">
       <div class="logo pa-5 ml-7">
         <!--        <v-img width="100" height="100" src="https://i.postimg.cc/50QZTT0H/ca-logo-2-removebg.png"></v-img>-->
         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
@@ -14,7 +14,7 @@ import TopBar from "@/Components/TopBar.vue";
              preserveAspectRatio="xMidYMid meet">
 
           <g transform="translate(0.000000,791.000000) scale(0.100000,-0.100000)"
-             fill="#000000" stroke="none">
+             fill="#2B3674" stroke="none">
             <path d="M3715 7763 c-796 -48 -1550 -338 -2182 -838 -125 -99 -159 -129 -338
 -309 -558 -558 -917 -1267 -1040 -2049 -164 -1053 139 -2131 834 -2962 177
 -212 481 -492 721 -662 603 -428 1342 -679 2091 -709 l171 -7 -7 -76 c-4 -41
@@ -122,7 +122,7 @@ c8 -98 23 -146 57 -180 76 -76 224 13 245 147 3 25 11 45 16 45 12 0 2 -61
       <v-divider color="#A3AED0"></v-divider>
       <v-list nav>
         <!-- List Menu -->
-        <div class="side-items">
+        <div class="side-items d-flex flex-column ga-4">
           <Link
             v-for="(item, key) in navigation.items"
             :key="key"
@@ -133,7 +133,6 @@ c8 -98 23 -146 57 -180 76 -76 224 13 245 147 3 25 11 45 16 45 12 0 2 -61
             <v-list-item
               class="cursor-pointer w-100"
               :exact="item.exact"
-              :class="{ 'fc-primary': $page.url.startsWith(item.to) }"
             >
               <div class="d-flex justify-space-between align-center">
                 <div class="d-flex gap-12 align-center">
@@ -147,12 +146,12 @@ c8 -98 23 -146 57 -180 76 -76 224 13 245 147 3 25 11 45 16 45 12 0 2 -61
         <!-- Log Out -->
       </v-list>
       <template #append>
-        <div class="track-card pa-15 ml-3">
-          <div class="d-flex flex-column">
-            <span class="font-weight-bold ml-7 fc-white heading-5">Track</span>
-            <span class="ml-5">Your site</span>
-          </div>
-        </div>
+<!--        <div class="track-card pa-15 ml-3">-->
+<!--          <div class="d-flex flex-column">-->
+<!--            <span class="font-weight-bold ml-7 fc-white heading-5">Track</span>-->
+<!--            <span class="ml-5">Your site</span>-->
+<!--          </div>-->
+<!--        </div>-->
         <div class="pa-2">
           <Link href="/logout" method="post" as="div">
             <v-list-item prepend-icon="mdi-exit-to-app" title="Log Out" link/>
@@ -171,11 +170,8 @@ c8 -98 23 -146 57 -180 76 -76 224 13 245 147 3 25 11 45 16 45 12 0 2 -61
       </div>
       <div class="ma-3 mt-8">
         <v-label class="font-reg">The opening video</v-label>
-
         <v-text-field v-model="settingsData.video" class="input" placeholder="Url" variant="text"></v-text-field>
-
-        <v-label class="font-reg">Total tables</v-label>
-
+        <v-label class="font-reg">Total Chairs</v-label>
         <v-text-field v-model="settingsData.total_tables" class="input" type="number" min="1" placeholder="Tables" variant="text"></v-text-field>
       </div>
       <template #append>
@@ -202,11 +198,10 @@ c8 -98 23 -146 57 -180 76 -76 224 13 245 147 3 25 11 45 16 45 12 0 2 -61
     <v-main>
       <v-container>
         <v-row class="justify-end">
-          <v-col cols="4">
-            <top-bar @settings="settingsDrawer = !settingsDrawer"/>
+          <v-col cols="12">
+            <top-bar @sidebar="sidebarDrawer = !sidebarDrawer" @settings="settingsDrawer = !settingsDrawer"/>
           </v-col>
         </v-row>
-
         <BreadcrumbsComponent :items="breadcrumbs" class="pa-0 mt-1"/>
         <slot/>
       </v-container>
@@ -227,6 +222,7 @@ export default {
     return {
       drawer: false,
       settingsDrawer: false,
+      sidebarDrawer: false,
       rail: false,
       breadcrumbs: [
         {
@@ -283,7 +279,7 @@ export default {
 
     this.settingsData.video = usePage().props.auth.settings.video
     this.settingsData.total_tables = usePage().props.auth.settings.total_tables
-    this.drawer = !this.$vuetify.display.mobile
+    this.sidebarDrawer = !this.$vuetify.display.mobile
   },
 }
 </script>

@@ -17,10 +17,13 @@ class EventController extends Controller
                 'id' => $event->id,
                 'title' => $event->title,
                 'description' => $event->description,
-                'start' => $event->start_date,
-                'end' => $event->end_date,
+                'start_date' => $event->start_date,
+                'end_date' => $event->end_date,
+                'start_time' => Carbon::parse($event->start_time)->format('H:i:s'),
+                'end_time' => Carbon::parse($event->end_time)->format('H:i:s'),
             ];
         });
+//        dd($mappedEvents);
         return Inertia::render('Calendar', [
             'events' => $mappedEvents
         ]);
@@ -47,18 +50,51 @@ class EventController extends Controller
         return back()
             ->with('error', 'Ops something wrong');
     }
+    public function update(Request $request,$id)
+    {
+//        dd(Carbon::parse($request->startDate)->format('Y-m-d'));
+        $request->validate([
+            'title' => 'required',
+            'startDate' => 'required'
+        ]);
+
+        $update = Event::find($id);
+        $update->title = $request->title;
+        $update->start_date = Carbon::parse($request->startDate)->format('Y-m-d');
+        $update->end_date = $request->endDate !== null ?Carbon::parse($request->endDate)->format('Y-m-d'): null;
+        $update->start_time = $request->startTime;
+        $update->end_time = $request->endTime;
+        if ($update->save()) {
+            return back()
+                ->with('success', 'Event updated successfully!');
+        }
+        return back()
+            ->with('error', 'Ops something wrong');
+    }
+    function deleteEvent($id)
+    {
+        $event = Event::find($id)->delete();
+        if ($event) {
+            return back()
+                ->with('success', 'Event deleted successfully!');
+        }
+        return back()
+            ->with('error', 'Ops there is something wrong!');
+    }
     public function getEvents(){
         $events = Event::get();
         $mappedEvents = $events->map(function ($event) {
             return [
                 'id' => $event->id,
                 'title' => $event->title,
-                'start' => $event->start_date,
-                'end' => $event->end_date,
                 'description' => $event->description,
-
+                'start_date' => $event->start_date,
+                'end_date' => $event->end_date,
+                'start_time' => Carbon::parse($event->start_time)->format('H:i:s'),
+                'end_time' => Carbon::parse($event->end_time)->format('H:i:s'),
             ];
         });
         return response()->json(['events' => $mappedEvents]);
     }
+
 }

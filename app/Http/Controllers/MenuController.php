@@ -33,7 +33,16 @@ class MenuController extends Controller
         $new->save();
     }
 
-
+    function deleteCategory($id)
+    {
+        $category = Category::find($id)->delete();
+        if ($category) {
+            return back()
+                ->with('success', 'Category deleted successfully!');
+        }
+        return back()
+            ->with('error', 'Ops there is something wrong!');
+    }
     public function createMenu(Request $request)
     {
 //        dd($request->all());

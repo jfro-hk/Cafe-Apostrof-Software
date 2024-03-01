@@ -239,9 +239,15 @@ main {
 //}
 
 .side-items-active {
+    background: #2B3674;
+    padding: 5px;
+    border-radius: 9px;
+    span{
+        color: #fff !important;
+    }
     svg {
         path {
-            fill: $primary-2 !important;
+            fill: #fff !important;
         }
     }
 }

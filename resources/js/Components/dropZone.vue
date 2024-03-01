@@ -5,7 +5,11 @@
              v-bind="getInputProps({ multiple: props.multiple })"/>
       <div class="dropzone-content">
         <slot v-if="!isDragActive"></slot>
-        <slot v-if="isDragActive" name="dragActive"></slot>
+        <slot v-if="isDragActive" name="dragActive">
+          <div class="pa-15 border-dotted">
+           <h4 class="text-center"> Drop here</h4>
+          </div>
+        </slot>
       </div>
       <slot v-if="errorMessage" name="error">
         <div v-if="errorMessage" class="text-primary">{{ errorMessage }}</div>
@@ -62,7 +66,7 @@ const props = defineProps({
 
 const errorMessage = ref('');
 
-let emit = defineEmits(['previews','acceptFiles','currentType'])
+let emit = defineEmits(['previews', 'acceptFiles', 'currentType'])
 const data = reactive({
   files: new Set(),
 });
@@ -75,18 +79,18 @@ const onDrop = (acceptFiles) => {
 
     if (acceptFiles.length <= props.max) {
 
-        allData.value = acceptFiles
+      allData.value = acceptFiles
 
-        emit('currentType', acceptFiles[0].type);
+      emit('currentType', acceptFiles[0].type);
 
-        data.value = acceptFiles;
-        const uniqueFiles = acceptFiles.filter(file => !data.files.has(file.path));
-        filesWithPreview = uniqueFiles.map(file => ({...file, preview: URL.createObjectURL(file), type: file.type}));
-        data.files = new Set([...data.files, ...filesWithPreview]);
+      data.value = acceptFiles;
+      const uniqueFiles = acceptFiles.filter(file => !data.files.has(file.path));
+      filesWithPreview = uniqueFiles.map(file => ({...file, preview: URL.createObjectURL(file), type: file.type}));
+      data.files = new Set([...data.files, ...filesWithPreview]);
 
-        emit('previews', filesWithPreview)
-        emit('acceptFiles', acceptFiles);
-        errorMessage.value = null
+      emit('previews', filesWithPreview)
+      emit('acceptFiles', acceptFiles);
+      errorMessage.value = null
     } else {
       errorMessage.value = `You can not add more then (${props.max}) Images.`;
     }
@@ -102,9 +106,9 @@ const {getRootProps, getInputProps, isDragActive} = useDropzone({
   multiple: true
 });
 watch(() => allData.value, (val) => {
-  if (val.length <= props.max - 2){
+  if (val.length <= props.max - 2) {
     multiplyAccord.value = true
-  }else {
+  } else {
     multiplyAccord.value = false
   }
 })

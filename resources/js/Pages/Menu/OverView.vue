@@ -38,6 +38,30 @@
             <v-card-text class="mt-5">
               <v-text-field class="input" v-model="category.title" variant="text"
                             placeholder="Category Title"></v-text-field>
+              <div class="app-table">
+                <v-table>
+                  <thead>
+                  <tr>
+                    <th class="text-left">
+                      Name
+                    </th>
+                    <th class="text-left">
+                      Action
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr
+                    v-for="item in categories"
+                    :key="item.name"
+                  >
+                    <td>{{ item.name }}</td>
+                    <td><v-btn color="#2B3674" @click="deleteCategory(item.id)" rounded elevation="0">Delete</v-btn></td>
+                  </tr>
+                  </tbody>
+                </v-table>
+
+              </div>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -214,6 +238,10 @@ export default {
     }
   }),
   methods: {
+    deleteCategory(id){
+      router.delete(`delete-category/${id}`, {
+      })
+    },
     addCategory() {
       // route('addCategory')
       router.post('add-category', {

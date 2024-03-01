@@ -145,6 +145,7 @@ export default {
       checkedDated: [],
       status: true,
       search: false,
+      // eventDrop: this.handleEventDrop,
       selectedDate: new Date,//moment(new Date).format('YYYY-MM-DD'),
       isSideDateVisible: true,
       selectedView: 'Måned',
@@ -162,11 +163,49 @@ export default {
           right: ''
         },
         // events: this.eventData,
+        // events: (info, success) => {
+        //   axios.get('/get-events')
+        //     .then(response => {
+        //       let dataToRender = response.events.map(x => {
+        //         x.title:x.title
+        //         start = x.start_date ? `${x.start_date}T${x.start_time}` : x.start_date;
+        //         x.end = x.end_date ? `${x.end_date}T${x.end_time}` : x.end_date;
+        //         // x.end = x.timeTo ? `${x.dateTo}T${x.timeTo}` : x.dateTo;
+        //         // if (!x.start_time) {
+        //         //
+        //         //   // x.displayEventTime = false
+        //         //   x.start = `${x.dateFrom}`
+        //         //   x.end = `${x.dateTo}`;
+        //         //   x.allDay = true
+        //         // }
+        //         return x;
+        //       });
+        //       success(dataToRender);
+        //     })
+        // },
+        //   events: [
+        //     {
+        //       title: 'BCH237',
+        //       start: '2024-04-12T10:30:00',
+        //       end: '2024-04-12T11:30:00',
+        //     }
+        //     ],
         events: () => {
           return new Promise((resolve, reject) => {
             axios.get('/get-events')
               .then(response => {
-                resolve(response.data.events);
+                const formattedEvents = response.data.events.map(event => {
+
+                  // Update event object with formatted start and end dates
+                  return {
+                    ...event,
+                    title: event.title,
+                    start: event.start_date ? `${event.start_date}T${event.start_time}` : '' ,
+                    end: event.end_date ? `${event.end_date}T${event.end_time}` : '',
+                  };
+                });
+
+                resolve(formattedEvents);
               })
               .catch(error => {
                 console.error('Error fetching events:', error);
@@ -174,7 +213,11 @@ export default {
               });
           });
         },
+
+
         // dayNames:['Sunyy', 'Mony', 'Tuey', 'Wedy', 'Thu', 'Fri', 'Sat'],
+        eventClick: this.handleEventClick,
+
         dayHeaderContent: this.customDayHeaderContent,
         weekNumberCalculation: 'local',
         initialView: 'dayGridMonth',
@@ -220,6 +263,9 @@ export default {
     this.currentDayName();
   },
   methods: {
+    handleEventClick(event){
+      this.$emit('selected-event',event.event)
+    },
     loadEvents() {
       return new Promise((resolve, reject) => {
         axios.get('/get-events')

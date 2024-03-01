@@ -4,40 +4,58 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Dishe;
+use App\Models\Event;
 use App\Models\Gallery;
 use App\Models\Menu;
+use App\Models\Setting;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Models\Reservation;
+use Illuminate\Validation\Rule;
 
 class ApiController extends Controller
 {
     public function add(Request $request)
     {
+//        return $request->all();
         // Validate the incoming request data
         $request->validate([
             'fullname' => 'required|string',
             'email' => 'nullable|email',
             'number' => 'nullable|string',
             'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
+            'time' => 'required',
             'antal' => 'required|integer|min:1',
         ]);
+        $settings = Setting::first();
+        $totalReservations = Reservation::count();
+        if ($totalReservations < $settings->total_tables) {
+            // Create a new Reservation instance
+            $reservation = new Reservation();
+            $reservation->fullname = $request->fullname;
+            $reservation->email = $request->email;
+            $reservation->number = $request->number;
+            $reservation->date = Carbon::parse($request->date)->format('Y-m-d');
+            $reservation->time = $request->time;
+            $reservation->antal = $request->antal;
+            $reservation->description = $request->description;
 
-        // Create a new Reservation instance
-        $reservation = new Reservation();
-        $reservation->fullname = $request->fullname;
-        $reservation->email = $request->email;
-        $reservation->number = $request->number;
-        $reservation->date = $request->date;
-        $reservation->time = $request->time;
-        $reservation->antal = $request->antal;
+            // Save the reservation
+            if ($reservation->save()) {
+                $event = new Event();
+                $event->title = $reservation->fullname;
+                $event->start_date = $reservation->date;
+                $event->start_time = $reservation->time;
+                $event->description = $reservation->description;
+                $event->save();
+//            $event->end_time = $request->endTime;
+            }
+            return response()->json(200, 201);
 
-        // Save the reservation
-        $reservation->save();
-
-        // Optionally, you can return a response indicating success or redirect to a specific route
-        return response()->json(['message' => 'Reservation added successfully'], 201);
+        } else {
+            return response()->json(204, 201);
+        }
     }
 
     public function getGallery()
@@ -54,6 +72,7 @@ class ApiController extends Controller
         });
         return response()->json([$mappedGallery], 201);
     }
+
     public function getMenu()
     {
         // Fetch all categories
@@ -107,4 +126,22 @@ class ApiController extends Controller
 
         return response()->json($categories, 201);
     }
+
+    public function getSettings()
+    {
+        $settings = Setting::first();
+        $opening_times = [];
+
+        // Check if $settings->opening_times is not empty
+        if (!empty($settings->opening_times)) {
+            // Split the string into an array using the delimiter (assuming it's comma)
+            $opening_times = explode(',', $settings->opening_times);
+        }
+
+        // Assuming you want to include the opening_times array in the response
+        $settings->opening_times = $opening_times;
+
+        return response()->json($settings, 201);
+    }
+
 }

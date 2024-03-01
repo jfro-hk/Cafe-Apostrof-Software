@@ -48,6 +48,7 @@
           At {{ moment(new Date()).format('YYYY MMM DD') }}
         </div>
       </v-img>
+
       </div>
     </drop-zone>
     <div v-if="errors.file" class="mt-1 mb-1" style="color: red"> {{ errors.file }}</div>

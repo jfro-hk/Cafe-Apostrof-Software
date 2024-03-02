@@ -29,8 +29,9 @@ class ApiController extends Controller
             'antal' => 'required|integer|min:1',
         ]);
         $settings = Setting::first();
+        $totalTablesSum = Reservation::sum('antal');
         $totalReservations = Reservation::count();
-        if ($totalReservations < $settings->total_tables) {
+        if ($totalTablesSum < $settings->total_tables) {
             // Create a new Reservation instance
             $reservation = new Reservation();
             $reservation->fullname = $request->fullname;

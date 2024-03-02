@@ -5,6 +5,9 @@
       <template v-slot:[`item.price`]="{ item }">
         ${{ item.price }}
       </template>
+      <template v-slot:[`item.category`]="{ item }">
+        {{ item.category.name }}
+      </template>
       <template v-slot:[`item.action`]="{ item }" v-if="type == 'editable'">
         <div style="position: relative;right: calc(100% - 50px);">
           <TableOption @edit="$emit('edit');handleSelection(item)" @delete="handleDelete(item.action)" :id="item.action"/>

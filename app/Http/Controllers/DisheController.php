@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Dishe;
 use App\Models\Menu;
 use Illuminate\Http\Request;
@@ -12,18 +13,35 @@ class DisheController extends Controller
     public function index($slug)
     {
         $menu = Menu::where('slug', $slug)->first();
-        $dishes = Dishe::select('id','menu_id', 'title', 'price', 'description')->orderBy('created_at','DESC')->where('menu_id', $menu->id)->get();
+        $categories = Category::select('name', 'id')->where('menu_id',$menu->id)->get();
+
+        $dishes = Dishe::select('dishes.id', 'dishes.menu_id', 'dishes.title', 'dishes.price', 'dishes.description',
+            'categories.id as category_id',
+            'categories.name as category_name')
+            ->join('categories', 'dishes.category_id', '=', 'categories.id')
+//            ->join('categories', 'menus.category_id', '=', 'categories.id')
+            ->orderBy('dishes.created_at', 'DESC')
+            ->where('dishes.menu_id', $menu->id)
+            ->get();
 
         $mappedDishes = $dishes->map(function ($dish) {
             return [
                 'title' => $dish->title,
                 'price' => $dish->price,
                 'description' => $dish->description,
+                'menu_id' => $dish->menu_id,
+                'category' => [
+                    'id' => $dish->category_id,
+                    'name' => $dish->category_name,
+                ],
                 'action' => $dish->id,
             ];
         });
 
+//dd($dishes);
+
         return Inertia::render('Menu/View', [
+            'categories' => $categories,
             'menu' => $menu,
             'dishes' => $mappedDishes,
         ]);
@@ -50,6 +68,7 @@ class DisheController extends Controller
         $dish->title = $request->title;
         $dish->price = $request->price;
         $dish->description = $request->description;
+        $dish->category_id = $request->category;
         $dish->menu_id = $request->menu_id;
         $dish->save();
 
@@ -76,7 +95,8 @@ class DisheController extends Controller
         $dish->title = $request->title;
         $dish->price = $request->price;
         $dish->description = $request->description;
-        $dish->menu_id = $request->menu_id;;
+        $dish->category_id = $request->category;
+        $dish->menu_id = $request->menu_id;
         $dish->save();
 
 

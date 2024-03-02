@@ -8,6 +8,42 @@
       <edit-menu @close="editMenu = !editMenu" :data="editData"
                  @status="(status)=>{!status?editMenu = false: editMenu = true}" :categories="categories"/>
     </v-dialog>
+    <v-dialog
+      v-model="addMenu"
+      persistent
+      width="500"
+    >
+      <v-card>
+        <!--    {{selectedDish}}-->
+        <v-card-title>
+          <span class="text-h5">{{editMode? 'Edit Dish' :'Add Dish'}}</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col
+                cols="12"
+              >
+      <v-col cols="12">
+<!--        <span class="font-weight-bold">The menu title:</span>-->
+        <v-text-field hide-details="auto" class="input" v-model="menu.title"
+                      :rules="[value => !!value || 'The title field is required']" variant="text"
+                      placeholder="Title"></v-text-field>
+      </v-col>
+    <div class="d-flex ga-4 justify-end">
+      <v-btn @click="addMenu = !addMenu" elevation="0" variant="outlined" color="#0E0F3D" rounded>
+        Close
+      </v-btn>
+      <v-btn @click="createMenu" elevation="0" color="#0E0F3D" rounded>
+        Add
+      </v-btn>
+    </div>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
     <div class="mb-5">
       <!--      <Breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />-->
       <div class="heading-5 font-weight-bold fc-primary">Menu's</div>
@@ -23,101 +59,46 @@
         </v-btn>
       </div>
     </div>
-    <v-navigation-drawer v-model="addMenu" class="add-menu-drawer" location="right" width="600">
+    <v-navigation-drawer v-model="drawer" class="add-menu-drawer" location="right" width="600">
       <div class="d-flex justify-end ma-5">
-        <v-btn icon variant="text" rounded @click="addMenu = !addMenu">
+        <v-btn icon variant="text" rounded @click="drawer = !drawer">
           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
             <path d="M2 26L14 14M14 14L26 2M14 14L2 2M14 14L26 26" stroke="#A3AED0" stroke-width="4"
                   stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </v-btn>
       </div>
-      <v-dialog v-model="ShowCate" width="500">
-        <template v-slot:[`default`]>
-          <v-card title="Add Category">
-            <v-card-text class="mt-5">
-              <v-text-field class="input" v-model="category.title" variant="text"
-                            placeholder="Category Title"></v-text-field>
-              <div class="app-table">
-                <v-table>
-                  <thead>
-                  <tr>
-                    <th class="text-left">
-                      Name
-                    </th>
-                    <th class="text-left">
-                      Action
-                    </th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr
-                    v-for="item in categories"
-                    :key="item.name"
-                  >
-                    <td>{{ item.name }}</td>
-                    <td><v-btn color="#2B3674" @click="deleteCategory(item.id)" rounded elevation="0">Delete</v-btn></td>
-                  </tr>
-                  </tbody>
-                </v-table>
-
-              </div>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-
-              <v-btn
-                text="Close"
-                color="#2B3674"
-                variant="outlined"
-                rounded
-                @click="ShowCate = false"
-              ></v-btn>
-              <v-btn
-                text="Save"
-                color="#2B3674"
-                rounded
-                variant="flat"
-                @click="addCategory"
-              ></v-btn>
-            </v-card-actions>
-          </v-card>
-        </template>
-      </v-dialog>
+<!--      <v-dialog v-model="ShowCate" width="500">-->
+<!--        <template v-slot:[`default`]>-->
+<!--         -->
+<!--        </template>-->
+<!--      </v-dialog>-->
       <div class="mt-16">
         <v-stepper
           ref="stepper"
           editable
           hide-actions
-          :items="['Menu & Category', 'Dishes']"
+          :items="['Menu','Category', 'Dishes']"
         >
           <template v-slot:[`item.1`]>
-            <div class="d-flex justify-end mb-3 align-center">
-              <span class="mr-5 font-weight-bold">Add Category: </span>
-              <v-btn size="small" elevation="0" style="width: 30px; height: 50px;border-radius: 49px" rounded
-                     color="#0E0F3D"
-                     @click="ShowCate = !ShowCate">
-                <v-icon>mdi-plus</v-icon>
-              </v-btn>
-            </div>
             <v-card elevation="0" flat>
               <h4 class="heading-5">Add menu</h4>
               <v-form validate-on="input lazy" v-model="valid">
                 <v-row class="mt-4">
-                  <v-col cols="6">
+                  <v-col cols="12">
                     <span class="font-weight-bold">The menu title:</span>
                     <v-text-field hide-details="auto" class="input" v-model="menu.title"
                                   :rules="[value => !!value || 'The title field is required']" variant="text"
                                   placeholder="Title"></v-text-field>
                   </v-col>
-                  <v-col cols="6">
-                    <span class="font-weight-bold">Select category:</span>
-                    <v-combobox class="input" variant="text" :items="categories"
-                                item-title="name"
-                                item-value="id"
-                                :rules="[value => !!value || 'Select a category']"
-                                v-model="menu.category" placeholder="Category"></v-combobox>
-                  </v-col>
+<!--                  <v-col cols="6">-->
+<!--                    <span class="font-weight-bold">Select category:</span>-->
+<!--                    <v-combobox class="input" variant="text" :items="categories"-->
+<!--                                item-title="name"-->
+<!--                                item-value="id"-->
+<!--                                :rules="[value => !!value || 'Select a category']"-->
+<!--                                v-model="menu.category" placeholder="Category"></v-combobox>-->
+<!--                  </v-col>-->
                   <v-col cols="12">
                     <div class="d-flex justify-center">
                       <!--                    <span class="position-absolute font-weight-bold">Add Dishes</span>-->
@@ -132,7 +113,50 @@
             </v-card>
           </template>
           <template v-slot:[`item.2`]>
-            <v-card elevation="0" title="Add Dish" flat>
+            <v-card>
+              <h4 class="heading-5">Add Category</h4>
+              <v-card-text class="mt-5">
+                <v-text-field class="input" v-model="dish.category" variant="text"
+                              placeholder="Category Title"></v-text-field>
+                <v-col cols="12">
+                  <div class="d-flex justify-center">
+                    <!--                    <span class="position-absolute font-weight-bold">Add Dishes</span>-->
+                    <v-btn @click="next" elevation="0" color="#0E0F3D" size="large" rounded>
+                      Next
+                    </v-btn>
+                  </div>
+
+                </v-col>
+<!--                <div class="app-table">-->
+<!--                  <v-table>-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                      <th class="text-left">-->
+<!--                        Name-->
+<!--                      </th>-->
+<!--                      <th class="text-left">-->
+<!--                        Action-->
+<!--                      </th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                    <tr-->
+<!--                      v-for="item in categories"-->
+<!--                      :key="item.name"-->
+<!--                    >-->
+<!--                      <td>{{ item.name }}</td>-->
+<!--                      <td><v-btn color="#2B3674" @click="deleteCategory(item.id)" rounded elevation="0">Delete</v-btn></td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                  </v-table>-->
+
+<!--                </div>-->
+              </v-card-text>
+            </v-card>
+          </template>
+          <template v-slot:[`item.3`]>
+            <v-card elevation="0" flat>
+              <h4 class="heading-5">Add Dish</h4>
               <v-row>
                 <v-col
                   cols="12"
@@ -175,9 +199,9 @@
 
               </v-row>
              <div class="d-flex justify-end mt-5 ga-2">
-               <v-btn @click="createMenu" elevation="0" color="#0E0F3D" variant="outlined" rounded>
-                 Later
-               </v-btn>
+<!--               <v-btn @click="createMenu" elevation="0" color="#0E0F3D" variant="outlined" rounded>-->
+<!--                 Later-->
+<!--               </v-btn>-->
                <v-btn @click="createMenu" elevation="0" color="#0E0F3D" rounded>
                  Finish
                </v-btn>
@@ -211,6 +235,7 @@ export default {
   props: {categories: Array, menus: Object, errors: Object},
   data: () => ({
     valid: false,
+    drawer: false,
     addMenu: false,
     editMenu: false,
     ShowCate: false,
@@ -229,12 +254,12 @@ export default {
     },
     menu: {
       title: '',
-      category: null
     },
     dish: {
       title: '',
       description: '',
-      price: null
+      price: null,
+      category: null,
     }
   }),
   methods: {
@@ -245,10 +270,10 @@ export default {
     addCategory() {
       // route('addCategory')
       router.post('add-category', {
-          title: this.category.title,
+          title: this.dish.category,
           onSuccess: () => {
             this.ShowCate = false
-            this.category.title = ''
+            this.dish.category = ''
           }
         }
       )

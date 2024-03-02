@@ -9,8 +9,7 @@
           <v-row>
             <v-col
               cols="12"
-              sm="6"
-              md="6"
+
             >
               <v-text-field
                 class="input"
@@ -21,22 +20,22 @@
                 required
               ></v-text-field>
             </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-              md="6"
-            >
-              <v-combobox
-                class="input"
-                variant="text"
-                :items="categories"
-                item-title="name"
-                item-value="id"
-                :rules="[value => !!value || 'Select a category']"
-                v-model="editData.category_id"
-                placeholder="Category"
-              ></v-combobox>
-            </v-col>
+<!--            <v-col-->
+<!--              cols="12"-->
+<!--              sm="6"-->
+<!--              md="6"-->
+<!--            >-->
+<!--              <v-combobox-->
+<!--                class="input"-->
+<!--                variant="text"-->
+<!--                :items="categories"-->
+<!--                item-title="name"-->
+<!--                item-value="id"-->
+<!--                :rules="[value => !!value || 'Select a category']"-->
+<!--                v-model="editData.category_id"-->
+<!--                placeholder="Category"-->
+<!--              ></v-combobox>-->
+<!--            </v-col>-->
 
             <v-col cols="12">
               <v-textarea
@@ -81,7 +80,6 @@ export default {
       editData: {
         title: this.data.title,
         description: this.data.description,
-        category_id: this.data.category_id
       },
       status: true
     };
@@ -90,7 +88,6 @@ export default {
     update() {
       router.post(`update-menu/${this.data.id}`, {
         title: this.editData.title,
-        category: this.editData.category_id,
         description: this.editData.description
       }, {
         onSuccess: () => {

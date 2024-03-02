@@ -22,15 +22,18 @@ class MenuController extends Controller
         ]);
     }
 
-    function addCategory(Request $request)
+    function addCategory(Request $request, $id)
     {
-        $request->validate([
-            'title' => 'required'
-        ]);
+//        dd($request->all());
+//        $request->validate([
+//            'title' => 'required'
+//        ]);
         $new = new Category();
         $new->name = $request->title;
+        $new->menu_id = $id;
         $new->slug = Setting::generateSlug($request->title, Category::class);
         $new->save();
+
     }
 
     function deleteCategory($id)
@@ -43,13 +46,13 @@ class MenuController extends Controller
         return back()
             ->with('error', 'Ops there is something wrong!');
     }
+
     public function createMenu(Request $request)
     {
 //        dd($request->all());
 
         $request->validate([
             'title' => 'required',
-            'category' => 'required'
         ]);
 //        $categoryId = null;
 //        foreach ($request->category as $cate) {
@@ -57,32 +60,72 @@ class MenuController extends Controller
 
 //        $check = Category::where('id', $request->category)->first();
 //                if ($check) {
-        $categoryId = $request->category['id']; //$check->id;
+//        $categoryId = $request->category['id']; //$check->id;
 //                }
 //            }
 //        }
         $new = new Menu();
         $new->title = $request->title;
-        $new->category_id = $categoryId;
         $new->slug = Setting::generateSlug($request->title, Menu::class);
 
-        if ($request->dish['title']
-            !== null && $request->dish['price']
-            !== null && $request->dish['description'] !== null) {
-            $dish = new Dishe();
-            $dish->title = $request->dish['title'];
-            $dish->price = $request->dish['price'];
-            $dish->description = $request->dish['description'];
-            $new->save();
-            $dish->menu_id = $new->id;
-            $dish->save();
-        } else {
-            $new->save();
-            return to_route('menu')
-                ->with('success', 'Menu created successfully!');
+//        $this->addCategory($request->category);
+//        if ($request->dish['title'] !== null && $request->dish['price'] !== null) {
+//            $dish = new Dishe();
+//
+//            $dish->title = $request->dish['title'];
+//            $dish->price = $request->dish['price'];
+//            $dish->description = $request->dish['description'];
+//
+//            $new->save();
+//
+//            $dish->menu_id = $new->id;
+//            $dish->save();
+//        } else {
+        $new->save();
+        if ($request->dish['title'] !== null && $request->dish['price'] !== null) {
+        $category = new Category();
+        $category->name = $request->dish['category'];
+        $category->menu_id = $new->id;
+        $category->slug = Setting::generateSlug($request->title, Category::class);
+        $category->save();
+        $this->addDish($new->id, $category->id, $request->dish);
         }
+
         return to_route('menu')
             ->with('success', 'Menu created successfully!');
+//       }
+//        return to_route('menu')
+//            ->with('success', 'Menu created successfully!');
+    }
+
+    public function addDish($menuId, $categoryId, $data)
+    {
+
+//        $request->validate([
+//            'title' => 'required|string|max:255',
+//            'description' => 'nullable|string',
+//            'price' => 'required|integer',
+//        ]);
+//        dd($menuId);
+        $menu = Menu::find($menuId);
+
+        $dish = new Dishe();
+//        dd($request->all());
+
+        if (!$menu || !$dish) {
+            return back()
+                ->with('error', 'Ops something wrong!');
+        }
+        $dish->title = $data['title'];
+        $dish->price = $data['price'];
+        $dish->description = $data['description'];
+        $dish->menu_id = $menuId;
+        $dish->category_id = $categoryId;
+        $dish->save();
+
+        return back()
+            ->with('success', 'Dish added successfully!');
+//        return response()->json(['message' => 'Item added successfully'], 200);
     }
 
     public function edit($id)

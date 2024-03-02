@@ -25,7 +25,7 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/menu', [MenuController::class, 'index'])->name('menu');
-    Route::post('/add-category', [MenuController::class, 'addCategory'])->name('addCategory');
+    Route::post('/add-category/{menuId}', [MenuController::class, 'addCategory'])->name('addCategory');
     Route::delete('/delete-category/{id}', [MenuController::class, 'deleteCategory'])->name('deleteCategory');
     Route::post('/create-menu', [MenuController::class, 'createMenu'])->name('createMenu');
     Route::delete('/delete-menu/{id}', [MenuController::class, 'delete'])->name('deleteMenu');
@@ -45,7 +45,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/calendar', [EventController::class, 'overview'])->name('calendar');
     Route::post('/add-event/', [EventController::class, 'add'])->name('event.add');
     Route::post('/update-event/{id}', [EventController::class, 'update'])->name('event.update');
-    Route::delete('/delete-event/{id}', [EventController::class, 'deleteEvent'])->name('event.delte');
+    Route::delete('/delete-event/{id}', [EventController::class, 'deleteEvent'])->name('event.delete');
     Route::get('/get-events', [EventController::class, 'getEvents'])->name('event.get');
 
     Route::post('/settings-update/{id}', [SettingsController::class, 'update'])->name('settings.update');

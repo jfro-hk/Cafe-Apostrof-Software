@@ -1,11 +1,22 @@
 <template>
   <v-card>
+<!--    {{selectedDish}}-->
         <v-card-title>
-          <span class="text-h5">Add Dish</span>
+          <span class="text-h5">{{editMode? 'Edit Dish' :'Add Dish'}}</span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
+              <v-col
+                cols="12"
+              >
+              <span class="font-weight-bold">Select category:</span>
+              <v-combobox class="input" variant="text" :items="categories"
+                          item-title="name"
+                          item-value="id"
+                          :rules="[value => !!value || 'Select a category']"
+                          v-model="dish.category" placeholder="Category"></v-combobox>
+              </v-col>
               <v-col
                 cols="12"
                 sm="6"
@@ -44,6 +55,7 @@
                             v-model="dish.description"
                             class="input-textarea" placeholder="Description"></v-textarea>
               </v-col>
+
             </v-row>
           </v-container>
         </v-card-text>
@@ -71,7 +83,7 @@
 import {router} from "@inertiajs/vue3";
 
 export default {
-  props:{selectedMenu:Object,editMode:Boolean,selectedDish:Object},
+  props:{selectedMenu:Object,editMode:Boolean,selectedDish:Object,categories:Array},
   data() {
     return {
       titleRules: [
@@ -86,7 +98,8 @@ export default {
       dish: {
         title: this.editMode ? this.selectedDish.title:'',
         description: this.editMode ? this.selectedDish.description: '',
-        price: this.editMode ? this.selectedDish.price : null
+        price: this.editMode ? this.selectedDish.price : null,
+        category: this.editMode ? this.selectedDish.category : null
       },
       status: false
     };
@@ -103,6 +116,7 @@ export default {
           title: this.dish.title,
           price: this.dish.price,
           description: this.dish.description,
+          category: this.dish.category.id,
           menu_id: this.selectedMenu.id,
         }, {
           onSuccess: () => {

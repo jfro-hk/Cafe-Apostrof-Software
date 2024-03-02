@@ -29,7 +29,7 @@ class DisheController extends Controller
                 'title' => $dish->title,
                 'price' => $dish->price,
                 'description' => $dish->description,
-                'menu_id' => $dish->menu_id,
+//                'menu_id' => $dish->menu_id,
                 'category' => [
                     'id' => $dish->category_id,
                     'name' => $dish->category_name,

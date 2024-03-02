@@ -27,7 +27,7 @@ class DashboardController extends Controller
                 'created_at' => Carbon::parse($reservation->date)->format('Y/m/d'),
             ];
         });
-        $events = Event::get();
+        $events = Event::select('id','title','start_date','end_date','start_time','end_time')->orderBy('created_at','DESC')->get();
         $mappedEvents = $events->map(function ($event) {
             return [
                 'id' => $event->id,

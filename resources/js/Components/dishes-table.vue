@@ -3,7 +3,7 @@
     <h5 class="heading-5 text-capitalize">{{ title }}</h5>
     <v-data-table v-model="selected" :items="data" item-value="action" show-select>
       <template v-slot:[`item.price`]="{ item }">
-        ${{ item.price }}
+        {{ item.price }},-
       </template>
       <template v-slot:[`item.category`]="{ item }">
         {{ item.category.name }}

@@ -276,7 +276,6 @@ export default {
   },
   // need fixing
   mounted() {
-
     this.settingsData.video = usePage().props.auth.settings.video
     this.settingsData.total_tables = usePage().props.auth.settings.total_tables
     this.sidebarDrawer = !this.$vuetify.display.mobile

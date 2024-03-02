@@ -20,7 +20,7 @@ class DisheController extends Controller
             'categories.name as category_name')
             ->join('categories', 'dishes.category_id', '=', 'categories.id')
 //            ->join('categories', 'menus.category_id', '=', 'categories.id')
-            ->orderBy('dishes.created_at', 'DESC')
+            ->orderBy('categories.name', 'DESC')
             ->where('dishes.menu_id', $menu->id)
             ->get();
 

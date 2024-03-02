@@ -16,7 +16,7 @@
       <v-card>
         <!--    {{selectedDish}}-->
         <v-card-title>
-          <span class="text-h5">{{editMode? 'Edit Dish' :'Add Dish'}}</span>
+          <span class="text-h5">Add Menu</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -24,20 +24,20 @@
               <v-col
                 cols="12"
               >
-      <v-col cols="12">
-<!--        <span class="font-weight-bold">The menu title:</span>-->
-        <v-text-field hide-details="auto" class="input" v-model="menu.title"
-                      :rules="[value => !!value || 'The title field is required']" variant="text"
-                      placeholder="Title"></v-text-field>
-      </v-col>
-    <div class="d-flex ga-4 justify-end">
-      <v-btn @click="addMenu = !addMenu" elevation="0" variant="outlined" color="#0E0F3D" rounded>
-        Close
-      </v-btn>
-      <v-btn @click="createMenu" elevation="0" color="#0E0F3D" rounded>
-        Add
-      </v-btn>
-    </div>
+                <v-col cols="12">
+                  <!--        <span class="font-weight-bold">The menu title:</span>-->
+                  <v-text-field hide-details="auto" class="input" v-model="menu.title"
+                                :rules="[value => !!value || 'The title field is required']" variant="text"
+                                placeholder="Title"></v-text-field>
+                </v-col>
+                <div class="d-flex ga-4 justify-end">
+                  <v-btn @click="addMenu = !addMenu" elevation="0" variant="outlined" color="#0E0F3D" rounded>
+                    Close
+                  </v-btn>
+                  <v-btn @click="createMenu" elevation="0" color="#0E0F3D" rounded>
+                    Add
+                  </v-btn>
+                </div>
               </v-col>
             </v-row>
           </v-container>
@@ -49,7 +49,8 @@
       <div class="heading-5 font-weight-bold fc-primary">Menu's</div>
       <v-row class="mt-2">
         <v-col>
-          <AnlyticCard title="Total Menu's" icon='<svg fill="#000000" width="42" height="42" viewBox="0 0 24 24" id="menu-food-left-2" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><g id="SVGRepo_bgCarrier" stroke-width="0"/><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/><g id="SVGRepo_iconCarrier"><path id="secondary" d="M8,18H18a1,1,0,0,1,.22,2l-8.8,2a1.9,1.9,0,0,1-1.62-.38A2.13,2.13,0,0,1,7,19.88V19A1,1,0,0,1,8,18Zm1.1,2h0Z" style="fill: #6595ca;"/><path id="primary" d="M7,20H18a1,1,0,0,0,1-1V3a1,1,0,0,0-1-1H7A2,2,0,0,0,5,4V18A2,2,0,0,0,7,20Z" style="fill: #000000;"/><path id="secondary-2" data-name="secondary" d="M8,11a1,1,0,0,1,1-1h6a1,1,0,0,1,0,2H9A1,1,0,0,1,8,11ZM8,7A1,1,0,0,1,9,6h6a1,1,0,0,1,0,2H9A1,1,0,0,1,8,7Z" style="fill: #6595ca;"/></g>'/>
+          <AnlyticCard title="Total Menu's"
+                       icon='<svg fill="#000000" width="42" height="42" viewBox="0 0 24 24" id="menu-food-left-2" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><g id="SVGRepo_bgCarrier" stroke-width="0"/><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/><g id="SVGRepo_iconCarrier"><path id="secondary" d="M8,18H18a1,1,0,0,1,.22,2l-8.8,2a1.9,1.9,0,0,1-1.62-.38A2.13,2.13,0,0,1,7,19.88V19A1,1,0,0,1,8,18Zm1.1,2h0Z" style="fill: #6595ca;"/><path id="primary" d="M7,20H18a1,1,0,0,0,1-1V3a1,1,0,0,0-1-1H7A2,2,0,0,0,5,4V18A2,2,0,0,0,7,20Z" style="fill: #000000;"/><path id="secondary-2" data-name="secondary" d="M8,11a1,1,0,0,1,1-1h6a1,1,0,0,1,0,2H9A1,1,0,0,1,8,11ZM8,7A1,1,0,0,1,9,6h6a1,1,0,0,1,0,2H9A1,1,0,0,1,8,7Z" style="fill: #6595ca;"/></g>'/>
         </v-col>
       </v-row>
       <div class="d-flex justify-end mb-3  mt-3">
@@ -68,11 +69,11 @@
           </svg>
         </v-btn>
       </div>
-<!--      <v-dialog v-model="ShowCate" width="500">-->
-<!--        <template v-slot:[`default`]>-->
-<!--         -->
-<!--        </template>-->
-<!--      </v-dialog>-->
+      <!--      <v-dialog v-model="ShowCate" width="500">-->
+      <!--        <template v-slot:[`default`]>-->
+      <!--         -->
+      <!--        </template>-->
+      <!--      </v-dialog>-->
       <div class="mt-16">
         <v-stepper
           ref="stepper"
@@ -82,7 +83,7 @@
         >
           <template v-slot:[`item.1`]>
             <v-card elevation="0" flat>
-              <h4 class="heading-5">Add menu</h4>
+              <h4 class="heading-5">Add Menu</h4>
               <v-form validate-on="input lazy" v-model="valid">
                 <v-row class="mt-4">
                   <v-col cols="12">
@@ -91,14 +92,14 @@
                                   :rules="[value => !!value || 'The title field is required']" variant="text"
                                   placeholder="Title"></v-text-field>
                   </v-col>
-<!--                  <v-col cols="6">-->
-<!--                    <span class="font-weight-bold">Select category:</span>-->
-<!--                    <v-combobox class="input" variant="text" :items="categories"-->
-<!--                                item-title="name"-->
-<!--                                item-value="id"-->
-<!--                                :rules="[value => !!value || 'Select a category']"-->
-<!--                                v-model="menu.category" placeholder="Category"></v-combobox>-->
-<!--                  </v-col>-->
+                  <!--                  <v-col cols="6">-->
+                  <!--                    <span class="font-weight-bold">Select category:</span>-->
+                  <!--                    <v-combobox class="input" variant="text" :items="categories"-->
+                  <!--                                item-title="name"-->
+                  <!--                                item-value="id"-->
+                  <!--                                :rules="[value => !!value || 'Select a category']"-->
+                  <!--                                v-model="menu.category" placeholder="Category"></v-combobox>-->
+                  <!--                  </v-col>-->
                   <v-col cols="12">
                     <div class="d-flex justify-center">
                       <!--                    <span class="position-absolute font-weight-bold">Add Dishes</span>-->
@@ -127,30 +128,30 @@
                   </div>
 
                 </v-col>
-<!--                <div class="app-table">-->
-<!--                  <v-table>-->
-<!--                    <thead>-->
-<!--                    <tr>-->
-<!--                      <th class="text-left">-->
-<!--                        Name-->
-<!--                      </th>-->
-<!--                      <th class="text-left">-->
-<!--                        Action-->
-<!--                      </th>-->
-<!--                    </tr>-->
-<!--                    </thead>-->
-<!--                    <tbody>-->
-<!--                    <tr-->
-<!--                      v-for="item in categories"-->
-<!--                      :key="item.name"-->
-<!--                    >-->
-<!--                      <td>{{ item.name }}</td>-->
-<!--                      <td><v-btn color="#2B3674" @click="deleteCategory(item.id)" rounded elevation="0">Delete</v-btn></td>-->
-<!--                    </tr>-->
-<!--                    </tbody>-->
-<!--                  </v-table>-->
+                <!--                <div class="app-table">-->
+                <!--                  <v-table>-->
+                <!--                    <thead>-->
+                <!--                    <tr>-->
+                <!--                      <th class="text-left">-->
+                <!--                        Name-->
+                <!--                      </th>-->
+                <!--                      <th class="text-left">-->
+                <!--                        Action-->
+                <!--                      </th>-->
+                <!--                    </tr>-->
+                <!--                    </thead>-->
+                <!--                    <tbody>-->
+                <!--                    <tr-->
+                <!--                      v-for="item in categories"-->
+                <!--                      :key="item.name"-->
+                <!--                    >-->
+                <!--                      <td>{{ item.name }}</td>-->
+                <!--                      <td><v-btn color="#2B3674" @click="deleteCategory(item.id)" rounded elevation="0">Delete</v-btn></td>-->
+                <!--                    </tr>-->
+                <!--                    </tbody>-->
+                <!--                  </v-table>-->
 
-<!--                </div>-->
+                <!--                </div>-->
               </v-card-text>
             </v-card>
           </template>
@@ -198,14 +199,14 @@
                 </v-col>
 
               </v-row>
-             <div class="d-flex justify-end mt-5 ga-2">
-<!--               <v-btn @click="createMenu" elevation="0" color="#0E0F3D" variant="outlined" rounded>-->
-<!--                 Later-->
-<!--               </v-btn>-->
-               <v-btn @click="createMenu" elevation="0" color="#0E0F3D" rounded>
-                 Finish
-               </v-btn>
-             </div>
+              <div class="d-flex justify-end mt-5 ga-2">
+                <!--               <v-btn @click="createMenu" elevation="0" color="#0E0F3D" variant="outlined" rounded>-->
+                <!--                 Later-->
+                <!--               </v-btn>-->
+                <v-btn @click="createMenu" elevation="0" color="#0E0F3D" rounded>
+                  Finish
+                </v-btn>
+              </div>
             </v-card>
           </template>
         </v-stepper>
@@ -263,9 +264,8 @@ export default {
     }
   }),
   methods: {
-    deleteCategory(id){
-      router.delete(`delete-category/${id}`, {
-      })
+    deleteCategory(id) {
+      router.delete(`delete-category/${id}`, {})
     },
     addCategory() {
       // route('addCategory')

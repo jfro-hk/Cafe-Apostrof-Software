@@ -1,7 +1,6 @@
 <template>
   <AuthenticatedLayout>
     <div class="mb-5">
-      {{categories}}
       <!--      <Breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />-->
       <div class="heading-5 font-weight-bold fc-primary">Menu {{ menu.title }}</div>
     </div>
@@ -95,7 +94,7 @@
 
     <v-row>
       <v-col cols="12" sm="4" :md="5" :lg="5">
-        <AnlyticCard/>
+        <AnlyticCard title="Totale retter" :number="totalDishes" icon='<svg fill="#000000" width="20" height="20" viewBox="0 0 24 24" id="menu-food-left-2" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><g id="SVGRepo_bgCarrier" stroke-width="0"/><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/><g id="SVGRepo_iconCarrier"><path id="secondary" d="M8,18H18a1,1,0,0,1,.22,2l-8.8,2a1.9,1.9,0,0,1-1.62-.38A2.13,2.13,0,0,1,7,19.88V19A1,1,0,0,1,8,18Zm1.1,2h0Z" style="fill: #6595ca;"/><path id="primary" d="M7,20H18a1,1,0,0,0,1-1V3a1,1,0,0,0-1-1H7A2,2,0,0,0,5,4V18A2,2,0,0,0,7,20Z" style="fill: #000000;"/><path id="secondary-2" data-name="secondary" d="M8,11a1,1,0,0,1,1-1h6a1,1,0,0,1,0,2H9A1,1,0,0,1,8,11ZM8,7A1,1,0,0,1,9,6h6a1,1,0,0,1,0,2H9A1,1,0,0,1,8,7Z" style="fill: #6595ca;"/></g></svg>'/>
       </v-col>
     </v-row>
     <v-row>
@@ -107,8 +106,7 @@
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </div>
-        {{ dishes }}
-        <h1>Category name</h1>
+        <h1 class="fc-primary">Retter</h1>
         <DishesTable @edit="editMode = !editMode" @edit-data="(data)=>{selectedDish = data}"
                      @selected="(data)=>{selected = data}" @delete="handleDelete" type="editable" :data="dishes"/>
       </v-col>
@@ -123,7 +121,7 @@ import {router} from "@inertiajs/vue3";
 import AddDishes from "@/Components/addEditDishes.vue";
 
 export default {
-  props: {menu: Array, dishes: Array,categories:Array},
+  props: {menu: Array, dishes: Array,categories:Array,totalDishes:Number},
   components: {AddDishes, AnlyticCard, DishesTable, AuthenticatedLayout},
   data: () => ({
     selectedDish: [],

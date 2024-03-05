@@ -20,8 +20,10 @@ class GalleryController extends Controller
                 'action' => $media->id,
             ];
         });
+        $totalGallery = Gallery::count();
         return Inertia::render('Gallery/Overview', [
-            'gallery' => $mappedGallery
+            'gallery' => $mappedGallery,
+            'totalGallery' => $totalGallery,
         ]);
     }
 

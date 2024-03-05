@@ -10,13 +10,13 @@
 
       <div class="d-flex flex-column">
         <span class="fc-secondary font-weight-bold">{{ title }}</span>
-        <span class="fc-primary font-weight-bold">123</span>
+        <span class="fc-primary font-weight-bold">{{number}}</span>
       </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  props: { title: String, img: String,icon:String },
+  props: { title: String, img: String,icon:String,number:String },
 }
 </script>

@@ -16,9 +16,11 @@ class MenuController extends Controller
     {
         $categories = Category::select('name', 'id')->get();
         $menus = Menu::select('created_at', 'id', 'title', 'description', 'category_id', 'slug')->orderBy('created_at', 'DESC')->get();
+        $totalMenu = Menu::count();
         return Inertia::render('Menu/OverView', [
             'categories' => $categories,
-            'menus' => $menus
+            'menus' => $menus,
+            'totalMenu' => $totalMenu,
         ]);
     }
 
@@ -54,33 +56,12 @@ class MenuController extends Controller
         $request->validate([
             'title' => 'required',
         ]);
-//        $categoryId = null;
-//        foreach ($request->category as $cate) {
-//            if ($request->category != null) {
 
-//        $check = Category::where('id', $request->category)->first();
-//                if ($check) {
-//        $categoryId = $request->category['id']; //$check->id;
-//                }
-//            }
-//        }
         $new = new Menu();
         $new->title = $request->title;
         $new->slug = Setting::generateSlug($request->title, Menu::class);
 
-//        $this->addCategory($request->category);
-//        if ($request->dish['title'] !== null && $request->dish['price'] !== null) {
-//            $dish = new Dishe();
-//
-//            $dish->title = $request->dish['title'];
-//            $dish->price = $request->dish['price'];
-//            $dish->description = $request->dish['description'];
-//
-//            $new->save();
-//
-//            $dish->menu_id = $new->id;
-//            $dish->save();
-//        } else {
+
         $new->save();
         if ($request->dish['title'] !== null && $request->dish['price'] !== null) {
         $category = new Category();

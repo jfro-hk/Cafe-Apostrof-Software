@@ -135,17 +135,22 @@
     </v-dialog>
     <div class="mb-5">
       <!--      <Breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />-->
-      <div class="heading-5 font-weight-bold fc-primary">Calendar</div>
+      <div class="heading-5 font-weight-bold fc-primary">Kalender</div>
     </div>
-    <Fullcalendar :events="events" @selected-event="(date)=>{selectedEvent = date}"
-                  @selected-date="(date)=>{selectedDate = date}"/>
+    <schedule-x :eventsData="events" />
+
+<!--    <Fullcalendar :events="events" @selected-event="(date)=>{selectedEvent = date}"-->
+<!--                  @selected-date="(date)=>{selectedDate = date}"/>-->
+<!--    <vue-calendar :events-data="events"/>-->
   </AuthenticatedLayout>
 </template>
 <script>
-import Fullcalendar from "@/Components/Fullcalendar.vue";
+// import Fullcalendar from "@/Components/Fullcalendar.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import moment from "moment";
 import {router} from "@inertiajs/vue3";
+import ScheduleX from "@/Components/schedule-x.vue";
+// import VueCalendar from "@/Components/vue-calendar.vue";
 
 export default {
   props: {
@@ -157,7 +162,10 @@ export default {
     }
   },
   components: {
-    Fullcalendar,
+    ScheduleX,
+    // VueCalendar,
+    // Fullcalendar,
+
     AuthenticatedLayout
   },
   data: () => ({

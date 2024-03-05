@@ -6,9 +6,9 @@ import TopBar from "@/Components/TopBar.vue";
 
 <template>
   <v-app class="bg-grey-lighten-4 font">
-    <v-navigation-drawer v-model="sidebarDrawer" style="border: unset !important" color="#fff" :rail="rail">
+    <v-navigation-drawer class="sidebar-drawer" v-model="sidebarDrawer" style="border: unset !important" color="#fff" >
       <div class="logo pa-5 ml-7">
-        <!--        <v-img width="100" height="100" src="https://i.postimg.cc/50QZTT0H/ca-logo-2-removebg.png"></v-img>-->
+        <!--<v-img width="100" height="100" src="https://i.postimg.cc/50QZTT0H/ca-logo-2-removebg.png"></v-img>-->
         <span class="heading-4 fs-cursive">Apoli</span>
       </div>
 
@@ -183,3 +183,15 @@ export default {
   },
 }
 </script>
+<style lang="css">
+.sidebar-drawer.v-navigation-drawer{
+.v-navigation-drawer__content {
+  flex: 0 1 auto;
+  height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  width: 250px;
+  overflow-y: auto;
+}
+}
+</style>

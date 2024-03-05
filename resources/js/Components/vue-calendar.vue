@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{events}}
     <v-sheet
       class="d-flex"
       height="54"
@@ -27,7 +28,6 @@
     <v-sheet>
       <v-calendar
         ref="calendar"
-        v-model="value"
         :events="events"
         :view-mode="type"
         :weekdays="weekday"
@@ -37,8 +37,12 @@
 </template>
 <script>
 import { useDate } from 'vuetify'
+import axios from "axios";
 
 export default {
+  props:{
+    eventsData:Object
+  },
   data: () => ({
     type: 'month',
     types: ['month', 'week', 'day'],
@@ -55,11 +59,40 @@ export default {
     titles: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
   }),
   mounted () {
+    this.events = [{
+      title: 'test',
+      start: '2024-03-01',
+      end: '2024-03-01',
+      color: 'cyan',
+      allDay: false,
+    }]
     const adapter = useDate()
-    this.getEvents({ start: adapter.startOfDay(adapter.startOfMonth(new Date())), end: adapter.endOfDay(adapter.endOfMonth(new Date())) })
+    console.log(adapter)
+    // this.getEvents_old({ start: adapter.startOfDay(adapter.startOfMonth(new Date())), end: adapter.endOfDay(adapter.endOfMonth(new Date())) })
   },
   methods: {
-    getEvents ({ start, end }) {
+    // getEvents(){
+    //   const events = []
+    //
+    //   events.push({
+    //     title: this.titles[this.rnd(0, this.titles.length - 1)],
+    //     start: first,
+    //     end: second,
+    //     color: this.colors[this.rnd(0, this.colors.length - 1)],
+    //     allDay: !allDay,
+    //   })
+    // },
+    updateCalendar() {
+      axios.get('/get-events')
+        .then(response => {
+          this.events = response.data.events
+
+        })
+        .catch(error => {
+          console.error('Error fetching events:', error);
+        });
+    },
+    getEvents_old ({ start, end }) {
       const events = []
 
       const min = start

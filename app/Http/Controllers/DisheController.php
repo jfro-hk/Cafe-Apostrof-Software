@@ -39,11 +39,13 @@ class DisheController extends Controller
         });
 
 //dd($dishes);
-
+        $totalDishes = Dishe::where('menu_id', $menu->id)
+            ->count();
         return Inertia::render('Menu/View', [
             'categories' => $categories,
             'menu' => $menu,
             'dishes' => $mappedDishes,
+            'totalDishes' => $totalDishes,
         ]);
     }
 

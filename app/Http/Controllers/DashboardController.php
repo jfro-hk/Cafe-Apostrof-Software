@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Gallery;
 use App\Models\Reservation;
 use Carbon\Carbon;
 use Inertia\Inertia;
@@ -20,11 +21,11 @@ class DashboardController extends Controller
         $mappedReservation = $reservations->map(function ($reservation) {
             return [
                 'id' => $reservation->id,
-                'fullname' => $reservation->fullname,
-                'date' => Carbon::parse($reservation->date)->format('M d'),
-                'time' => $reservation->time,
+                'fulde navn' => $reservation->fullname,
+                'dato' => Carbon::parse($reservation->date)->format('M d'),
+                'tid' => $reservation->time,
                 'antal' => $reservation->antal,
-                'created_at' => Carbon::parse($reservation->date)->format('Y/m/d'),
+                'oprettet på' => Carbon::parse($reservation->date)->format('Y/m/d'),
             ];
         });
         $events = Event::select('id','title','start_date','end_date','start_time','end_time')->orderBy('created_at','DESC')->get();
@@ -37,9 +38,17 @@ class DashboardController extends Controller
 //                'end' => $event->end_date,
             ];
         });
+
+        $date = Carbon::today();
+        $todayReservations = Reservation::whereDate('date', $date)->get();
+
+        $totalReservations = $todayReservations->count();
+        $totalGallery = Gallery::count();
         return Inertia::render('Dashboard', [
             'events' => $mappedEvents,
             'reservations' => $mappedReservation,
+            'totalTodayReservations' => $totalReservations,
+            'totalGallery' => $totalGallery,
         ]);
     }
 }

@@ -105,18 +105,20 @@ export default {
       this.previews = []
     },
     addOrUpdate() {
-     const data = useForm({
-        title: this.gallery.title,
-        description: this.gallery.description,
-        file: this.gallery.file[0]
-      })
-      data.post(`/${this.editMode ? 'update' : 'add'}-gallery${this.editMode ? '/'+this.selectedGallery.action : '/'}`,{
-        method:"post",
-        onSuccess: () => {
-          this.status = false
-          this.$emit('status', this.status)
-        }
-      })
+      const data = useForm({
+         title: this.gallery.title,
+         description: this.gallery.description,
+         file: this.gallery.file[0]
+       })
+      this.$emit('data',data)
+
+     //  data.post(`/${this.editMode ? 'update' : 'add'}-gallery${this.editMode ? '/'+this.selectedGallery.action : '/'}`,{
+     //    method:"post",
+     //    onSuccess: () => {
+     //      this.status = false
+     //      this.$emit('status', this.status)
+     //    }
+     //  })
     }
   },
   data: () => ({

@@ -12,13 +12,14 @@
         width="auto"
         class="gallery-dialog"
       >
-<!--        <v-card elevation="0">-->
+<!--          <v-card elevation="0">-->
 <!--          <v-card-text class="d-flex justify-center">-->
-          <add-edit-gallery :errors="errors" :selected-gallery="selected" :edit-mode="editMode"
+          <add-edit-gallery @data="(data)=>{toSubmit = data}" :errors="errors" :selected-gallery="selected" :edit-mode="editMode"
                             @status="(status)=>{!status?dialog = false: dialog = true}"
                             @close="dialog = false; editMode = false" />
 <!--          </v-card-text>-->
 <!--        </v-card>-->
+        <v-btn @click="addOrUpdate">submit</v-btn>
       </v-dialog>
     </v-row>
     <div class="d-flex justify-end mb-3 mt-8">
@@ -40,14 +41,32 @@ import GalleryCard from "@/Components/Gallery-card.vue";
 import AnlyticCard from "@/Components/anlytic-card.vue";
 import AddEditGallery from "@/Components/addEditGallery.vue";
 import Alert from "@/Components/alert.vue";
+// import {useForm} from "@inertiajs/vue3";
 export default {
   components:{Alert, AddEditGallery, AnlyticCard, GalleryCard, AuthenticatedLayout},
   props:{gallery: Object,errors:Object,totalGallery:Number},
   data: () => ({
+    toSubmit:[],
     dialog:false,
     editMode:false,
     selected:[]
   }),
+  methods:{
+    addOrUpdate() {
+      // const data = useForm({
+      //   title: this.gallery.title,
+      //   description: this.gallery.description,
+      //   file: this.gallery.file[0]
+      // })
+      this.toSubmit.post(`/${this.editMode ? 'update' : 'add'}-gallery${this.editMode ? '/'+this.selectedGallery.action : '/'}`,{
+        method:"post",
+        onSuccess: () => {
+          this.status = false
+          this.$emit('status', this.status)
+        }
+      })
+    }
+  },
   watch:{
     dialog(newValue) {
       if (newValue !== false) {

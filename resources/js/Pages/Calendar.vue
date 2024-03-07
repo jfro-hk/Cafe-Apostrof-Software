@@ -11,8 +11,6 @@
     </div>
     <v-dialog v-model="addEvent"
               width="800">
-      <form method="post" @submit.prevent="addEditEvent">
-
       <v-card>
 <!--        <v-card-title>-->
 <!--          <span class="text-h5">{{ editMode ? 'Edit Event' : 'Add Event' }}</span>-->
@@ -88,7 +86,7 @@
                   variant="text"
                   type="time"
                   v-model="event.startTime"
-                  required
+
                 ></v-text-field>
               </v-col>
               <v-col
@@ -102,7 +100,7 @@
                   variant="text"
                   type="time"
                   v-model="event.endTime"
-                  required
+
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -136,15 +134,13 @@
           </v-btn>
           <v-btn
             color="#0E0F3D"
-            type="submit"
+            @click="addEditEvent"
             rounded
             variant="flat"
           > Save
           </v-btn>
         </v-card-actions>
       </v-card>
-      </form>
-
     </v-dialog>
     <div class="mb-5">
       <!--      <Breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />-->
@@ -243,14 +239,14 @@ export default {
     },
     addEditEvent() {
       // if (this.isValid) {
-      router.post(`/${this.editMode ? 'update' : 'add'}-event${this.editMode ? '/' + this.selectedEvent.id : '/'}`, {
+      router.post(`${this.editMode ? 'update' : 'add'}-event${this.editMode ? '/' + this.selectedEvent.id : '/'}`, {
         title: this.event.title,
         startDate: this.event.startDate,
         endDate: this.event.endDate,
         description: this.event.description,
         event_id: this.selectedEvent.id,
       }, {
-        method:"post",
+        method:"POST",
         onSuccess: () => {
           this.status = false
           this.addEvent = false

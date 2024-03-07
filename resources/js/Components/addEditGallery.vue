@@ -85,8 +85,9 @@
 <script>
 import moment from "moment";
 import DropZone from "@/Components/dropZone.vue";
-import {router} from "@inertiajs/vue3";
+// import {router} from "@inertiajs/vue3";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import {useForm} from "@inertiajs/vue3";
 
 export default {
   components: {DropZone},
@@ -104,11 +105,12 @@ export default {
       this.previews = []
     },
     addOrUpdate() {
-      router.post(`/${this.editMode ? 'update' : 'add'}-gallery${this.editMode ? '/'+this.selectedGallery.action : '/'}`, {
+     const data = useForm({
         title: this.gallery.title,
         description: this.gallery.description,
         file: this.gallery.file[0]
-      }, {
+      })
+      data.post(`/${this.editMode ? 'update' : 'add'}-gallery${this.editMode ? '/'+this.selectedGallery.action : '/'}`,{
         onSuccess: () => {
           this.status = false
           this.$emit('status', this.status)

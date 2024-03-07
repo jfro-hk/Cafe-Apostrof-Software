@@ -1,11 +1,20 @@
 <template>
   <AuthenticatedLayout>
+    <div class="position-fixed" style="right: 0;
+    bottom: 0;
+    z-index: 1;
+    margin: 20px;">
+      <v-btn size="small" elevation="0" style="width: 30px; height: 50px;border-radius: 49px" rounded color="#0E0F3D"
+             @click="addEvent = !addEvent">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </div>
     <v-dialog v-model="addEvent"
               width="800">
       <v-card>
-        <v-card-title>
-          <span class="text-h5">{{ editMode ? 'Edit Event' : 'Add Event' }}</span>
-        </v-card-title>
+<!--        <v-card-title>-->
+<!--          <span class="text-h5">{{ editMode ? 'Edit Event' : 'Add Event' }}</span>-->
+<!--        </v-card-title>-->
         <v-card-text>
           <v-container>
             <v-row>

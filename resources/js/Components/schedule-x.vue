@@ -1,12 +1,14 @@
 <template>
   <div>
-<!--    {{calendarApp.events.$app }}-->
+    <!--    {{calendarApp.events.$app }}-->
+<!--    {{eventData}}-->
     <ScheduleXCalendar :calendar-app="calendarApp"/>
   </div>
 </template>
 
 <script>
-import { ScheduleXCalendar } from '@schedule-x/vue'
+import {ScheduleXCalendar} from '@schedule-x/vue'
+import {createEventModalPlugin} from "@schedule-x/event-modal";
 import {
   createCalendar,
   viewDay,
@@ -24,23 +26,25 @@ export default {
   components: {
     ScheduleXCalendar,
   },
+
   data() {
     const eventsArray = Object.values(this.eventsData).map(event => ({
       id: event.id,
       title: event.title,
       start: event.start_date,
-      end: event.end_date?event.end_date:event.start_date
+      end: event.end_date ? event.end_date : event.start_date
     }));
 
     return {
-
+      eventData: [],
       calendarApp: createCalendar({
         selectedDate: [new Date()],
-        onEventClick:this.test,
+        onEventClick: this.test,
+        plugins: [createEventModalPlugin()],
         views: [viewDay, viewWeek, viewMonthGrid, viewMonthAgenda],
         defaultView: viewWeek.name,
         events: [...eventsArray], // Assign the events array here
-        config:{
+        config: {
           /**
            * Set the language. List of supported languages: https://schedule-x.dev/docs/calendar/supported-languages
            * For support of further languages, please open a PR, adding your translations under the folder:
@@ -131,12 +135,21 @@ export default {
       }),
     };
   },
-methods:{
-  test(info){
-    console.log(info)
-  }
-},
-
+  methods: {
+    test(info) {
+      console.log(info)
+    }
+  },
+  watch:{
+    eventsData(){
+      this.eventData = this.eventsData
+      // const calendarEl = document.getElementById('calendar') as HTMLElement
+      // this.calendarApp.render(calendarEl)
+    }
+  },
+  mounted() {
+    this.eventData = this.eventsData
+  },
 
 }
 </script>
@@ -147,7 +160,8 @@ methods:{
   height: 800px;
   max-height: 90vh;
 }
-.sx__month-agenda-day,.sx__month-grid-day:not(:last-child) {
+
+.sx__month-agenda-day, .sx__month-grid-day:not(:last-child) {
 
   height: 136px;
 }

@@ -11,6 +11,8 @@
     </div>
     <v-dialog v-model="addEvent"
               width="800">
+      <form method="post" @submit.prevent="addEditEvent">
+
       <v-card>
 <!--        <v-card-title>-->
 <!--          <span class="text-h5">{{ editMode ? 'Edit Event' : 'Add Event' }}</span>-->
@@ -134,13 +136,15 @@
           </v-btn>
           <v-btn
             color="#0E0F3D"
-            @click="addEditEvent"
+            type="submit"
             rounded
             variant="flat"
           > Save
           </v-btn>
         </v-card-actions>
       </v-card>
+      </form>
+
     </v-dialog>
     <div class="mb-5">
       <!--      <Breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />-->

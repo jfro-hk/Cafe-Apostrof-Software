@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::post('make-res/$2a$12$cAZSHYq3zV0CbnaolVBMJeTRTPpBTKbiQSFMRKkU2WrAHQD4KiSeK',[\App\Http\Controllers\ApiController::class,'add']);
 Route::get('/get-gallery/$2a$12$cAZSHYq3zV0CbnaolVBMJeTRTPpBTKbiQSFMRKkU2WrAHQD4KiSeK',[\App\Http\Controllers\ApiController::class,'getGallery']);
+Route::get('/get-gallery',[\App\Http\Controllers\GalleryController::class,'getGallery']);
 Route::get('/get-menu/$2a$12$cAZSHYq3zV0CbnaolVBMJeTRTPpBTKbiQSFMRKkU2WrAHQD4KiSeK',[\App\Http\Controllers\ApiController::class,'getMenu']);
 Route::get('/get-dishes/$2a$12$cAZSHYq3zV0CbnaolVBMJeTRTPpBTKbiQSFMRKkU2WrAHQD4KiSeK',[\App\Http\Controllers\ApiController::class,'getDishes']);
 Route::get('/get-categories/$2a$12$cAZSHYq3zV0CbnaolVBMJeTRTPpBTKbiQSFMRKkU2WrAHQD4KiSeK',[\App\Http\Controllers\ApiController::class,'getCategories']);

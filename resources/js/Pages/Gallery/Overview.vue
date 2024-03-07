@@ -187,7 +187,7 @@ export default {
       axios.post(url, formData, {
         headers: {'Content-Type': 'multipart/form-data'}
       }).then(response => {
-        this.toast.success('Added deleted successfully!')
+        this.toast.success('Gallery deleted successfully!')
         this.fetchData();
         console.log(response);
         this.dialog = false;
@@ -197,7 +197,7 @@ export default {
       });
     },
     fetchData() {
-      axios.get('/get-gallery-json').then(response => {
+      axios.get('/api/get-gallery').then(response => {
         this.galleryData = response.data;
       })
     }

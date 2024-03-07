@@ -246,6 +246,7 @@ export default {
         description: this.event.description,
         event_id: this.selectedEvent.id,
       }, {
+        method:"post",
         onSuccess: () => {
           this.status = false
           this.addEvent = false

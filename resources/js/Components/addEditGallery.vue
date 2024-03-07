@@ -111,6 +111,7 @@ export default {
         file: this.gallery.file[0]
       })
       data.post(`/${this.editMode ? 'update' : 'add'}-gallery${this.editMode ? '/'+this.selectedGallery.action : '/'}`,{
+        method:"post",
         onSuccess: () => {
           this.status = false
           this.$emit('status', this.status)

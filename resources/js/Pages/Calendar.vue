@@ -159,6 +159,8 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import moment from "moment";
 import {router} from "@inertiajs/vue3";
 import ScheduleX from "@/Components/schedule-x.vue";
+import axios from "axios";
+import {useToast} from "vue-toastification";
 // import VueCalendar from "@/Components/vue-calendar.vue";
 
 export default {
@@ -238,23 +240,29 @@ export default {
       router.delete(`delete-event/${this.selectedEvent.id}`)
     },
     addEditEvent() {
-      // if (this.isValid) {
-      router.post(`${this.editMode ? 'update' : 'add'}-event${this.editMode ? '/' + this.selectedEvent.id : '/'}`, {
+      const requestData = {
         title: this.event.title,
         startDate: this.event.startDate,
         endDate: this.event.endDate,
         description: this.event.description,
-        event_id: this.selectedEvent.id,
-      }, {
-        method:"POST",
-        onSuccess: () => {
-          this.status = false
-          this.addEvent = false
-          this.event.title = ''
-          this.$emit('status', this.status)
-        }
-      })
-      // }
+        event_id: this.selectedEvent.id
+      };
+
+      const url = `/${this.editMode ? 'update' : 'add'}-event${this.editMode ? '/' + this.selectedEvent.id : '/'}`;
+      const toast = useToast()
+      axios.post(url, requestData)
+        .then(response => {
+          toast.success('Event created successfully!')
+          this.status = false;
+          this.addEvent = false;
+          this.event.title = '';
+          this.$emit('status', this.status);
+          console.log(response)
+        })
+        .catch(error => {
+          // Handle error
+          console.error('Error:', error);
+        });
     },
     formatDate(date) {
       return moment(date).format('DD/MM/YYYY');

@@ -38,9 +38,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });
 //        Route::prefix('gallery')->group(function () {
     Route::get('/gallerys', [GalleryController::class, 'index'])->name('gallery.view');
+    Route::get('/get-gallery-json', [GalleryController::class, 'getGallery']);
     Route::post('/add-gallery', [GalleryController::class, 'add'])->name('gallery.add');
     Route::post('/update-gallery/{id}', [GalleryController::class, 'update'])->name('gallery.update');
-    Route::delete('/delete-gallery/{id}', [GalleryController::class, 'delete'])->name('gallery.delete');
+    Route::post('/delete-gallery/{id}', [GalleryController::class, 'delete'])->name('gallery.delete');
     // Events
     Route::get('/calendar', [EventController::class, 'overview'])->name('calendar');
     Route::post('/add-event/', [EventController::class, 'add'])->name('event.add');

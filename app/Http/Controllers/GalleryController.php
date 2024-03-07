@@ -26,6 +26,22 @@ class GalleryController extends Controller
             'totalGallery' => $totalGallery,
         ]);
     }
+    public function getGallery()
+    {
+        $gallery = Gallery::get();
+        $mappedGallery = $gallery->map(function ($media) {
+            return [
+                'title' => $media->title,
+                'media' => $media->media,
+                'description' => $media->description,
+                'action' =>  $media->id,
+
+            ];
+        });
+
+        return response()->json($mappedGallery, 201);
+    }
+
 
     public function add(Request $request)
     {

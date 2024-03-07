@@ -6,7 +6,7 @@
     rounded
   >
 <!--    <TableOption @edit="$emit('edit');handleSelection(item)" @delete="handleDelete(item.action)" :id="item.action"/>-->
-<TableOption  @delete="handleDelete(gallery.action)" @edit="$emit('edit');handleSelection(gallery)"/>
+<TableOption  @delete="$emit('delete',gallery.action)" @edit="$emit('edit');handleSelection(gallery)"/>
     <v-img :src="gallery.media" rounded><h5 class="heading-5 text-capitalize">{{ gallery.title }}</h5>
       <div class="time-icon z-index-1">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">

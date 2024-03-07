@@ -61,8 +61,8 @@
           </div>
           <div class="d-flex mt-5 ga-2 align-end justify-end">
             <v-btn variant="outlined" color="#0E0F3D" @click="dialog = false" rounded>Cancel</v-btn>
-            <v-btn color="#0E0F3D" v-if="!editMode" @click="add" rounded>Save</v-btn>
-            <v-btn color="#0E0F3D" v-if="editMode" @click="edit" rounded>Save</v-btn>
+            <v-btn color="#0E0F3D" v-if="!editMode" :loading="loading" @click="add" rounded>Save</v-btn>
+            <v-btn color="#0E0F3D" v-if="editMode" :loading="loading" @click="edit" rounded>Save</v-btn>
           </div>
         </v-card>
       </v-dialog>
@@ -100,6 +100,7 @@ export default {
     return {
       dialog: false,
       editMode: false,
+      loading: false,
       selected: [],
       previews: [],
       toast:useToast(),
@@ -159,6 +160,7 @@ export default {
       this.selected = data;
     },
     edit() {
+      this.loading =true
       const formData = new FormData();
       formData.append('title', this.gallery.title);
       formData.append('description', this.gallery.description);
@@ -170,6 +172,7 @@ export default {
         headers: {'Content-Type': 'multipart/form-data'}
       }).then(response => {
         this.toast.success('Gallery edited successfully!')
+        this.loading = false
         this.fetchData();
         console.log(response);
         this.dialog = false;
@@ -179,6 +182,7 @@ export default {
       });
     },
     add() {
+      this.loading = true
       const formData = new FormData();
       formData.append('title', this.gallery.title);
       formData.append('description', this.gallery.description);
@@ -189,6 +193,8 @@ export default {
       }).then(response => {
         this.toast.success('Gallery deleted successfully!')
         this.fetchData();
+        this.loading = false
+
         console.log(response);
         this.dialog = false;
         this.$emit('status', this.status);

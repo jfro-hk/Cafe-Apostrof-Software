@@ -4,7 +4,7 @@
     bottom: 0;
     z-index: 1;
     margin: 20px;">
-      <v-btn size="small" elevation="0" style="width: 30px; height: 50px;border-radius: 49px" rounded color="#0E0F3D"
+      <v-btn class="d-none" size="small" elevation="0" style="width: 30px; height: 50px;border-radius: 49px" rounded color="#0E0F3D"
              @click="addEvent = !addEvent">
         <v-icon>mdi-plus</v-icon>
       </v-btn>
@@ -36,14 +36,14 @@
                      md="6"
               >
                 <v-label class="font-reg">Start date</v-label>
-                <v-menu>
+                <v-menu :close-on-content-click="false">
                   <template v-slot:activator="{ props }">
                     <v-text-field
                       readonly
                       class="input"
                       v-bind="props"
                       placeholder="Chose start date"
-                      :model-value="formatDate(event.startDate)"
+                      :model-value="event.startDate !== null ? formatDate(event.startDate):''"
                       variant="text"
                       required
                       hide-details
@@ -58,7 +58,7 @@
                      md="6"
               >
                 <v-label class="font-reg">End date</v-label>
-                <v-menu>
+                <v-menu :close-on-content-click="false">
                   <template v-slot:activator="{ props }">
                     <v-text-field
                       readonly
@@ -71,7 +71,7 @@
                       hide-details
                     ></v-text-field>
                   </template>
-                  <v-date-picker :min="new Date('2024-03-15')" v-model="event.endDate"
+                  <v-date-picker  v-model="event.endDate"
                                  :max-width="$vuetify.display.width < 300 ? 250 : 380"></v-date-picker>
                 </v-menu>
               </v-col>
@@ -213,7 +213,7 @@ export default {
         this.addEvent = true
         this.editMode = false
 
-        this.event.startDate = this.selectedDate
+        this.event.startDate = null //this.selectedDate
         this.event.title = null
         this.event.endDate = null
         this.event.startTime = null

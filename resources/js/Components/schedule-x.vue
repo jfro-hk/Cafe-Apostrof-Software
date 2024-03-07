@@ -28,9 +28,12 @@ export default {
   },
 
   data() {
+
     const eventsArray = Object.values(this.eventsData).map(event => ({
       id: event.id,
       title: event.title,
+      people: [event.title],
+      description: event.description,
       start: event.start_date,
       end: event.end_date ? event.end_date : event.start_date
     }));
@@ -143,12 +146,24 @@ export default {
   watch:{
     eventsData(){
       this.eventData = this.eventsData
+      this.calendarApp.events.add({
+        id: 3,
+        title: 'New event',
+        start: '2023-12-04',
+        end: '2023-12-06',
+      })
       // const calendarEl = document.getElementById('calendar') as HTMLElement
       // this.calendarApp.render(calendarEl)
     }
   },
   mounted() {
     this.eventData = this.eventsData
+    this.calendarApp.events.add({
+      id: 3,
+      title: 'New event',
+      start: '2023-12-04',
+      end: '2023-12-06',
+    })
   },
 
 }

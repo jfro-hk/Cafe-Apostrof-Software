@@ -1,6 +1,5 @@
 <template>
   <v-card>
-<!--    {{selectedDish}}-->
         <v-card-title>
           <span class="text-h5">{{editMode? 'Edit Dish' :'Add Dish'}}</span>
         </v-card-title>
@@ -49,11 +48,19 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
+                <v-label class="font-reg">Extra note & Times:</v-label>
+
+                <v-text-field variant="text"
+                              v-model="dish.extra_note"
+                              class="input" placeholder="Extra note"></v-text-field>
+              </v-col>
+              <v-col cols="12">
                 <v-label class="font-reg">Description:</v-label>
 
                 <v-textarea variant="plain"
                             v-model="dish.description"
                             class="input-textarea" placeholder="Description"></v-textarea>
+
               </v-col>
 
             </v-row>
@@ -99,6 +106,7 @@ export default {
         title: this.editMode ? this.selectedDish.title:'',
         description: this.editMode ? this.selectedDish.description: '',
         price: this.editMode ? this.selectedDish.price : null,
+        extra_note: this.editMode ? this.selectedDish.extra_note : null,
         category: this.editMode ? this.selectedDish.category : null
       },
       status: false
@@ -116,6 +124,7 @@ export default {
           title: this.dish.title,
           price: this.dish.price,
           description: this.dish.description,
+          extra_note: this.dish.extra_note,
           category: this.dish.category.id,
           menu_id: this.selectedMenu.id,
         }, {

@@ -15,7 +15,7 @@ class DisheController extends Controller
         $menu = Menu::where('slug', $slug)->first();
         $categories = Category::select('name', 'id')->where('menu_id',$menu->id)->get();
 
-        $dishes = Dishe::select('dishes.id', 'dishes.menu_id', 'dishes.title', 'dishes.price', 'dishes.description',
+        $dishes = Dishe::select('dishes.id', 'dishes.menu_id', 'dishes.title', 'dishes.price', 'dishes.extra_note','dishes.description',
             'categories.id as category_id',
             'categories.name as category_name')
             ->join('categories', 'dishes.category_id', '=', 'categories.id')
@@ -29,6 +29,7 @@ class DisheController extends Controller
                 'title' => $dish->title,
                 'price' => $dish->price,
                 'description' => $dish->description,
+                'extra_note' => $dish->extra_note?$dish->extra_note:'-',
 //                'menu_id' => $dish->menu_id,
                 'category' => [
                     'id' => $dish->category_id,
@@ -48,7 +49,63 @@ class DisheController extends Controller
             'totalDishes' => $totalDishes,
         ]);
     }
+    public function addImage(Request $request, $menuId)
+    {
+//dd($request->all());
+        $request->validate([
+            'file' => 'required|file',
+        ]);
+//        dd($menuId);
+        $menu = Menu::find($menuId);
 
+        $dish = new Dishe();
+//        dd($request->all());
+
+        if (!$menu || !$dish) {
+            return back()
+                ->with('error', 'Ops something wrong!');
+        }
+        $imageName = $request->file('file')->getClientOriginalName();
+
+        if ($request->hasFile('file')) {
+            $dish->img = '/images/'.$imageName = time() . '.' . $imageName;
+            $request->file->move(public_path('../public/images'), $imageName);
+        }
+        $dish->menu_id = $menuId;
+        $dish->save();
+
+        return back()
+            ->with('success', 'The list added successfully!');
+//        return response()->json(['message' => 'Item added successfully'], 200);
+    }
+    public function updateImage(Request $request, $menuId)
+    {
+        //dd($request->all());
+        $request->validate([
+            'file' => 'required|file',
+        ]);
+//        dd($menuId);
+        $menu = Menu::find($menuId);
+
+        $dish = new Dishe();
+//        dd($request->all());
+        if (!$menu || !$dish) {
+            return back()
+                ->with('error', 'Ops something wrong!');
+        }
+        $imageName = $request->file('file')->getClientOriginalName();
+
+        if ($request->hasFile('file')) {
+            $dish->img = '/images/'.$imageName = time() . '.' . $imageName;
+            $request->file->move(public_path('../public/images'), $imageName);
+        }
+        $dish->menu_id = $menuId;
+        $dish->save();
+
+        return back()
+            ->with('success', 'The list added successfully!');
+//        return response()->json(['message' => 'Item added successfully'], 200);
+    }
     public function add(Request $request, $menuId)
     {
 
@@ -70,6 +127,7 @@ class DisheController extends Controller
         $dish->title = $request->title;
         $dish->price = $request->price;
         $dish->description = $request->description;
+        $dish->extra_note = $request->extra_note;
         $dish->category_id = $request->category;
         $dish->menu_id = $request->menu_id;
         $dish->save();
@@ -96,6 +154,7 @@ class DisheController extends Controller
         }
         $dish->title = $request->title;
         $dish->price = $request->price;
+        $dish->extra_note = $request->extra_note;
         $dish->description = $request->description;
         $dish->category_id = $request->category;
         $dish->menu_id = $request->menu_id;

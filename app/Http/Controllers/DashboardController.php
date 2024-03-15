@@ -32,9 +32,9 @@ class DashboardController extends Controller
         $mappedEvents = $events->map(function ($event) {
             return [
                 'id' => $event->id,
-                'title' => $event->title,
+                'titel' => $event->title,
 //                'description' => $event->description,
-                'date' => Carbon::parse($event->start_date)->format('M d'),
+                'dato' => Carbon::parse($event->start_date)->format('M d'),
 //                'end' => $event->end_date,
             ];
         });

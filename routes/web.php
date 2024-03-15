@@ -33,6 +33,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::prefix('menu')->group(function () {
         Route::get('/view/{slug}', [DisheController::class, 'index'])->name('menu.view');
         Route::post('/add-dish/{menuId}', [DisheController::class, 'add'])->name('dish.add');
+        Route::post('/add-img/{menuId}', [DisheController::class, 'addImage'])->name('dish.addImage');
         Route::post('/update-dish/{id}', [DisheController::class, 'update'])->name('dish.update');
         Route::delete('/delete-dish/{menuId}', [DisheController::class, 'delete'])->name('dish.delete');
     });

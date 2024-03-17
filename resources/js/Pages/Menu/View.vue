@@ -4,6 +4,7 @@
       <!--      <Breadcrumbs :items="breadcrumbs" class="pa-0 mt-1" />-->
       <div class="heading-5 font-weight-bold fc-primary">Menu {{ menu.title }}</div>
     </div>
+    <!--    // addimage-->
     <v-row justify="center">
       <v-dialog
         v-model="addImg"
@@ -12,7 +13,8 @@
         class="gallery-dialog"
       >
         <v-card class="gallery-card pa-7 ma-3" elevation="0" rounded>
-          <drop-zone :max="1" @acceptFiles="acceptFilesHandler" :drag="!previews.length > 0" @previews="handlePreviews" :accepted-types="acceptTypes">
+          <drop-zone :max="1" @acceptFiles="acceptFilesHandler" :drag="!previews.length > 0" @previews="handlePreviews"
+                     :accepted-types="acceptTypes">
             <div class="pa-16 img-drop" v-if="!previews.length > 0">
               <div class="d-flex justify-center align-center">
                 <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 0 24 24" width="32px" fill="#000000">
@@ -26,15 +28,21 @@
                 <div class="remove" @click="removePreview">
                   <v-btn size="xsmall" rounded style="background-color: unset;" variant="text" elevation="0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M15.3657 4.63422C15.6781 4.94664 15.6781 5.45317 15.3657 5.76559L5.76571 15.3656C5.45329 15.678 4.94676 15.678 4.63434 15.3656C4.32192 15.0532 4.32192 14.5466 4.63434 14.2342L14.2343 4.63422C14.5468 4.3218 15.0533 4.3218 15.3657 4.63422Z" fill="white"/>
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M4.63434 4.63422C4.94676 4.3218 5.45329 4.3218 5.76571 4.63422L15.3657 14.2342C15.6781 14.5466 15.6781 15.0532 15.3657 15.3656C15.0533 15.678 14.5468 15.678 14.2343 15.3656L4.63434 5.76559C4.32192 5.45317 4.32192 4.94664 4.63434 4.63422Z" fill="white"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M15.3657 4.63422C15.6781 4.94664 15.6781 5.45317 15.3657 5.76559L5.76571 15.3656C5.45329 15.678 4.94676 15.678 4.63434 15.3656C4.32192 15.0532 4.32192 14.5466 4.63434 14.2342L14.2343 4.63422C14.5468 4.3218 15.0533 4.3218 15.3657 4.63422Z"
+                            fill="white"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M4.63434 4.63422C4.94676 4.3218 5.45329 4.3218 5.76571 4.63422L15.3657 14.2342C15.6781 14.5466 15.6781 15.0532 15.3657 15.3656C15.0533 15.678 14.5468 15.678 14.2343 15.3656L4.63434 5.76559C4.32192 5.45317 4.32192 4.94664 4.63434 4.63422Z"
+                            fill="white"/>
                     </svg>
                   </v-btn>
                 </div>
                 <div class="time-icon z-index-1 right-unset">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <g clip-path="url(#clip0_112_3614)">
-                      <path d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM12.5 7H11V13L16.2 16.2L17 14.9L12.5 12.2V7Z" fill="white"/>
+                      <path
+                        d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM12.5 7H11V13L16.2 16.2L17 14.9L12.5 12.2V7Z"
+                        fill="white"/>
                     </g>
                     <defs>
                       <clipPath id="clip0_112_3614">
@@ -52,7 +60,7 @@
           <div class="d-flex mt-5 ga-2 align-end justify-end">
             <v-btn variant="outlined" color="#0E0F3D" @click="addImg = false" rounded>Cancel</v-btn>
             <v-btn color="#0E0F3D" v-if="!editImageMode" :loading="loading" @click="addImage" rounded>Save</v-btn>
-<!--            <v-btn color="#0E0F3D" v-if="editMode" :loading="loading" @click="edit" rounded>Save</v-btn>-->
+            <!--            <v-btn color="#0E0F3D" v-if="editMode" :loading="loading" @click="edit" rounded>Save</v-btn>-->
           </div>
         </v-card>
       </v-dialog>
@@ -72,7 +80,7 @@
               <v-row justify="center" class="pa-12 ga-4">
                 <v-btn @click="addCate = !addCate" size="large" color="#2B3674">Kategori</v-btn>
                 <v-btn @click="addDish = !addDish" size="large" color="#2B3674">Retter</v-btn>
-<!--                <v-btn @click="addImg = !addImg" size="large" color="#2B3674">billede</v-btn>-->
+                <v-btn @click="openAddImageDialog" size="large" color="#2B3674">Billede {{imageList.length > 0 ? 'Update' : ''}}</v-btn>
               </v-row>
             </v-container>
           </v-card-text>
@@ -141,7 +149,6 @@
         persistent
         width="1024"
       >
-
         <add-dishes :categories="categories" :selected-menu="menu" :selected-dish="selectedDish"
                     @status="(status)=>{!status?addDish = false: addDish = true}" :edit-mode="editMode"
                     @close="addDish = false; editMode = false"/>
@@ -163,8 +170,22 @@
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </div>
-        <h1 class="fc-primary">Retter</h1>
-        <DishesTable @edit="editMode = !editMode" @edit-data="(data)=>{selectedDish = data}"
+        <div class="d-flex justify-space-between align-center">
+          <h1 class="fc-primary">Retter</h1>
+          <div class="d-flex align-center ga-2 mb-2">
+            <v-btn  @click="mode = true" :variant="mode ?'flat' : 'outlined'" color="#2B3674" elevation="0" rounded>On</v-btn>
+            <v-btn  @click="mode = false" :variant="!mode ?'flat' : 'outlined'" elevation="0" color="#2B3674" rounded>Off</v-btn>
+          </div>
+        </div>
+       <div class="d-flex mb-4">
+         <v-btn v-if="mode" @click="changeMode('img')" :variant="menu.mode == 'img' ?'flat' : 'outlined'" color="#2B3674" elevation="0" rounded>Active</v-btn>
+         <v-btn v-if="!mode" @click="changeMode('dishes')" :variant="menu.mode == 'dishes' ?'flat' : 'outlined'" color="#2B3674" elevation="0" rounded>Active</v-btn>
+       </div>
+        <v-card v-if="mode">
+          <v-img :src="imageList[0].img"></v-img>
+        </v-card>
+
+        <DishesTable v-if="!mode" @edit="editMode = !editMode" @edit-data="(data)=>{selectedDish = data}"
                      @selected="(data)=>{selected = data}" @delete="handleDelete" type="editable" :data="dishes"/>
       </v-col>
     </v-row>
@@ -185,20 +206,21 @@ export default {
       return moment
     }
   },
-  props: {menu: Array, dishes: Array, categories: Array, totalDishes: Number,errors:Object},
+  props: {menu: Array, dishes: Array,imageList: Array, categories: Array, totalDishes: Number, errors: Object},
   components: {DropZone, AddDishes, AnlyticCard, DishesTable, AuthenticatedLayout},
   data: () => ({
     selectedDish: [],
     selected: [],
     dialog: false,
+    mode: false,
     addMode: false,
     editImageMode: false,
     editMode: false,
     addDish: false,
     addCate: false,
-    loading:false,
+    loading: false,
     addImg: false,
-    previews:[],
+    previews: [],
     acceptTypes: [
       "image/jpeg", "image/png", "image/bmp", "image/webp", "image/tiff", "image/vnd.dwg", "image/x-xbitmap",
       "image/x-jg", "image/x-xpixmap", "image/x-ms-bmp", "image/x-tga", "image/x-pcx", "image/x-pict",
@@ -227,6 +249,12 @@ export default {
     }
   },
   methods: {
+    openAddImageDialog(){
+      this.addImg = !this.addImg
+      if (this.mode){
+        this.previews = [{preview: this.imageList[0].img}];
+      }
+    },
     acceptFilesHandler(files) {
       this.file = files;
     },
@@ -236,6 +264,12 @@ export default {
     removePreview() {
       this.previews = [];
     },
+    changeMode(mode) {
+      // route('addCategory')
+      router.post(`/menu/change-mode/${this.menu.id}/${mode}/`,{},{
+        preserveScroll: true,
+      })
+    },
     addCategory() {
       // route('addCategory')
       router.post(`/add-category/${this.menu.id}`, {
@@ -244,6 +278,9 @@ export default {
             this.ShowCate = false
             this.category.title = ''
           }
+        },
+        {
+          preserveScroll: true,
         }
       )
     },
@@ -253,16 +290,24 @@ export default {
           file: this.file[0],
           onSuccess: () => {
             this.addImg = false
+            this.mode = true
             this.file = []
           }
+        },
+        {
+          preserveScroll: true,
         }
       )
     },
     deleteCategory(id) {
-      router.delete(`/delete-category/${id}`, {})
+      router.delete(`/delete-category/${id}`, {
+        preserveScroll: true,
+      })
     },
     handleDelete(id) {
-      router.delete(`/menu/delete-dish/${id}`)
+      router.delete(`/menu/delete-dish/${id}`,{
+        preserveScroll: true,
+      })
     }
   },
 }

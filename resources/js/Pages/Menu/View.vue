@@ -173,8 +173,8 @@
         <div class="d-flex justify-space-between align-center">
           <h1 class="fc-primary">Retter</h1>
           <div class="d-flex align-center ga-2 mb-2">
-            <v-btn  @click="mode = true" :variant="mode ?'flat' : 'outlined'" color="#2B3674" elevation="0" rounded>On</v-btn>
-            <v-btn  @click="mode = false" :variant="!mode ?'flat' : 'outlined'" elevation="0" color="#2B3674" rounded>Off</v-btn>
+            <v-btn  @click="mode = !mode" :variant="mode ?'flat' : 'outlined'" color="#2B3674" elevation="0" rounded>Skift-tilstand</v-btn>
+<!--            <v-btn  @click="mode = false" :variant="!mode ?'flat' : 'outlined'" elevation="0" color="#2B3674" rounded>Off</v-btn>-->
           </div>
         </div>
        <div class="d-flex mb-4">
@@ -182,7 +182,7 @@
          <v-btn v-if="!mode" @click="changeMode('dishes')" :variant="menu.mode == 'dishes' ?'flat' : 'outlined'" color="#2B3674" elevation="0" rounded>Active</v-btn>
        </div>
         <v-card v-if="mode">
-          <v-img :src="imageList[0].img"></v-img>
+          <v-img v-if="imageList[0]" :src="imageList[0].img"></v-img>
         </v-card>
 
         <DishesTable v-if="!mode" @edit="editMode = !editMode" @edit-data="(data)=>{selectedDish = data}"

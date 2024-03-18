@@ -70,9 +70,9 @@ import TopBar from "@/Components/TopBar.vue";
         <h1>Settings</h1>
       </div>
       <div class="ma-3 mt-8">
-        <v-label class="font-reg">The opening video</v-label>
+        <v-label class="font-reg">Åbningsvideoen</v-label>
         <v-text-field v-model="settingsData.video" class="input" placeholder="Url" variant="text"></v-text-field>
-        <v-label class="font-reg">Total Chairs</v-label>
+        <v-label class="font-reg">Tilladte reservationer i alt</v-label>
         <v-text-field v-model="settingsData.total_tables" class="input" type="number" min="1" placeholder="Tables" variant="text"></v-text-field>
       </div>
       <template #append>

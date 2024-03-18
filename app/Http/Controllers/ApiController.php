@@ -69,7 +69,14 @@ class ApiController extends Controller
         return response()->json($gallery, 201);
     }
 
-    public function getMenu()
+    public function getMenuListImage($menuId)
+    {
+        $imageList = Dishe::select('dishes.id', 'dishes.menu_id', 'dishes.img')
+            ->where('dishes.menu_id', $menuId)
+            ->whereNotNull('dishes.img')
+            ->get();
+    }
+        public function getMenu()
     {
         // Fetch all categories
         $categories = Category::select('categories.id as category_id', 'dishes.price', 'categories.name', 'menus.created_at', 'menus.id as menu_id', 'menus.title as menu_title', 'menus.description as menu_description', 'dishes.title as dish_title', 'dishes.description as dish_description')
@@ -81,7 +88,7 @@ class ApiController extends Controller
 
 
         // Fetch all menus
-        $menus = Menu::select('created_at', 'id', 'title', 'description', 'category_id', 'slug')
+        $menus = Menu::select('created_at', 'id', 'title', 'description', 'category_id', 'slug','mode')
             ->orderBy('created_at', 'DESC')
             ->get();
 
@@ -115,7 +122,7 @@ class ApiController extends Controller
         return response()->json($menus, 201);
     }
 public function getDishes(){
-    $dishes = Dishe::select('dishes.id', 'dishes.menu_id', 'dishes.title', 'dishes.price', 'dishes.description',
+    $dishes = Dishe::select('dishes.id', 'dishes.menu_id', 'dishes.title', 'dishes.price', 'dishes.description','dishes.img',
         'categories.id as category_id',
         'categories.name as category_name')
         ->join('categories', 'dishes.category_id', '=', 'categories.id')

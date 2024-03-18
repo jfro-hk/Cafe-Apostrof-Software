@@ -14,7 +14,7 @@ class SettingsController extends Controller
 //        dd($request->all());
 
         $request->validate([
-            'video' => 'required|string',
+            'video' => 'nullable|string',
             'total_tables' => 'required|integer',
         ]);
 

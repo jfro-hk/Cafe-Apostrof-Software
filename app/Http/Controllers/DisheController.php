@@ -23,10 +23,7 @@ class DisheController extends Controller
             ->orderBy('categories.name', 'DESC')
             ->where('dishes.menu_id', $menu->id)
             ->get();
-        $imageList = Dishe::select('dishes.id', 'dishes.menu_id', 'dishes.img')
-            ->where('dishes.menu_id', $menu->id)
-            ->whereNotNull('dishes.img')
-            ->get();
+
         $mappedDishes = $dishes->map(function ($dish) {
             return [
                 'title' => $dish->title,
@@ -50,7 +47,6 @@ class DisheController extends Controller
             'menu' => $menu,
             'dishes' => $mappedDishes,
             'totalDishes' => $totalDishes,
-            'imageList' => $imageList,
         ]);
     }
     public function addImage(Request $request, $menuId)
@@ -65,34 +61,33 @@ class DisheController extends Controller
             return back()->with('error', 'Menu not found!');
         }
 
-        // Check if the dish with the specified menuId already exists
-        $dish = Dishe::where('menu_id', $menuId)->first();
 
         // If the dish already exists, update the image
-        if ($dish) {
+        if ($menu) {
             if ($request->hasFile('file')) {
                 $imageName = $request->file('file')->getClientOriginalName();
-                $dish->img = '/images/' . $imageName = time() . '.' . $imageName;
+                $menu->img = '/images/' . $imageName = time() . '.' . $imageName;
                 $request->file('file')->move(public_path('../public/images'), $imageName);
-                $dish->save();
+                $menu->save();
                 return back()->with('success', 'Image updated successfully!');
             } else {
                 return back()->with('error', 'No image provided!');
             }
-        } else {
-            // If the dish doesn't exist, create a new one with the provided image
-            if ($request->hasFile('file')) {
-                $imageName = $request->file('file')->getClientOriginalName();
-                $dish = new Dishe();
-                $dish->img = '/images/' . $imageName = time() . '.' . $imageName;
-                $request->file('file')->move(public_path('../public/images'), $imageName);
-                $dish->menu_id = $menuId;
-                $dish->save();
-                return back()->with('success', 'Image added successfully!');
-            } else {
-                return back()->with('error', 'No image provided!');
-            }
-        }
+//        } else {
+//            // If the dish doesn't exist, create a new one with the provided image
+//            if ($request->hasFile('file')) {
+//                $imageName = $request->file('file')->getClientOriginalName();
+//                $dish = new Dishe();
+//                $dish->img = '/images/' . $imageName = time() . '.' . $imageName;
+//                $request->file('file')->move(public_path('../public/images'), $imageName);
+//                $dish->menu_id = $menuId;
+//                $dish->save();
+//                return back()->with('success', 'Image added successfully!');
+//            } else {
+//                return back()->with('error', 'No image provided!');
+//            }
+//        }
+    }
     }
 
     public function add(Request $request, $menuId)

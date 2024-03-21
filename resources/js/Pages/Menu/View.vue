@@ -80,7 +80,7 @@
               <v-row justify="center" class="pa-12 ga-4">
                 <v-btn @click="addCate = !addCate" size="large" color="#2B3674">Kategori</v-btn>
                 <v-btn @click="addDish = !addDish" size="large" color="#2B3674">Retter</v-btn>
-                <v-btn @click="openAddImageDialog" size="large" color="#2B3674">Billede {{imageList.length > 0 ? 'Update' : ''}}</v-btn>
+                <v-btn @click="openAddImageDialog" size="large" color="#2B3674">Billede {{menu.img != null? 'Update' : ''}}</v-btn>
               </v-row>
             </v-container>
           </v-card-text>
@@ -142,7 +142,6 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-
       <!--      // add dish-->
       <v-dialog
         v-model="addDish"
@@ -181,8 +180,8 @@
          <v-btn v-if="mode" @click="changeMode('img')" :variant="menu.mode == 'img' ?'flat' : 'outlined'" color="#2B3674" elevation="0" rounded>Active</v-btn>
          <v-btn v-if="!mode" @click="changeMode('dishes')" :variant="menu.mode == 'dishes' ?'flat' : 'outlined'" color="#2B3674" elevation="0" rounded>Active</v-btn>
        </div>
-        <v-card v-if="mode">
-          <v-img v-if="imageList[0]" :src="imageList[0].img"></v-img>
+        <v-card v-if="mode && menu.img != null">
+          <v-img v-if="menu.img" :src="menu.img"></v-img>
         </v-card>
 
         <DishesTable v-if="!mode" @edit="editMode = !editMode" @edit-data="(data)=>{selectedDish = data}"
@@ -206,7 +205,7 @@ export default {
       return moment
     }
   },
-  props: {menu: Array, dishes: Array,imageList: Array, categories: Array, totalDishes: Number, errors: Object},
+  props: {menu: Array, dishes: Array, categories: Array, totalDishes: Number, errors: Object},
   components: {DropZone, AddDishes, AnlyticCard, DishesTable, AuthenticatedLayout},
   data: () => ({
     selectedDish: [],
@@ -252,7 +251,7 @@ export default {
     openAddImageDialog(){
       this.addImg = !this.addImg
       if (this.mode){
-        this.previews = [{preview: this.imageList[0].img}];
+        this.previews = [{preview: this.menu.img != null ? this.menu.img : '' }];
       }
     },
     acceptFilesHandler(files) {
@@ -288,14 +287,14 @@ export default {
       // route('addCategory')
       router.post(`/menu/add-img/${this.menu.id}`, {
           file: this.file[0],
+        },
+        {
+          preserveScroll: true,
           onSuccess: () => {
             this.addImg = false
             this.mode = true
             this.file = []
           }
-        },
-        {
-          preserveScroll: true,
         }
       )
     },

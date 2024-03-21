@@ -31,7 +31,7 @@ class ApiController extends Controller
         $settings = Setting::first();
 
         $totalTablesSum = Reservation::sum('antal');
-        $checkOperation = $totalTablesSum+$request->antal;
+        $checkOperation = $totalTablesSum + $request->antal;
 //        return $totalTablesSum+$request->antal;
 //        $totalReservations = Reservation::count();
         if ($checkOperation <= $settings->total_tables) {
@@ -64,7 +64,7 @@ class ApiController extends Controller
 
     public function getGallery()
     {
-        $gallery = Gallery::select('title','description','media')->get();
+        $gallery = Gallery::select('title', 'description', 'media')->get();
 
         return response()->json($gallery, 201);
     }
@@ -76,7 +76,8 @@ class ApiController extends Controller
             ->whereNotNull('dishes.img')
             ->get();
     }
-        public function getMenu()
+
+    public function getMenu()
     {
         // Fetch all categories
         $categories = Category::select('categories.id as category_id', 'dishes.price', 'categories.name', 'menus.created_at', 'menus.id as menu_id', 'menus.title as menu_title', 'menus.description as menu_description', 'dishes.title as dish_title', 'dishes.description as dish_description')
@@ -88,8 +89,8 @@ class ApiController extends Controller
 
 
         // Fetch all menus
-        $menus = Menu::select('created_at', 'id', 'title', 'description', 'category_id', 'slug','mode')
-            ->orderBy('created_at', 'DESC')
+        $menus = Menu::select('created_at', 'id', 'title', 'description', 'category_id', 'slug', 'mode', 'img')
+            ->orderBy('created_at', 'ASC')
             ->get();
 
 
@@ -121,20 +122,23 @@ class ApiController extends Controller
 
         return response()->json($menus, 201);
     }
-public function getDishes(){
-    $dishes = Dishe::select('dishes.id', 'dishes.menu_id', 'dishes.title', 'dishes.price', 'dishes.description','dishes.img',
-        'categories.id as category_id',
-        'categories.name as category_name')
-        ->join('categories', 'dishes.category_id', '=', 'categories.id')
-//            ->join('categories', 'menus.category_id', '=', 'categories.id')
-        ->orderBy('dishes.created_at', 'DESC')
-        ->get();
 
-    return response()->json($dishes, 201);
-}
+    public function getDishes()
+    {
+        $dishes = Dishe::select('dishes.id', 'dishes.menu_id', 'dishes.title', 'dishes.price', 'dishes.description',
+            'categories.id as category_id',
+            'categories.name as category_name')
+            ->join('categories', 'dishes.category_id', '=', 'categories.id')
+//            ->join('categories', 'menus.category_id', '=', 'categories.id')
+            ->orderBy('dishes.created_at', 'ASC')
+            ->get();
+
+        return response()->json($dishes, 201);
+    }
+
     public function getCategories()
     {
-        $categories = Category::select('menu_id','name', 'id')->get();
+        $categories = Category::select('menu_id', 'name', 'id')->orderBy('created_at', 'ASC')->get();
 
         return response()->json($categories, 201);
     }

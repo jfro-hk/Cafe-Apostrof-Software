@@ -42,7 +42,7 @@ class ReservationController extends Controller
 //            $event->end_time = $request->endTime;
             $event->save();
             return back()
-                ->with('success', 'Reservation deleted successfully!');
+                ->with('success', 'Reservation added successfully!');
         }
         return back()
             ->with('error', 'Ops there is something wrong!');

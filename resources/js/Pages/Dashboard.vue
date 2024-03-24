@@ -142,7 +142,7 @@
           </v-btn>
           <v-btn
             color="#0E0F3D"
-            @click="updateReservations"
+            @click="editMode?updateReservations() : addReservations()"
             rounded
             :loading="loading"
             variant="flat"
@@ -241,10 +241,31 @@ export default {
       // console.log(data)
 
     },
-
+    addReservations() {
+      this.loading = true
+      router.post(`/reservation-add/`, {
+        fullname: this.reservation.fullname,
+        date: this.reservation.date,
+        time: this.reservation.time,
+        antal: this.reservation.antal,
+        description: this.reservation.description
+      }, {
+        preserveScroll:true,
+        onSuccess: () => {
+          this.loading = false
+          this.reservation.fullname = null
+          this.reservation.date = null
+          this.reservation.time = null
+          this.reservation.antal = null
+          this.reservation.description = null
+          this.editMode = false
+          this.addRes = !this.addRes
+        }
+      })
+    },
     updateReservations() {
       this.loading = true
-      router.post(`/reservation-${this.editMode ? 'update/' + this.reservation.id : 'add/'}`, {
+      router.post(`/reservation-update/${this.reservation.id}`, {
         fullname: this.reservation.fullname,
         date: this.reservation.date,
         time: this.reservation.time,

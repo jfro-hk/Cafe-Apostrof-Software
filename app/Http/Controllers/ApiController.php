@@ -30,17 +30,16 @@ class ApiController extends Controller
         ]);
         $settings = Setting::first();
 
-        $totalTablesSum = Reservation::sum('antal');
+        $totalTablesSum = Reservation::whereDate('date', Carbon::parse($request->date)->timezone('Europe/Amsterdam')->format('Y-m-d'))->sum('antal');
         $checkOperation = $totalTablesSum + $request->antal;
-//        return $totalTablesSum+$request->antal;
-//        $totalReservations = Reservation::count();
         if ($checkOperation <= $settings->total_tables) {
+
             // Create a new Reservation instance
             $reservation = new Reservation();
-            $reservation->fullname = $request->fullname;
+            $reservation->fullname = $request->fullname;-
             $reservation->email = $request->email;
             $reservation->number = $request->number;
-            $reservation->date = Carbon::parse($request->date)->format('Y-m-d');
+            $reservation->date = Carbon::parse($request->date)->timezone('Europe/Amsterdam')->format('Y-m-d');
             $reservation->time = $request->time;
             $reservation->antal = $request->antal;
             $reservation->description = $request->description;
@@ -54,9 +53,9 @@ class ApiController extends Controller
                 $event->description = $reservation->description;
                 $event->save();
 //            $event->end_time = $request->endTime;
+                return response()->json(200, 201);
             }
-            return response()->json(200, 201);
-
+            return response()->json(204, 201);
         } else {
             return response()->json(204, 201);
         }
@@ -92,33 +91,6 @@ class ApiController extends Controller
         $menus = Menu::select('created_at', 'id', 'title', 'description', 'category_id', 'slug', 'mode', 'img')
             ->orderBy('created_at', 'ASC')
             ->get();
-
-
-        // Fetch all dishes
-//        $dishes = Dishe::select('created_at', 'id', 'title', 'description', 'menu_id')
-//            ->orderBy('created_at', 'DESC')
-//            ->get();
-
-        // Organize dishes by menu and category
-//        $dishesByMenuAndCategory = [];
-//
-//        foreach ($menus as $menu) {
-//            $menuId = $menu->id;
-//            $categoryId = $menu->category_id;
-//
-//            // Initialize dishes array for the current category if not exists
-//            if (!isset($dishesByMenuAndCategory[$categoryId][$menuId])) {
-//                $dishesByMenuAndCategory['category'][$categoryId] = [];
-//            }
-//
-//            // Find dishes related to the current menu
-//            $menuDishes = $dishes->filter(function ($dish) use ($menuId) {
-//                return $dish->menu_id == $menuId;
-//            });
-//
-//            // Add menu dishes to the corresponding category and menu
-//            $dishesByMenuAndCategory['category'][$categoryId] = $menuDishes->toArray();
-//        }
 
         return response()->json($menus, 201);
     }

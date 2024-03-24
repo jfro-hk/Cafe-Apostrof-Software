@@ -406,3 +406,9 @@ right: 0;
         width: 100vw !important;
     }
 }
+.flatpicker-s{
+        input:not(.form-control){
+            display: none !important;
+        }
+    }
+

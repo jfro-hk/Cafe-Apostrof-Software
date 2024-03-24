@@ -17,24 +17,26 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $reservations = Reservation::select('id','fullname','date','time','antal','created_at')->get();
+        $reservations = Reservation::select('id','fullname','date','time','antal','created_at','description')->orderBy('date','DESC')->get();
         $mappedReservation = $reservations->map(function ($reservation) {
             return [
-                'id' => $reservation->id,
+//                'id' => $reservation->id,
                 'fulde navn' => $reservation->fullname,
-                'dato' => Carbon::parse($reservation->date)->format('M d'),
+                'description' => $reservation->description,
+                'dato' => Carbon::parse($reservation->date)->format('Y-m-d'),
                 'tid' => $reservation->time,
                 'antal' => $reservation->antal,
-                'oprettet på' => Carbon::parse($reservation->date)->format('Y/m/d'),
+                'oprettet på' => Carbon::parse($reservation->created_at)->format('Y/m/d'),
+                'action' => $reservation->id,
             ];
         });
-        $events = Event::select('id','title','start_date','end_date','start_time','end_time')->orderBy('created_at','DESC')->get();
+        $events = Event::select('id','title','start_date','end_date','start_time','end_time')->orderBy('start_date','DESC')->get();
         $mappedEvents = $events->map(function ($event) {
             return [
-                'id' => $event->id,
                 'titel' => $event->title,
 //                'description' => $event->description,
                 'dato' => Carbon::parse($event->start_date)->format('M d'),
+                'action' => $event->id,
 //                'end' => $event->end_date,
             ];
         });

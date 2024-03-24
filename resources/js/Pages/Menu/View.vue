@@ -93,6 +93,8 @@
       >
         <v-card title="Add Category">
           <v-card-text class="mt-5">
+            <v-row>
+              <v-col cols="12">
             <v-text-field class="input" v-model="category.title" variant="text"
                           placeholder="Category Title"></v-text-field>
             <div class="app-table">
@@ -102,7 +104,7 @@
                   <th class="text-left">
                     Name
                   </th>
-                  <th class="text-left">
+                  <th class="text-right">
                     Action
                   </th>
                 </tr>
@@ -113,14 +115,15 @@
                   :key="item.name"
                 >
                   <td>{{ item.name }}</td>
-                  <td>
+                  <td class="text-right">
                     <v-btn color="#2B3674" @click="deleteCategory(item.id)" rounded elevation="0">Delete</v-btn>
                   </td>
                 </tr>
                 </tbody>
               </v-table>
-
             </div>
+              </v-col>
+            </v-row>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -184,7 +187,7 @@
           <v-img v-if="menu.img" :src="menu.img"></v-img>
         </v-card>
 
-        <DishesTable v-if="!mode" @edit="editMode = !editMode" @edit-data="(data)=>{selectedDish = data}"
+        <DishesTable :selectable="true" v-if="!mode" @edit="editMode = !editMode" @edit-data="(data)=>{selectedDish = data}"
                      @selected="(data)=>{selected = data}" @delete="handleDelete" type="editable" :data="dishes"/>
       </v-col>
     </v-row>
@@ -284,6 +287,7 @@ export default {
       )
     },
     addImage() {
+      this.loading = true;
       // route('addCategory')
       router.post(`/menu/add-img/${this.menu.id}`, {
           file: this.file[0],
@@ -292,6 +296,7 @@ export default {
           preserveScroll: true,
           onSuccess: () => {
             this.addImg = false
+            this.loading = false
             this.mode = true
             this.file = []
           }

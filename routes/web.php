@@ -5,6 +5,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DisheController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
@@ -50,7 +51,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/update-event/{id}', [EventController::class, 'update'])->name('event.update');
     Route::delete('/delete-event/{id}', [EventController::class, 'deleteEvent'])->name('event.delete');
     Route::get('/get-events', [EventController::class, 'getEvents'])->name('event.get');
+    //Reservations
+    Route::post('/reservation-add/', [ReservationController::class, 'add'])->name('reservation.add');
+    Route::post('/reservation-update/{id}', [ReservationController::class, 'update'])->name('reservation.update');
+    Route::delete('/reservation-delete/{id}', [ReservationController::class, 'delete'])->name('reservation.delete');
 
+
+    //Settings
     Route::post('/settings-update/{id}', [SettingsController::class, 'update'])->name('settings.update');
 
 //        });

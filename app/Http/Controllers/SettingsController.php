@@ -11,8 +11,6 @@ class SettingsController extends Controller
         $settings = Setting::first();
     }
     public function update(Request $request,$id) {
-//        dd($request->all());
-
         $request->validate([
             'video' => 'nullable|string',
             'total_tables' => 'required|integer',

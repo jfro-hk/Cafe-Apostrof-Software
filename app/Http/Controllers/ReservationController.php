@@ -11,6 +11,7 @@ class ReservationController extends Controller
 {
     public function add(Request $request)
     {
+//        dd($request->all());
         $request->validate([
             'fullname' => 'required|string',
             'email' => 'nullable|email',

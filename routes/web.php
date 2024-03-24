@@ -52,7 +52,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::delete('/delete-event/{id}', [EventController::class, 'deleteEvent'])->name('event.delete');
     Route::get('/get-events', [EventController::class, 'getEvents'])->name('event.get');
     //Reservations
-    Route::post('/reservation-add/', [ReservationController::class, 'add'])->name('reservation.add');
+    Route::get('/reservation-add', [ReservationController::class, 'add'])->name('reservation.add');
     Route::post('/reservation-update/{id}', [ReservationController::class, 'update'])->name('reservation.update');
     Route::delete('/reservation-delete/{id}', [ReservationController::class, 'delete'])->name('reservation.delete');
 

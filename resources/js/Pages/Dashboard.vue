@@ -243,7 +243,7 @@ export default {
     },
     addReservations() {
       this.loading = true
-      router.post(`/reservation-add/`, {
+      router.get(`/reservation-add`, {
         fullname: this.reservation.fullname,
         date: this.reservation.date,
         time: this.reservation.time,

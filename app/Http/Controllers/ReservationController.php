@@ -9,6 +9,42 @@ use Illuminate\Http\Request;
 
 class ReservationController extends Controller
 {
+    public function addRes()
+    {
+
+        $reservation = new Reservation();
+//        $reservation = new Reservation();
+        $reservation->fullname = $_GET['fullname'];
+        if (isset($_GET['email'])){
+        $reservation->email = $_GET['email'];
+        }
+        if (isset($_GET['number'])) {
+            $reservation->number = $_GET['number'];
+        }
+        $reservation->date = Carbon::parse($_GET['date'])->timezone('Europe/Amsterdam')->format('Y-m-d');
+        $reservation->time = $_GET['time'];
+        $reservation->antal = $_GET['antal'];
+        if (isset($_GET['description'])) {
+            $reservation->description = $_GET['description'];
+        }
+
+        // Save the reservation
+        if (
+            $reservation->save()
+        ) {
+            $event = new Event();
+            $event->title = $reservation->fullname;
+            $event->start_date = $reservation->date;
+            $event->start_time = $reservation->time;
+            $event->description = $reservation->description;
+//            $event->end_time = $request->endTime;
+            $event->save();
+            return to_route('dashboard')
+                ->with('success', 'Reservation added successfully!');
+        }
+        return back()
+            ->with('error', 'Ops there is something wrong!');
+    }
     public function add(Request $request)
     {
 //        dd($request->all());

@@ -142,7 +142,7 @@
           </v-btn>
           <v-btn
             color="#0E0F3D"
-            @click="editMode?updateReservations() : addReservations()"
+            @click="editMode?updateReservations() : addResReservations()"
             rounded
             :loading="loading"
             variant="flat"
@@ -244,6 +244,28 @@ export default {
     addReservations() {
       this.loading = true
       router.get(`/reservation-add`, {
+        fullname: this.reservation.fullname,
+        date: this.reservation.date,
+        time: this.reservation.time,
+        antal: this.reservation.antal,
+        description: this.reservation.description
+      }, {
+        preserveScroll:true,
+        onSuccess: () => {
+          this.loading = false
+          this.reservation.fullname = null
+          this.reservation.date = null
+          this.reservation.time = null
+          this.reservation.antal = null
+          this.reservation.description = null
+          this.editMode = false
+          this.addRes = !this.addRes
+        }
+      })
+    },
+    addResReservations() {
+      this.loading = true
+      router.get(`/reservation-add-res/${Object.values(this.reservation)}`, {
         fullname: this.reservation.fullname,
         date: this.reservation.date,
         time: this.reservation.time,

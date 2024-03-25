@@ -168,7 +168,7 @@
         <div class="d-flex justify-end align-center">
           <v-btn size="small" elevation="0" style="width: 30px; height: 50px;border-radius: 49px" rounded
                  color="#0E0F3D"
-                 @click="addRes = !addRes">
+                 @click="addResForm">
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </div>
@@ -192,6 +192,7 @@ import {router} from "@inertiajs/vue3";
 import moment from "moment";
 import flatPickr from 'vue-flatpickr-component';
 import 'flatpickr/dist/flatpickr.css';
+import {useToast} from "vue-toastification";
 
 export default {
   name: 'DashboardPage',
@@ -208,6 +209,7 @@ export default {
       altInput: true,
       dateFormat: 'Y-m-d',
     },
+    toast:useToast(),
     loading:false,
     addRes: false,
     editMode: false,
@@ -222,8 +224,17 @@ export default {
       description: null,
     }
   }),
+
   components: {CheckTable, AuthenticatedLayout, AnlyticCard, flatPickr},
   methods: {
+    formReset(){
+      this.loading = false
+      this.reservation.fullname = null
+      this.reservation.date = null
+      this.reservation.time = null
+      this.reservation.antal = null
+      this.reservation.description = null
+    },
     eventDelete(id) {
       router.delete(`/delete-event/${id}`, {
         preserveScroll: true
@@ -241,6 +252,12 @@ export default {
       // console.log(data)
 
     },
+    addResForm() {
+     this.addRes = !this.addRes
+      this.formReset()
+      // console.log(data)
+
+    },
     addReservations() {
       this.loading = true
       router.get(`/reservation-add`, {
@@ -252,19 +269,18 @@ export default {
       }, {
         preserveScroll:true,
         onSuccess: () => {
-          this.loading = false
-          this.reservation.fullname = null
-          this.reservation.date = null
-          this.reservation.time = null
-          this.reservation.antal = null
-          this.reservation.description = null
+         this.formRest()
           this.editMode = false
           this.addRes = !this.addRes
         }
       })
     },
     addResReservations() {
-      this.loading = true
+      if (
+        this.reservation.fullname && this.reservation.date&& this.reservation.antal&&this.reservation.time
+      ){
+        this.loading = true
+
       router.get(`/reservation-add-res/${Object.values(this.reservation)}`, {
         fullname: this.reservation.fullname,
         date: this.reservation.date,
@@ -284,6 +300,7 @@ export default {
           this.addRes = !this.addRes
         }
       })
+      }
     },
     updateReservations() {
       this.loading = true
@@ -313,6 +330,10 @@ export default {
       })
     }
   },
+  // mounted() {
+  //   this.toast.success('Reservation added successfully!')
+  //
+  //   },
   computed: {
     moment() {
       return moment

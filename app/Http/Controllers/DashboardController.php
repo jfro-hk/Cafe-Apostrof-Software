@@ -51,6 +51,7 @@ class DashboardController extends Controller
             'reservations' => $mappedReservation,
             'totalTodayReservations' => $totalReservations,
             'totalGallery' => $totalGallery,
+            'post_route' => route('reservation.add'),
         ]);
     }
 }

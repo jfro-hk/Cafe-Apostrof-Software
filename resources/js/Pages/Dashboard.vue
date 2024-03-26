@@ -201,6 +201,7 @@ export default {
     events: Object,
     totalTodayReservations: Number,
     totalGallery: Number,
+    post_route: String,
   },
   data: () => ({
     config: {
@@ -250,7 +251,6 @@ export default {
       this.reservation.antal = data["antal"]
       this.reservation.id = data["action"]
       // console.log(data)
-
     },
     addResForm() {
      this.addRes = !this.addRes
@@ -260,7 +260,7 @@ export default {
     },
     addReservations() {
       this.loading = true
-      router.get(`/reservation-add`, {
+      router.post(`${this.post_route}`, {
         fullname: this.reservation.fullname,
         date: this.reservation.date,
         time: this.reservation.time,

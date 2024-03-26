@@ -142,7 +142,7 @@
           </v-btn>
           <v-btn
             color="#0E0F3D"
-            @click="editMode?updateReservations() : addResReservations()"
+            @click="editMode?updateReservations() : addReservations()"
             rounded
             :loading="loading"
             variant="flat"

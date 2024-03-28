@@ -9,147 +9,159 @@
               :no-click-animation="true"
               width="1024"
     >
+      <v-stepper
+        alt-labels
+        editable
+        hide-actions
+        :items="['Edit', 'Table']"
+      >
+        <template v-slot:[`item.1`]>
+          <v-card class="overflow-y-auto">
+            <v-card-text>
+              <v-container>
+                <v-row class="pl-2 pr-2">
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    md="6"
+                  >
+                    <v-label class="font-reg">Full name:</v-label>
+                    <v-text-field
+                      class="input"
+                      variant="text"
+                      placeholder="Full name"
+                      :rules="[(v) => !!v || 'Fulde navn er påkrævet']"
+                      hide-details="auto"
+                      v-model="reservation.fullname"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    md="6"
+                  >
+                    <v-label class="font-reg">Antal:</v-label>
+                    <v-text-field
+                      class="input"
+                      v-model="reservation.antal"
+                      type="number"
+                      :rules="[(v) => !!v || 'Antal er påkrævet']"
+                      hide-details="auto"
+                      variant="text"
+                      placeholder="Antal"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    md="6"
+                  >
+                    <!--                form-control-->
+                    <v-label class="font-reg">Dato</v-label>
+                    <div class="flatpicker-s">
+                      <v-text-field class="input" hide-details="auto" :rules="[(v) => !!v || 'Dato er påkrævet']"
+                                    variant="text" readonly>
+                        <v-overlay>
+                          <template v-slot:activator>
+                            <flat-pickr
+                              v-model="reservation.date"
+                              :config="config"
+                              class="w-100"
+                              style="width: 500px !important;"
+                            />
+                          </template>
+                        </v-overlay>
+                      </v-text-field>
+                    </div>
+                  </v-col>
+                  <v-col cols="12"
+                         sm="6"
+                         md="6"
+                  >
+                    <v-label class="font-reg">Tid</v-label>
 
-      <v-card class="overflow-y-auto">
-        <!--        <v-card-title>-->
-        <!--          <span class="text-h5">{{ editMode ? 'Edit Reservation' : 'Add Reservation' }}</span>-->
-        <!--        </v-card-title>-->
-        <v-card-text>
-          <v-container>
-            <v-row class="pl-2 pr-2">
-              <v-col
-                cols="12"
-                sm="6"
-                md="6"
+                    <v-text-field
+                      hide-details="auto"
+                      required
+                      class="input"
+                      :rules="[(v) => !!v || 'Tid er påkrævet']"
+                      v-model="reservation.time"
+                      type="Time"
+                      variant="text"
+                      placeholder="Time"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    md="6">
+                    <v-label class="font-reg">Email</v-label>
+
+                    <v-text-field
+                      required
+                      hide-details="auto"
+                      class="input"
+                      v-model="reservation.email"
+                      type="email"
+                      variant="text"
+                      placeholder="Email"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12"
+                         sm="6"
+                         md="6"
+                  >
+                    <v-label class="font-reg">Nummer</v-label>
+                    <v-text-field
+                      required
+                      class="input"
+                      v-model="reservation.number"
+                      type="number"
+                      variant="text"
+                      placeholder="Nummer"
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12">
+                    <v-label class="font-reg">Beskrivelse:</v-label>
+
+                    <v-textarea hide-details="auto" variant="plain"
+                                v-model="reservation.description"
+                                class="input-textarea" placeholder="Beskrivelse"></v-textarea>
+
+                  </v-col>
+
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                variant="outlined"
+                color="#0E0F3D"
+                @click="addRes = !addRes"
+                rounded
               >
-                <v-label class="font-reg">Full name:</v-label>
-                <v-text-field
-                  class="input"
-                  variant="text"
-                  placeholder="Full name"
-                  :rules="[(v) => !!v || 'Fulde navn er påkrævet']"
-                  hide-details="auto"
-                  v-model="reservation.fullname"
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                md="6"
-              >
-                <v-label class="font-reg">Antal:</v-label>
-                <v-text-field
-                  class="input"
-                  v-model="reservation.antal"
-                  type="number"
-                  :rules="[(v) => !!v || 'Antal er påkrævet']"
-                  hide-details="auto"
-                  variant="text"
-                  placeholder="Antal"
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                md="6"
-              >
-                <!--                form-control-->
-                <v-label class="font-reg">Dato</v-label>
-                <div class="flatpicker-s">
-                  <v-text-field class="input" hide-details="auto" :rules="[(v) => !!v || 'Dato er påkrævet']" variant="text" readonly>
-                    <v-overlay>
-                      <template v-slot:activator>
-                        <flat-pickr
-                          v-model="reservation.date"
-                          :config="config"
-                          class="w-100"
-                          style="width: 500px !important;"
-                        />
-                      </template>
-                    </v-overlay>
-                  </v-text-field>
-                </div>
-              </v-col>
-              <v-col cols="12"
-                     sm="6"
-                     md="6"
-              >
-                <v-label class="font-reg">Tid</v-label>
+                Close
+              </v-btn>
+              <v-btn
+                color="#0E0F3D"
+                @click="editMode?updateReservations() : addReservations()"
+                rounded
+                :loading="loading"
+                variant="flat"
+              > Save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </template>
 
-                <v-text-field
-                  hide-details="auto"
-                  required
-                  class="input"
-                  :rules="[(v) => !!v || 'Tid er påkrævet']"
-                  v-model="reservation.time"
-                  type="Time"
-                  variant="text"
-                  placeholder="Time"
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                md="6">
-                <v-label class="font-reg">Email</v-label>
+        <template v-slot:[`item.3`]>
+          <v-card title="Step Two" flat>...</v-card>
+        </template>
 
-                <v-text-field
-                  required
-                  hide-details="auto"
-                  class="input"
-                  v-model="reservation.email"
-                  type="email"
-                  variant="text"
-                  placeholder="Email"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12"
-                     sm="6"
-                     md="6"
-              >
-                <v-label class="font-reg">Nummer</v-label>
-                <v-text-field
-                  required
-                  class="input"
-                  v-model="reservation.number"
-                  type="number"
-                  variant="text"
-                  placeholder="Nummer"
-                ></v-text-field>
-              </v-col>
+      </v-stepper>
 
-              <v-col cols="12">
-                <v-label class="font-reg">Beskrivelse:</v-label>
-
-                <v-textarea  hide-details="auto" variant="plain"
-                            v-model="reservation.description"
-                            class="input-textarea" placeholder="Beskrivelse"></v-textarea>
-
-              </v-col>
-
-            </v-row>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            variant="outlined"
-            color="#0E0F3D"
-            @click="addRes = !addRes"
-            rounded
-          >
-            Close
-          </v-btn>
-          <v-btn
-            color="#0E0F3D"
-            @click="editMode?updateReservations() : addReservations()"
-            rounded
-            :loading="loading"
-            variant="flat"
-          > Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
     </v-dialog>
     <v-row>
       <v-col cols="12" sm="4" :md="3" :lg="4">
@@ -210,8 +222,8 @@ export default {
       altInput: true,
       dateFormat: 'Y-m-d',
     },
-    toast:useToast(),
-    loading:false,
+    toast: useToast(),
+    loading: false,
     addRes: false,
     editMode: false,
     reservation: {
@@ -228,7 +240,7 @@ export default {
 
   components: {CheckTable, AuthenticatedLayout, AnlyticCard, flatPickr},
   methods: {
-    formReset(){
+    formReset() {
       this.loading = false
       this.reservation.fullname = null
       this.reservation.date = null
@@ -253,53 +265,52 @@ export default {
       // console.log(data)
     },
     addResForm() {
-     this.addRes = !this.addRes
+      this.addRes = !this.addRes
       this.formReset()
       // console.log(data)
 
     },
     addReservations() {
-      this.loading = true
-      router.post(`${this.post_route}`, {
-        fullname: this.reservation.fullname,
-        date: this.reservation.date,
-        time: this.reservation.time,
-        antal: this.reservation.antal,
-        description: this.reservation.description
-      }, {
-        preserveScroll:true,
-        onSuccess: () => {
-         this.formRest()
-          this.editMode = false
-          this.addRes = !this.addRes
-        }
-      })
+      if (
+        this.reservation.fullname && this.reservation.date && this.reservation.antal && this.reservation.time
+      ) {
+        this.loading = true
+        router.post(this.post_route, {
+          fullname: this.reservation.fullname,
+          date: this.reservation.date,
+          time: this.reservation.time,
+          antal: this.reservation.antal,
+          description: this.reservation.description
+        }, {
+          preserveScroll: true,
+          onSuccess: () => {
+            this.formReset()
+            this.loading = false
+            this.editMode = false
+            this.addRes = !this.addRes
+          }
+        })
+      }
     },
     addResReservations() {
       if (
-        this.reservation.fullname && this.reservation.date&& this.reservation.antal&&this.reservation.time
-      ){
+        this.reservation.fullname && this.reservation.date && this.reservation.antal && this.reservation.time
+      ) {
         this.loading = true
-
-      router.get(`/reservation-add-res/${Object.values(this.reservation)}`, {
-        fullname: this.reservation.fullname,
-        date: this.reservation.date,
-        time: this.reservation.time,
-        antal: this.reservation.antal,
-        description: this.reservation.description
-      }, {
-        preserveScroll:true,
-        onSuccess: () => {
-          this.loading = false
-          this.reservation.fullname = null
-          this.reservation.date = null
-          this.reservation.time = null
-          this.reservation.antal = null
-          this.reservation.description = null
-          this.editMode = false
-          this.addRes = !this.addRes
-        }
-      })
+        router.get(`/reservation-add-res/${Object.values(this.reservation)}`, {
+          fullname: this.reservation.fullname,
+          date: this.reservation.date,
+          time: this.reservation.time,
+          antal: this.reservation.antal,
+          description: this.reservation.description
+        }, {
+          preserveScroll: true,
+          onSuccess: () => {
+            this.loading = false
+            this.formReset()
+            this.addRes = !this.addRes
+          }
+        })
       }
     },
     updateReservations() {
@@ -311,22 +322,18 @@ export default {
         antal: this.reservation.antal,
         description: this.reservation.description
       }, {
-        preserveScroll:true,
+        preserveScroll: true,
         onSuccess: () => {
           this.loading = false
-          this.reservation.fullname = null
-          this.reservation.date = null
-          this.reservation.time = null
-          this.reservation.antal = null
-          this.reservation.description = null
+          this.formReset()
           this.editMode = false
           this.addRes = !this.addRes
         }
       })
     },
     deleteReservation(id) {
-      router.delete(`/reservation-delete/${id}`,{
-        preserveScroll:true,
+      router.delete(`/reservation-delete/${id}`, {
+        preserveScroll: true,
       })
     }
   },

@@ -12,7 +12,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Models\Reservation;
-use Illuminate\Validation\Rule;
 
 class ApiController extends Controller
 {
@@ -27,22 +26,27 @@ class ApiController extends Controller
             'date' => 'required|date',
             'time' => 'required',
             'antal' => 'required|integer|min:1',
+            'table' => 'required',
         ]);
         $settings = Setting::first();
 
         $totalTablesSum = Reservation::whereDate('date', Carbon::parse($request->date)->timezone('Europe/Amsterdam')->format('Y-m-d'))->sum('antal');
-        $checkOperation = $totalTablesSum + $request->antal;
+        $checkOperation = $totalTablesSum + $request->antal - 1;
+//        return $request->table['type'];
         if ($checkOperation <= $settings->total_tables) {
 
             // Create a new Reservation instance
             $reservation = new Reservation();
-            $reservation->fullname = $request->fullname;-
+            $reservation->fullname = $request->fullname;
+            -
             $reservation->email = $request->email;
             $reservation->number = $request->number;
             $reservation->date = Carbon::parse($request->date)->timezone('Europe/Amsterdam')->format('Y-m-d');
             $reservation->time = $request->time;
-            $reservation->antal = $request->antal;
+            $reservation->end_time = Carbon::parse($request->time)->addHours(3)->timezone('Europe/Amsterdam')->format('H:i:s');
             $reservation->description = $request->description;
+            $reservation->antal = $request->antal;
+            $reservation->table = $request->table['type'];
 
             // Save the reservation
             if ($reservation->save()) {
@@ -55,7 +59,7 @@ class ApiController extends Controller
 //            $event->end_time = $request->endTime;
                 return response()->json(200, 201);
             }
-            return response()->json(204, 201);
+            return response()->json(['message', 'Ops something wrong']);
         } else {
             return response()->json(204, 201);
         }
@@ -115,10 +119,42 @@ class ApiController extends Controller
         return response()->json($categories, 201);
     }
 
+    public function getTables($date, $time)
+    {
+        $settings = Setting::first();
+        $formattedTime = Carbon::parse($time)->format('H:i:s');
+        $settingsTables = unserialize($settings->tables);
+        $reservations = Reservation::where('date', $date)->get();
+        foreach ($settingsTables as &$table) {
+            $reservedCount = $reservations->where('table', $table['type'])
+                ->where(function ($query) use ($formattedTime) {
+//                    dd($query->time <= $formattedTime);
+                    if ($query->time > $formattedTime || $query->end_time < $formattedTime) {
+//                        dd('nice');
+                        return false;
+                    }else{
+                        // disable the time
+                        return true;
+                    }
+//                    $query->where('time', '==', $formattedTime); // Reservation starts after provided time
+//                    ->orWhere('end_time', '=>', $formattedTime); // Reservation ends before provided time
+                })
+                ->count();
+
+            if ($reservedCount > 0) {
+                $table['total'] -= 1;
+            }
+        }
+
+        return response()->json($settingsTables, 201);
+    }
+
+
     public function getSettings()
     {
         $settings = Setting::first();
         $opening_times = [];
+        $tables = [];
 
         // Check if $settings->opening_times is not empty
         if (!empty($settings->opening_times)) {
@@ -128,8 +164,24 @@ class ApiController extends Controller
 
         // Assuming you want to include the opening_times array in the response
         $settings->opening_times = $opening_times;
+        if (!empty($settings->tables)) {
+            $tables = unserialize($settings->tables);
+        }
+        $settingsTables = unserialize($settings->tables);
+        $reservations = Reservation::all();
+
+        foreach ($settingsTables as &$table) {
+            // Check if the table type exists in the reservations
+            $reservedCount = $reservations->where('table', $table['type'])->count();
+            if ($reservedCount > 0) {
+                // Decrease one from the total
+                $table['total'] -= 1;
+            }
+        }
+        $settings->tables = $settingsTables;
 
         return response()->json($settings, 201);
+
     }
 
 }

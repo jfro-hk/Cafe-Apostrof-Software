@@ -24,4 +24,5 @@ Route::get('/get-menu/$2a$12$cAZSHYq3zV0CbnaolVBMJeTRTPpBTKbiQSFMRKkU2WrAHQD4KiS
 Route::get('/get-dishes/$2a$12$cAZSHYq3zV0CbnaolVBMJeTRTPpBTKbiQSFMRKkU2WrAHQD4KiSeK',[\App\Http\Controllers\ApiController::class,'getDishes']);
 Route::get('/get-categories/$2a$12$cAZSHYq3zV0CbnaolVBMJeTRTPpBTKbiQSFMRKkU2WrAHQD4KiSeK',[\App\Http\Controllers\ApiController::class,'getCategories']);
 Route::get('/get-settings/$2a$12$cAZSHYq3zV0CbnaolVBMJeTRTPpBTKbiQSFMRKkU2WrAHQD4KiSeK', [\App\Http\Controllers\ApiController::class, 'getSettings'])->name('settings.get');
+Route::get('/get-tables/{date}/{time}/$2a$12$cAZSHYq3zV0CbnaolVBMJeTRTPpBTKbiQSFMRKkU2WrAHQD4KiSeK', [\App\Http\Controllers\ApiController::class, 'getTables'])->name('getTables');
 Route::post('/make-res/$2a$12$cAZSHYq3zV0CbnaolVBMJeTRTPpBTKbiQSFMRKkU2WrAHQD4KiSeK', [\App\Http\Controllers\ApiController::class, 'add'])->name('make-res');

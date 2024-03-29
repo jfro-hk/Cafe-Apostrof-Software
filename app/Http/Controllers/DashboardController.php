@@ -17,7 +17,7 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $reservations = Reservation::select('id','fullname','date','time','antal','created_at','description')->orderBy('date','DESC')->get();
+        $reservations = Reservation::select('id','fullname','date','time','antal','created_at','description','table')->orderBy('date','DESC')->get();
         $mappedReservation = $reservations->map(function ($reservation) {
             return [
 //                'id' => $reservation->id,
@@ -27,6 +27,7 @@ class DashboardController extends Controller
                 'tid' => $reservation->time,
                 'antal' => $reservation->antal,
                 'oprettet på' => Carbon::parse($reservation->created_at)->format('Y/m/d'),
+                'bord' => $reservation->table,
                 'action' => $reservation->id,
             ];
         });

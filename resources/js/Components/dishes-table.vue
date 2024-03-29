@@ -8,6 +8,9 @@
       <template v-slot:[`item.category`]="{ item }">
         {{ item.category.name }}
       </template>
+      <template v-slot:[`item.bord`]="{ item }" >
+       <show-table-map :table="item"/>
+      </template>
       <template v-slot:[`item.description`]="{ item }" v-if="type == 'editable'">
         <show-description :description="item.description"/>
       </template>
@@ -31,6 +34,7 @@
 
         <show-description :description="item.description"/>
       </template>
+
       <template v-slot:[`item.dato`]="{ item }">
         {{ moment(item.dato).format('MMM DD')}}
       </template>
@@ -47,6 +51,7 @@
 import TableOption from "@/Components/table-option.vue";
 import moment from "moment";
 import ShowDescription from "@/Components/show-description.vue";
+import ShowTableMap from "@/Components/show-table-map.vue";
 
 export default {
   computed: {
@@ -54,7 +59,8 @@ export default {
       return moment
     }
   },
-  components: {ShowDescription, TableOption},
+  // eslint-disable-next-line vue/no-unused-components
+  components: {ShowTableMap, ShowDescription, TableOption},
   props: {title: String, data: Array, type: String,selectable:Boolean},
   data() {
     return {
@@ -72,6 +78,7 @@ export default {
   methods: {
     handleSelection(select) {
       this.editData = select
+      console.log(select)
       this.$emit('editData',this.editData)
     },
     handleDelete(id) {

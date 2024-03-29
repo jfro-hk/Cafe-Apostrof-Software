@@ -31,7 +31,7 @@ class ApiController extends Controller
         $settings = Setting::first();
 
         $totalTablesSum = Reservation::whereDate('date', Carbon::parse($request->date)->timezone('Europe/Amsterdam')->format('Y-m-d'))->sum('antal');
-        $checkOperation = $totalTablesSum + $request->antal - 1;
+        $checkOperation = $totalTablesSum + $request->antal;
 //        return $request->table['type'];
         if ($checkOperation <= $settings->total_tables) {
 
@@ -145,7 +145,6 @@ class ApiController extends Controller
                 $table['total'] -= 1;
             }
         }
-
         return response()->json($settingsTables, 201);
     }
 
@@ -181,7 +180,6 @@ class ApiController extends Controller
         $settings->tables = $settingsTables;
 
         return response()->json($settings, 201);
-
     }
 
 }

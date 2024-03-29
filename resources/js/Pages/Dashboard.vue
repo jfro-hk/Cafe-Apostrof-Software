@@ -9,13 +9,13 @@
               :no-click-animation="true"
               width="1024"
     >
-      <v-stepper
-        alt-labels
-        editable
-        hide-actions
-        :items="['Edit', 'Table']"
-      >
-        <template v-slot:[`item.1`]>
+<!--      <v-stepper-->
+<!--        alt-labels-->
+<!--        editable-->
+<!--        hide-actions-->
+<!--        :items="['Edit', 'Table']"-->
+<!--      >-->
+<!--        <template v-slot:[`item.1`]>-->
           <v-card class="overflow-y-auto">
             <v-card-text>
               <v-container>
@@ -154,14 +154,16 @@
               </v-btn>
             </v-card-actions>
           </v-card>
-        </template>
+<!--        </template>-->
 
-        <template v-slot:[`item.3`]>
-          <v-card title="Step Two" flat>...</v-card>
-        </template>
-
-      </v-stepper>
-
+<!--        <template v-slot:[`item.2`]>-->
+<!--          <v-card title="Step Two" flat>-->
+<!--            <v-row justify="center">-->
+<!--              <Table-map/>-->
+<!--            </v-row>-->
+<!--          </v-card>-->
+<!--        </template>-->
+<!--      </v-stepper>-->
     </v-dialog>
     <v-row>
       <v-col cols="12" sm="4" :md="3" :lg="4">

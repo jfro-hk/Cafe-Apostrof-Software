@@ -26,7 +26,7 @@ class DashboardController extends Controller
                 'dato' => Carbon::parse($reservation->date)->format('Y-m-d'),
                 'tid' => $reservation->time,
                 'antal' => $reservation->antal,
-                'oprettet på' => Carbon::parse($reservation->created_at)->format('Y/m/d'),
+//                'oprettet på' => Carbon::parse($reservation->created_at)->format('Y/m/d'),
                 'bord' => $reservation->table,
                 'action' => $reservation->id,
             ];

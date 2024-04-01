@@ -142,7 +142,8 @@ class ApiController extends Controller
                 ->count();
 
             if ($reservedCount > 0) {
-                $table['total'] -= 1;
+                $table['total'] -= $reservedCount;
+//                return$reservedCount;
             }
         }
         return response()->json($settingsTables, 201);

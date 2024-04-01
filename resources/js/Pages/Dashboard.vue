@@ -187,13 +187,14 @@
           </v-btn>
         </div>
       </v-col>
-      <v-col cols="12" md="8" lg="8">
+<!--      md="8" lg="8"-->
+      <v-col cols="12" >
         <CheckTable type="editable" @editData="editReservation" @delete="deleteReservation" :data="reservations"
                     title="Reservationer"/>
       </v-col>
-      <v-col cols="12" md="4" lg="4">
-        <CheckTable type="editable" @delete="eventDelete" :data="events"/>
-      </v-col>
+<!--      <v-col cols="12" md="4" lg="4">-->
+<!--        <CheckTable type="editable" @delete="eventDelete" :data="events"/>-->
+<!--      </v-col>-->
       <!--      <div class="task-table"></div>-->
     </v-row>
   </AuthenticatedLayout>

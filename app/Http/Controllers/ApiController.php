@@ -38,7 +38,6 @@ class ApiController extends Controller
             // Create a new Reservation instance
             $reservation = new Reservation();
             $reservation->fullname = $request->fullname;
-            -
             $reservation->email = $request->email;
             $reservation->number = $request->number;
             $reservation->date = Carbon::parse($request->date)->timezone('Europe/Amsterdam')->format('Y-m-d');

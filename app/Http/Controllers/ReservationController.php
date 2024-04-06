@@ -76,6 +76,7 @@ class ReservationController extends Controller
             $event->start_date = $reservation->date;
             $event->start_time = $reservation->time;
             $event->description = $reservation->description;
+            $event->res_id = $reservation->id;
 //            $event->end_time = $request->endTime;
             $event->save();
             return back()
@@ -126,8 +127,10 @@ class ReservationController extends Controller
     public function delete($id)
     {
         $reservation = Reservation::find($id);
+        $event = Event::where('res_id',$id);
         if ($reservation) {
             $reservation->delete();
+            $event->delete();
             return back()
                 ->with('success', 'Reservation deleted successfully!');
 

@@ -54,6 +54,7 @@ class ApiController extends Controller
                 $event->start_date = $reservation->date;
                 $event->start_time = $reservation->time;
                 $event->description = $reservation->description;
+                $event->res_id = $reservation->id;
                 $event->save();
 //            $event->end_time = $request->endTime;
                 return response()->json(200, 201);
